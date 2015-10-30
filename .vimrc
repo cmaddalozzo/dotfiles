@@ -365,7 +365,7 @@ NeoBundle 'Xuyuanp/nerdtree-git-plugin'
 " Best git wrapper for vim
 " But with my workflow, i really rarely use it
 " just Gdiff and Gblame sometimes
-" NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-fugitive'
 
 " Blame on current line
 nmap <silent> <leader>gb :.Gblame<cr>
@@ -398,12 +398,12 @@ NeoBundle 'tpope/vim-repeat'
 "-------------------------
 " EasyMotion
 "
-" NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'Lokaltog/vim-easymotion'
 
-"nmap f <Plug>(easymotion-f)
-"nmap F <Plug>(easymotion-F)
-"nmap t <Plug>(easymotion-t)
-"nmap T <Plug>(easymotion-T)
+nmap <Leader><Leader>f <Plug>(easymotion-f)
+nmap <Leader><Leader>F <Plug>(easymotion-F)
+nmap <Leader><Leader>t <Plug>(easymotion-t)
+nmap <Leader><Leader>T <Plug>(easymotion-T)
 nmap <Leader><Leader>j <Plug>(easymotion-j)
 vmap <Leader><Leader>j <Plug>(easymotion-j)
 nmap <Leader><Leader>k <Plug>(easymotion-k)
@@ -526,7 +526,7 @@ let g:airline_section_warning = 'syntastic'
 " Greplace
 "
 "
-"NeoBundle 'skwp/greplace.vim'
+NeoBundle 'skwp/greplace.vim'
 
 "-------------------------
 " smartpairs.vim
@@ -567,14 +567,14 @@ nnoremap <C-p> :call pdv#DocumentWithSnip()<CR>
 " Tagbar
 "
 " Sidebar that displays the ctags-generated tags of the current file.
-" NeoBundle 'majutsushi/tagbar'
+NeoBundle 'majutsushi/tagbar'
 nmap <Leader>/ :TagbarToggle<CR>
 
 "-------------------------
 " tagbar-phpctags
 "
 " Nicer Tagbar tags for PHP
-" NeoBundle 'vim-php/tagbar-phpctags.vim'
+NeoBundle 'vim-php/tagbar-phpctags.vim'
 let g:tagbar_phpctags_bin= $HOME ."/.vim/bundle/tagbar-phpctags.vim/bin/phpctags"
 "let g:tagbar_phpctags_memory_limit = '512M'
 
@@ -582,14 +582,14 @@ let g:tagbar_phpctags_bin= $HOME ."/.vim/bundle/tagbar-phpctags.vim/bin/phpctags
 " vim-signature
 "
 " Plugin to toggle, display and navigate marks
-" NeoBundle 'kshenoy/vim-signature'
+NeoBundle 'kshenoy/vim-signature'
 nmap <Leader>m :SignatureToggle<CR>
 
 "-------------------------
 " vim-less
 "
 " Less syntax highlighting
-" NeoBundle 'groenewege/vim-less'
+NeoBundle 'genoma/vim-less'
 
 "-------------------------
 " vim-twig
