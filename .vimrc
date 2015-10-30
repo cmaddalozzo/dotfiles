@@ -938,6 +938,9 @@ nnoremap H ^
 " L goes to end of line
 nnoremap L $
 
+" Delete current file with Ctrl-Delete
+nnoremap <C-Del> :call delete(expand('%'))<CR>
+
 " map jk in insert mode to escape 
 inoremap jk <esc>
 
