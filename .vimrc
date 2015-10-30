@@ -387,6 +387,15 @@ nmap <silent> <leader>gca :Gcommit -a<cr>
 nmap <silent> <leader>gcf :Gcommit -a --amend<cr>
 
 "-------------------------
+" vim-gitgutter
+"
+" A Vim plugin which shows a git diff in the 'gutter' (sign column).
+"
+NeoBundle 'airblade/vim-gitgutter'
+
+nmap <silent> <leader>gg :GitGutterToggle<cr>
+
+"-------------------------
 " repeat.vim
 "
 " Fix-up dot command behavior
