@@ -778,10 +778,10 @@ set number
 " Highlight line with cursor
 set cursorline
 
-" maximum text length at 80 symbols, vim automatically breaks longer lines
+" maximum text length at 80 symbols, dictates where colour column shows.
 set textwidth=80
 
-" higlight column right after max textwidth
+" highlight column right after max textwidth
 set colorcolumn=+1
 
 " Use OS X clipboard
