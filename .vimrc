@@ -229,7 +229,7 @@ set completeopt-=preview
 "
 " Tern-based JavaScript editing support.
 "
-NeoBundle 'marijnh/tern_for_vim'
+" NeoBundle 'marijnh/tern_for_vim'
 
 " Most recent files source for unite
 "
