@@ -1046,7 +1046,7 @@ if has("autocmd")
 
 endif
 
-hi ColorColumn guibg=grey7
+"hi ColorColumn guibg=grey7
 hi MatchParen      guifg=#000000 guibg=#FD971F gui=bold
 
 "" Somebody is turning on gdefault. We don't want that.
