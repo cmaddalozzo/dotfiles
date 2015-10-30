@@ -260,6 +260,15 @@ let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
 imap <expr><CR> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
 
+NeoBundle "SirVer/ultisnips"
+
+"-------------------------
+" vim-startify
+"
+" A fancy start screen for Vim.
+"
+NeoBundle 'mhinz/vim-startify'
+
 "-------------------------
 " delimitMate
 "
