@@ -770,6 +770,7 @@ set nostartofline
 
 " Disable wrapping long string
 set nowrap
+set formatoptions-=t
 
 " Display Line numbers
 set number
