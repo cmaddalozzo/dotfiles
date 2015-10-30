@@ -635,12 +635,12 @@ NeoBundle 'genoma/vim-less'
 "-------------------------
 " Solarized
 "
-" NeoBundle 'altercation/solarized'
+"NeoBundle 'altercation/vim-colors-solarized'
 
 "-------------------------
 " Gotham
 "
-" NeoBundle 'whatyouhide/vim-gotham'
+NeoBundle 'whatyouhide/vim-gotham'
 
 "-------------------------
 " Molokai
@@ -650,7 +650,13 @@ NeoBundle 'genoma/vim-less'
 "-------------------------
 " Bad Wolf
 "
-NeoBundle 'sjl/badwolf'
+" NeoBundle 'sjl/badwolf'
+
+
+"-------------------------
+" Paper Color (sic)
+"
+NeoBundle 'NLKNguyen/papercolor-theme'
 
 " /End Bundles
 
@@ -668,11 +674,16 @@ NeoBundleCheck
 "   Vim settings
 "######################################
 
-" set background=light
-" colorscheme solarized
+set background=light
+set t_Co=256
+colorscheme Gotham
+"colorscheme papercolor
+"let g:airline_theme='papercolor'
+
+"colorscheme solarized
 " colorscheme molokai
 " colorscheme gotham
-colorscheme badwolf
+" colorscheme badwolf
 
 " Auto reload changed files
 set autoread
