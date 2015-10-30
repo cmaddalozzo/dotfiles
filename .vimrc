@@ -783,6 +783,9 @@ set textwidth=80
 " higlight column right after max textwidth
 set colorcolumn=+1
 
+" Use OS X clipboard
+" set clipboard=unnamed
+
 
 "--------------------------------------------------
 " Tab options
