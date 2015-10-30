@@ -635,7 +635,7 @@ NeoBundle 'genoma/vim-less'
 "-------------------------
 " Matchit
 "
-" NeoBundle 'tmhedberg/matchit'
+NeoBundle 'tmhedberg/matchit'
 
 "-------------------------
 " Colour Schemes
