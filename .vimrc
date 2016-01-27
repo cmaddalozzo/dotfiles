@@ -1,6 +1,8 @@
 " Change that leader.
 let mapleader=","
 
+set shell=/bin/bash
+
 "######################################
 "#   NeoBundle init
 "######################################
@@ -43,11 +45,7 @@ NeoBundle 'Shougo/vimproc', {
 \    },
 \ }
 
-"-------------------------
-" tlib
-"
-" Some support functions used by delimitmate, and snipmate
-NeoBundle 'vim-scripts/tlib'
+
 
 " Improve bookmarks in vim
 " Allow word for bookmark marks, and nice quickfix window with bookmark list
@@ -86,13 +84,15 @@ let g:unite_source_rec_max_cache_files = 99999
 
 " If ag exists use it instead of grep
 if executable('ag')
-    " Use ack-grep
+    " Use ag (the silver searcher)
+    " https://github.com/ggreer/the_silver_searcher
     let g:unite_source_grep_command = 'ag'
-    " Set up ack options
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor -S -C4'
+    let g:unite_source_grep_default_opts =
+    \ '-i --vimgrep --hidden --ignore ' .
+    \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
     let g:unite_source_grep_recursive_opt = ''
     " Use ack for fuzzy file search
-    let g:unite_source_rec_async_command='ag --nocolor --nogroup -g ""'
+    let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '-g', '']
 endif
 
 nnoremap [unite] <Nop>
@@ -106,6 +106,9 @@ nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<
 nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
 nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
 nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
+
+" Try to lose reliance on buffergator by remapping to unite buffers
+nmap <Leader>b [unite]b
 
 autocmd FileType unite call s:unite_my_settings()
 
@@ -200,23 +203,23 @@ inoremap <expr><C-e>  neocomplete#cancel_popup()
 " let g:neocomplcache_disable_auto_complete = 1
 
 " Smart tab Behavior
-function! CleverTab()
-    " If autocomplete window visible then select next item in there
-    if pumvisible()
-        return "\<C-n>"
-    endif
-    " If it's begining of the string then return just tab pressed
-    let substr = strpart(getline('.'), 0, col('.') - 1)
-    let substr = matchstr(substr, '[^ \t]*$')
-    if strlen(substr) == 0
-        " nothing to match on empty string
-        return "\<Tab>"
-    else
-        " If not begining of the string, and autocomplete popup is not visible
-        " Open this popup
-        return "\<C-x>\<C-u>"
-    endif
-endfunction
+"function! CleverTab()
+"    " If autocomplete window visible then select next item in there
+"    if pumvisible()
+"        return "\<C-n>"
+"    endif
+"    " If it's begining of the string then return just tab pressed
+"    let substr = strpart(getline('.'), 0, col('.') - 1)
+"    let substr = matchstr(substr, '[^ \t]*$')
+"    if strlen(substr) == 0
+"        " nothing to match on empty string
+"        return "\<Tab>"
+"    else
+"        " If not begining of the string, and autocomplete popup is not visible
+"        " Open this popup
+"        return "\<C-x>\<C-u>"
+"    endif
+"endfunction
 " inoremap <expr><TAB> CleverTab()
 
 " Undo autocomplete
@@ -225,6 +228,11 @@ inoremap <expr><C-e> neocomplcache#undo_completion()
 
 " disable preview in code complete
 set completeopt-=preview
+
+"
+" Improved PHP omnicompletion
+"
+NeoBundle 'shawncplus/phpcomplete.vim'
 
 "
 " Tern-based JavaScript editing support.
@@ -242,25 +250,46 @@ NeoBundle 'Shougo/neomru.vim'
 " 
 NeoBundle 'Shougo/neosnippet'
 " Default snippets for neosnippet, i prefer vim-snippets
-NeoBundle 'Shougo/neosnippet-snippets'
+"NeoBundle 'Shougo/neosnippet-snippets'
 " Default snippets
 " 
 NeoBundle 'honza/vim-snippets'
+
+NeoBundle 'cmather/vim-meteor-snippets'
 
 " Enable snipMate compatibility
 let g:neosnippet#enable_snipmate_compatibility = 1
 
 " Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+let g:neosnippet#snippets_directory='
+  \~/.vim/bundle/vim-snippets/snippets, 
+  \~/.vim/bundle/vim-meteor-snippets/snippets, 
+  \~/.vim/bundle/cuma/snippets,
+  \'
 
 " Disables standart snippets. We use vim-snippets bundle instead
 let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
 
-" Expand snippet and jimp to next snippet field on Enter key.
-imap <expr><CR> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
 
-NeoBundle "SirVer/ultisnips"
+" Plugin key-mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+" NeoBundle "SirVer/ultisnips"
 
 "-------------------------
 " vim-startify
@@ -269,6 +298,15 @@ NeoBundle "SirVer/ultisnips"
 "
 NeoBundle 'mhinz/vim-startify'
 
+" Automatically persist sessions.
+let g:startify_session_persistence = 1
+
+"-------------------------
+" tlib
+"
+" Some support functions used by delimitmate, and snipmate
+NeoBundle 'vim-scripts/tlib'
+
 "-------------------------
 " delimitMate
 "
@@ -276,6 +314,11 @@ NeoBundle 'mhinz/vim-startify'
 " and add smart cursor positioning inside it,
 "
 NeoBundle 'Raimondi/delimitMate'
+
+"-------------------------
+" sleuth.vim
+"
+NeoBundle 'tpope/vim-sleuth'
 
 " Delimitmate place cursor correctly n multiline objects e.g.
 " if you press enter in {} cursor still be
@@ -313,6 +356,13 @@ let g:syntastic_phpcs_conf=" --standard=Drupal --extensions=php,module,inc,insta
 " let g:syntastic_javascript_jshint_conf="~/.jshintrc"
 " let g:syntastic_javascript_jshint_args = '--config ' . $HOME . '/.jshintrc'
 
+let g:syntastic_html_tidy_ignore_errors = [ 
+      \ '<template> is not recognized!' ,
+      \ 'discarding unexpected <template>' ,
+      \ 'discarding unexpected </template>' ,
+      \ 'inserting implicit <ul>' 
+\]
+
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_style_error_symbol = '✠'
 let g:syntastic_warning_symbol = '∆'
@@ -328,6 +378,22 @@ let g:syntastic_enable_signs=1
 
 " For correct works of next/previous error navigation
 let g:syntastic_always_populate_loc_list = 1
+
+"-------------------------
+" vinegar.vim
+"
+" vinegar.vim enhances netrw
+NeoBundle 'tpope/vim-vinegar'
+
+"nnoremap <C-t> :e.<CR>
+
+"-------------------------
+" eunuch.vim
+"
+" Vim sugar for the UNIX shell commands that need it the most
+"
+NeoBundle 'tpope/vim-eunuch'
+
 
 "-------------------------
 " NerdTree
@@ -448,6 +514,10 @@ NeoBundle 'tpope/vim-surround'
 " 
 NeoBundle 'Slava/vim-spacebars'
 
+"-------------------------
+" Twig
+" 
+NeoBundle 'evidens/vim-twig'
 
 "-------------------------
 " MatchTag
@@ -553,16 +623,18 @@ NeoBundle 'gorkunov/smartpairs.vim'
 " Buffergator
 " Maps <Leader>b to buffer pane
 " 
-NeoBundle 'jeetsukumaran/vim-buffergator'
+"NeoBundle 'jeetsukumaran/vim-buffergator'
 
 "" Make the buffergator window a little bigger
-:let g:buffergator_vsplit_size=55
-
-"" Don't show absolute paths for buffers
-let g:buffergator_show_full_directory_path = 0
-
-"" Sort by most recently used buffer by default.
-let g:buffergator_sort_regime = "mru"
+"let g:buffergator_vsplit_size=55
+"
+"let g:buffergator_viewport_split_policy = 'R'
+"
+""" Don't show absolute paths for buffers
+"let g:buffergator_show_full_directory_path = 0
+"
+""" Sort by most recently used buffer by default.
+"let g:buffergator_sort_regime = "mru"
 
 "-------------------------
 " PHP documenting
@@ -988,7 +1060,7 @@ syntax on
 
 
 "--------------------------------------------------
-" Aautocmd
+" Autocmd
 
 " It executes specific command when specific events occured
 " like reading or writing file, or open or close buffer
@@ -1057,6 +1129,18 @@ if has("autocmd")
     augroup END
 
 endif
+
+" Visual star
+xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
+
+function! s:VSetSearch()
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
+
 
 "hi ColorColumn guibg=grey7
 hi MatchParen      guifg=#000000 guibg=#FD971F gui=bold
