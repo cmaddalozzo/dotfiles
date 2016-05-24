@@ -3,22 +3,9 @@ let mapleader=","
 
 set shell=/bin/bash
 
-"######################################
-"#   NeoBundle init
-"######################################
-
-" Note: Skip initialization for vim-tiny or vim-small.
-if !1 | finish | endif
-
-" Turn off filetype plugins before bundles init
-filetype off
-
-" Call NeoBundle
-if has('vim_starting')
-    set runtimepath+=$HOME/.vim/bundle/neobundle.vim/
+if &compatible
+  set nocompatible
 endif
-
-call neobundle#begin(expand($HOME.'/.vim/bundle/'))
 
 " Determine make or gmake will be used for making additional deps for Bundles
 let g:make = 'gmake'
@@ -27,31 +14,38 @@ if system('uname -o') =~ '^GNU/'
 endif
 
 "######################################
-"#   Bundles
+"#  Dein.vim init
 "######################################
 
-"-------------------------
-" NeoBundle
-"
-" Let NeoNeoBundle manage NeoNeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+set runtimepath^=~/.vim/bundle/dein.vim/repos/github.com/Shougo/dein.vim
 
-" Install vimrpoc. is uses by unite and neocomplcache
-" for async searches and calls
-NeoBundle 'Shougo/vimproc', {
-\ 'build' : {
-\     'mac' : 'make -f make_mac.mak',
-\     'unix': g:make
-\    },
-\ }
-" /NeoBundle
+call dein#begin(expand('~/.vim/cache/dein'))
+
+" Let dein manage dein
+" Required:
+call dein#add('Shougo/dein.vim')
+
+" Turn off filetype plugins before bundles init
+filetype off
+
+"######################################
+"#   Bundles
+"######################################
+"
+
+"-------------------------
+" vimproc
+"
+" Interactive command execution in Vim.
+
+call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 
 "-------------------------
 " Unite
 "
 " plugin for fuzzy file search, most recent files list
 " and much more
-NeoBundle 'Shougo/unite.vim'
+call dein#add('Shougo/unite.vim')
 
 " Set unite window height
 let g:unite_winheight = 15
@@ -117,6 +111,10 @@ function! s:unite_my_settings()
   imap <expr><silent><buffer> <C-v> unite#do_action('vsplit')
 endfunction
 
+"
+" Most recent files source for unite
+"
+call dein#add('Shougo/neomru.vim')
 
 "call unite#define_filter(s:filters)
 "unlet s:filters
@@ -124,96 +122,6 @@ endfunction
 " /Unite
 "-------------------------
 
-"-------------------------
-" neocomplete
-"
-" Keyword completion.
-"
-" 
-"NeoBundle 'Shougo/neocomplete.vim'
-"
-"" Disable AutoComplPop.
-"let g:acp_enableAtStartup = 0
-"" Use neocomplete.
-"let g:neocomplete#enable_at_startup = 1
-"" Use smartcase.
-"let g:neocomplete#enable_smart_case = 1
-"" Set minimum syntax keyword length.
-"let g:neocomplete#sources#syntax#min_keyword_length = 3
-"let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-"
-"" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
-"
-"" Define dictionary.
-"let g:neocomplete#sources#dictionary#dictionaries = {
-"    \ 'default' : '',
-"    \ 'vimshell' : $HOME.'/.vimshell_hist',
-"    \ 'scheme' : $HOME.'/.gosh_completions'
-"        \ }
-"
-"" Define keyword.
-"if !exists('g:neocomplete#keyword_patterns')
-"    let g:neocomplete#keyword_patterns = {}
-"endif
-"let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-"
-"" Plugin key-mappings.
-"inoremap <expr><C-g>     neocomplete#undo_completion()
-"inoremap <expr><C-l>     neocomplete#complete_common_string()
-"
-"" Recommended key-mappings.
-"" <CR>: close popup and save indent.
-"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-"function! s:my_cr_function()
-"  "return neocomplete#close_popup() . "\<CR>"
-"  " For no inserting <CR> key.
-"  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-"endfunction
-"" <TAB>: completion.
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"" <C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <expr><C-y>  neocomplete#close_popup()
-"inoremap <expr><C-e>  neocomplete#cancel_popup()
-"
-"" Disable auto popup
-"" let g:neocomplcache_disable_auto_complete = 1
-"
-"" Smart tab Behavior
-""function! CleverTab()
-""    " If autocomplete window visible then select next item in there
-""    if pumvisible()
-""        return "\<C-n>"
-""    endif
-""    " If it's begining of the string then return just tab pressed
-""    let substr = strpart(getline('.'), 0, col('.') - 1)
-""    let substr = matchstr(substr, '[^ \t]*$')
-""    if strlen(substr) == 0
-""        " nothing to match on empty string
-""        return "\<Tab>"
-""    else
-""        " If not begining of the string, and autocomplete popup is not visible
-""        " Open this popup
-""        return "\<C-x>\<C-u>"
-""    endif
-""endfunction
-"" inoremap <expr><TAB> CleverTab()
-"
-"" Undo autocomplete
-"inoremap <expr><C-e> neocomplcache#undo_completion()
-"
-"
-"" disable preview in code complete
-"set completeopt-=preview
-"
-" /neocomplete
-"-------------------------
-
-" Most recent files source for unite
-"
-NeoBundle 'Shougo/neomru.vim'
 
 "-------------------------
 " NerdTree
@@ -221,7 +129,7 @@ NeoBundle 'Shougo/neomru.vim'
 " Great file system explorer, it appears when you open dir in vim
 " Allow modification of dir, and may other things
 " Must have
-NeoBundle 'scrooloose/nerdtree'
+call dein#add('scrooloose/nerdtree')
 " Ctrl-t opens NerdTree
 nnoremap <C-t> :NERDTreeToggle<CR>
 
@@ -234,19 +142,15 @@ let NERDTreeMinimalUI=1
 " Display current file in the NERDTree on the left
 nmap <silent> <leader>f :NERDTreeFind<CR>
 
+call dein#add('Xuyuanp/nerdtree-git-plugin')
+
 " /NerdTree
 "-------------------------
-
-NeoBundle 'Xuyuanp/nerdtree-git-plugin'
 
 "-------------------------
 " Syntastic
 "
-" Add code static check on write
-" need to be properly configured.
-" I just enable it, with default config,
-" many false positive but still usefull
-NeoBundle 'scrooloose/syntastic'
+call dein#add('scrooloose/syntastic')
 " Install jshint and csslint for syntastic
 let g:syntastic_jshint_exec = $HOME . '/.vim/node_modules/.bin/jshint'
 let g:syntastic_javascript_jshint_exec = $HOME . '/.vim/node_modules/.bin/jshint'
@@ -293,13 +197,13 @@ let g:syntastic_always_populate_loc_list = 1
 " /Syntastic
 "-------------------------
 
-""-------------------------
-"" Airline
-""
-"" Nice statusline/ruler for vim
-"" 
-NeoBundle 'vim-airline/vim-airline'
-NeoBundle 'vim-airline/vim-airline-themes'
+"-------------------------
+" Airline
+"
+" Nice statusline/ruler for vim
+"
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
 
 " Colorscheme for airline
 let g:airline_theme='base16'
@@ -344,7 +248,7 @@ let g:airline_section_warning = 'syntastic'
 " A fancy start screen for Vim.
 " NerdTree
 "
-NeoBundle 'mhinz/vim-startify'
+dein#call('mhinz/vim-startify')
 " Automatically persist sessions.
 let g:startify_session_persistence = 1
 "
@@ -354,18 +258,18 @@ let g:startify_session_persistence = 1
 "
 " Improved PHP omnicompletion
 "
-NeoBundle 'shawncplus/phpcomplete.vim'
+call dein#add('shawncplus/phpcomplete.vim')
 
 "-------------------------
 " smartpairs.vim
 "
 " 
-NeoBundle 'gorkunov/smartpairs.vim'
+call dein#add('gorkunov/smartpairs.vim')
 
 "-------------------------
 " Matchit
 "
-NeoBundle 'tmhedberg/matchit'
+call dein#add('tmhedberg/matchit')
 
 "-------------------------
 " delimitMate
@@ -373,7 +277,7 @@ NeoBundle 'tmhedberg/matchit'
 " Allow autoclose paired characters like [,] or (,),
 " and add smart cursor positioning inside it,
 "
-NeoBundle 'Raimondi/delimitMate'
+call dein#add('Raimondi/delimitMate')
 
 "-------------------------
 " surround.vim
@@ -383,14 +287,14 @@ NeoBundle 'Raimondi/delimitMate'
 " change surroundings symbols to another
 " and ds{what} - remove them
 "
-NeoBundle 'tpope/vim-surround'
+call dein#add('tpope/vim-surround')
 
 "-------------------------
 " vim-gitgutter
 "
 " A Vim plugin which shows a git diff in the 'gutter' (sign column).
 "
-NeoBundle 'airblade/vim-gitgutter'
+call dein#add('airblade/vim-gitgutter')
 
 nmap <silent> <leader>gg :GitGutterToggle<cr>
 
@@ -399,27 +303,27 @@ nmap <silent> <leader>gg :GitGutterToggle<cr>
 " smartpairs.vim
 "
 " Plugin to toggle, display and navigate marks
-NeoBundle 'kshenoy/vim-signature'
+call dein#add('kshenoy/vim-signature')
 nmap <Leader>m :SignatureToggle<CR>
 
 "-------------------------
 " Twig
 " 
-NeoBundle 'evidens/vim-twig'
+call dein#add('evidens/vim-twig')
 
 "-------------------------
 " vim-javascript v0.10.0
 "
 " JavaScript bundle for vim, this bundle provides syntax and indent plugins.
 " 
-NeoBundle 'pangloss/vim-javascript'
+call dein#add('pangloss/vim-javascript')
 
 "-------------------------
 " vim-jsx
 "
 " Syntax highlighting and indenting for JSX.
 "
-NeoBundle 'mxw/vim-jsx'
+call dein#add('mxw/vim-jsx'
 let g:jsx_ext_required = 0
 
 "-------------------------
@@ -429,44 +333,44 @@ let g:jsx_ext_required = 0
 "-------------------------
 " Solarized
 "
-"NeoBundle 'altercation/vim-colors-solarized'
+"call dein#add('altercation/vim-colors-solarized')
 
 "-------------------------
 " Gotham
 "
-NeoBundle 'whatyouhide/vim-gotham'
+call dein#add('whatyouhide/vim-gotham')
 
 "-------------------------
 " Molokai
 "
-" NeoBundle 'tomasr/molokai'
+" call dein#add('tomasr/molokai')
 
 "-------------------------
 " Bad Wolf
 "
-" NeoBundle 'sjl/badwolf'
+" call dein#add('sjl/badwolf')
 
 
 "-------------------------
 " Paper Color (sic)
 "
-NeoBundle 'NLKNguyen/papercolor-theme'
+call dein#add('NLKNguyen/papercolor-theme')
 
 " /Colour Schemes
 "-------------------------
 
-" /Bundles
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
+" /Bundles
 "
 
-call neobundle#end()
+call dein#end()
 
 " Enable Indent in plugins
 filetype plugin indent on
 
-NeoBundleCheck
+if dein#check_install()
+  call dein#install()
+endif
 
 "######################################
 "   Vim settings
@@ -866,3 +770,4 @@ hi MatchParen      guifg=#000000 guibg=#FD971F gui=bold
 set nogdefault
 
 noremap <Leader>sp :cd ~/Sites/stockpools.dev<return>
+
