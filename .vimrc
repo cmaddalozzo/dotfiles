@@ -44,12 +44,7 @@ NeoBundle 'Shougo/vimproc', {
 \     'unix': g:make
 \    },
 \ }
-
-
-
-" Improve bookmarks in vim
-" Allow word for bookmark marks, and nice quickfix window with bookmark list
-" NeoBundle 'AndrewRadev/simple_bookmarks.vim'
+" /NeoBundle
 
 "-------------------------
 " Unite
@@ -103,7 +98,7 @@ nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files f
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
 nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
 nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
-nnoremap <silent> [unite]/ :<C-u>Unite -no-quit -buffer-name=search grep:.<cr>
+nnoremap <silent> [unite]/ :<C-u>Unite -buffer-name=search grep:.<cr>
 nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
 nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
 
@@ -122,28 +117,12 @@ function! s:unite_my_settings()
   imap <expr><silent><buffer> <C-v> unite#do_action('vsplit')
 endfunction
 
-" Make unite quick match look a little better
-let s:filters = {
-\   "name" : "quick_match_formatter",
-\}
-
-function! s:filters.filter(candidates, context)
-    for candidate in a:candidates
-        let bufname = bufname(candidate.action__buffer_nr)
-        let filename = fnamemodify(bufname, ':p:t')
-        let path = expand(bufname) " fnamemodify(bufname, ':p:h')
-
-        " Customize output format.
-        let candidate.abbr = printf("%-30s%s", filename, path)
-    endfor
-    return a:candidates
-endfunction
 
 "call unite#define_filter(s:filters)
 "unlet s:filters
 
-
-"call unite#custom#source('quick-match', 'converters', 'quick_match_formatter')
+" /Unite
+"-------------------------
 
 "-------------------------
 " neocomplete
@@ -151,183 +130,114 @@ endfunction
 " Keyword completion.
 "
 " 
-NeoBundle 'Shougo/neocomplete.vim'
-
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" AutoComplPop like behavior.
-let g:neocomplete#enable_auto_select = 1
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  "return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
-
-" Disable auto popup
-" let g:neocomplcache_disable_auto_complete = 1
-
-" Smart tab Behavior
-"function! CleverTab()
-"    " If autocomplete window visible then select next item in there
-"    if pumvisible()
-"        return "\<C-n>"
-"    endif
-"    " If it's begining of the string then return just tab pressed
-"    let substr = strpart(getline('.'), 0, col('.') - 1)
-"    let substr = matchstr(substr, '[^ \t]*$')
-"    if strlen(substr) == 0
-"        " nothing to match on empty string
-"        return "\<Tab>"
-"    else
-"        " If not begining of the string, and autocomplete popup is not visible
-"        " Open this popup
-"        return "\<C-x>\<C-u>"
-"    endif
+"NeoBundle 'Shougo/neocomplete.vim'
+"
+"" Disable AutoComplPop.
+"let g:acp_enableAtStartup = 0
+"" Use neocomplete.
+"let g:neocomplete#enable_at_startup = 1
+"" Use smartcase.
+"let g:neocomplete#enable_smart_case = 1
+"" Set minimum syntax keyword length.
+"let g:neocomplete#sources#syntax#min_keyword_length = 3
+"let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+"
+"" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+"
+"" Define dictionary.
+"let g:neocomplete#sources#dictionary#dictionaries = {
+"    \ 'default' : '',
+"    \ 'vimshell' : $HOME.'/.vimshell_hist',
+"    \ 'scheme' : $HOME.'/.gosh_completions'
+"        \ }
+"
+"" Define keyword.
+"if !exists('g:neocomplete#keyword_patterns')
+"    let g:neocomplete#keyword_patterns = {}
+"endif
+"let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+"
+"" Plugin key-mappings.
+"inoremap <expr><C-g>     neocomplete#undo_completion()
+"inoremap <expr><C-l>     neocomplete#complete_common_string()
+"
+"" Recommended key-mappings.
+"" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+"  "return neocomplete#close_popup() . "\<CR>"
+"  " For no inserting <CR> key.
+"  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
 "endfunction
-" inoremap <expr><TAB> CleverTab()
-
-" Undo autocomplete
-inoremap <expr><C-e> neocomplcache#undo_completion()
-
-
-" disable preview in code complete
-set completeopt-=preview
-
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-y>  neocomplete#close_popup()
+"inoremap <expr><C-e>  neocomplete#cancel_popup()
 "
-" Improved PHP omnicompletion
+"" Disable auto popup
+"" let g:neocomplcache_disable_auto_complete = 1
 "
-NeoBundle 'shawncplus/phpcomplete.vim'
-
+"" Smart tab Behavior
+""function! CleverTab()
+""    " If autocomplete window visible then select next item in there
+""    if pumvisible()
+""        return "\<C-n>"
+""    endif
+""    " If it's begining of the string then return just tab pressed
+""    let substr = strpart(getline('.'), 0, col('.') - 1)
+""    let substr = matchstr(substr, '[^ \t]*$')
+""    if strlen(substr) == 0
+""        " nothing to match on empty string
+""        return "\<Tab>"
+""    else
+""        " If not begining of the string, and autocomplete popup is not visible
+""        " Open this popup
+""        return "\<C-x>\<C-u>"
+""    endif
+""endfunction
+"" inoremap <expr><TAB> CleverTab()
 "
-" Tern-based JavaScript editing support.
+"" Undo autocomplete
+"inoremap <expr><C-e> neocomplcache#undo_completion()
 "
-" NeoBundle 'marijnh/tern_for_vim'
+"
+"" disable preview in code complete
+"set completeopt-=preview
+"
+" /neocomplete
+"-------------------------
 
 " Most recent files source for unite
 "
 NeoBundle 'Shougo/neomru.vim'
 
 "-------------------------
-" NeoSnippet
+" NerdTree
 "
-" Snippets engine with good integration with neocomplcache
-" 
-NeoBundle 'Shougo/neosnippet'
-" Default snippets for neosnippet, i prefer vim-snippets
-"NeoBundle 'Shougo/neosnippet-snippets'
-" Default snippets
-" 
-NeoBundle 'honza/vim-snippets'
+" Great file system explorer, it appears when you open dir in vim
+" Allow modification of dir, and may other things
+" Must have
+NeoBundle 'scrooloose/nerdtree'
+" Ctrl-t opens NerdTree
+nnoremap <C-t> :NERDTreeToggle<CR>
 
-NeoBundle 'cmather/vim-meteor-snippets'
+" Tell NERDTree to display hidden files on startup
+let NERDTreeShowHidden=1
 
-" Enable snipMate compatibility
-let g:neosnippet#enable_snipmate_compatibility = 1
+" Disable bookmarks label, and hint about '?'
+let NERDTreeMinimalUI=1
 
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='
-  \~/.vim/bundle/vim-snippets/snippets, 
-  \~/.vim/bundle/vim-meteor-snippets/snippets, 
-  \~/.vim/bundle/cuma/snippets,
-  \'
+" Display current file in the NERDTree on the left
+nmap <silent> <leader>f :NERDTreeFind<CR>
 
-" Disables standart snippets. We use vim-snippets bundle instead
-let g:neosnippet#disable_runtime_snippets = { '_' : 1 }
-
-
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-
-" NeoBundle "SirVer/ultisnips"
-
+" /NerdTree
 "-------------------------
-" vim-startify
-"
-" A fancy start screen for Vim.
-"
-NeoBundle 'mhinz/vim-startify'
 
-" Automatically persist sessions.
-let g:startify_session_persistence = 1
-
-"-------------------------
-" tlib
-"
-" Some support functions used by delimitmate, and snipmate
-NeoBundle 'vim-scripts/tlib'
-
-"-------------------------
-" delimitMate
-"
-" Allow autoclose paired characters like [,] or (,),
-" and add smart cursor positioning inside it,
-"
-NeoBundle 'Raimondi/delimitMate'
-
-"-------------------------
-" sleuth.vim
-"
-NeoBundle 'tpope/vim-sleuth'
-
-" Delimitmate place cursor correctly n multiline objects e.g.
-" if you press enter in {} cursor still be
-" in the middle line instead of the last
-let delimitMate_expand_cr = 1
-
-" Delimitmate place cursor correctly in singleline pairs e.g.
-" if x - cursor if you press space in {x} result will be { x } instead of { x}
-let delimitMate_expand_space = 1
+NeoBundle 'Xuyuanp/nerdtree-git-plugin'
 
 "-------------------------
 " Syntastic
@@ -340,6 +250,7 @@ NeoBundle 'scrooloose/syntastic'
 " Install jshint and csslint for syntastic
 let g:syntastic_jshint_exec = $HOME . '/.vim/node_modules/.bin/jshint'
 let g:syntastic_javascript_jshint_exec = $HOME . '/.vim/node_modules/.bin/jshint'
+let g:syntastic_javascript_checkers = ['eslint']
 if !executable(expand(g:syntastic_jshint_exec))
     silent ! echo 'Installing jshint' && npm --prefix /.vim/ install jshint
 endif
@@ -379,188 +290,16 @@ let g:syntastic_enable_signs=1
 " For correct works of next/previous error navigation
 let g:syntastic_always_populate_loc_list = 1
 
+" /Syntastic
 "-------------------------
-" vinegar.vim
-"
-" vinegar.vim enhances netrw
-NeoBundle 'tpope/vim-vinegar'
 
-"nnoremap <C-t> :e.<CR>
-
-"-------------------------
-" eunuch.vim
-"
-" Vim sugar for the UNIX shell commands that need it the most
-"
-NeoBundle 'tpope/vim-eunuch'
-
-
-"-------------------------
-" NerdTree
-"
-" Great file system explorer, it appears when you open dir in vim
-" Allow modification of dir, and may other things
-" Must have
-NeoBundle 'scrooloose/nerdtree'
-" Ctrl-t opens NerdTree
-nnoremap <C-t> :NERDTreeToggle<CR>
-
-" Tell NERDTree to display hidden files on startup
-let NERDTreeShowHidden=1
-
-" Disable bookmarks label, and hint about '?'
-let NERDTreeMinimalUI=1
-
-" Display current file in the NERDTree on the left
-nmap <silent> <leader>f :NERDTreeFind<CR>
-
-NeoBundle 'Xuyuanp/nerdtree-git-plugin'
-
-
-"-------------------------
-" Tcomment
-"
-" Add smart commands for comments like:
-" gcc - Toggle comment for the current line
-" gc  - Toggle comments for selected region or number of strings
-" NeoBundle 'tomtom/tcomment_vim'
-
-"-------------------------
-" Fugitive
-"
-" Best git wrapper for vim
-" But with my workflow, i really rarely use it
-" just Gdiff and Gblame sometimes
-NeoBundle 'tpope/vim-fugitive'
-
-" Blame on current line
-nmap <silent> <leader>gb :.Gblame<cr>
-" Blame on all selected lines in visual mode
-vmap <silent> <leader>gb :Gblame<cr>
-" Git status
-nmap <silent> <leader>gst :Gstatus<cr>
-" like git add
-nmap <silent> <leader>gw :Gwrite<cr>
-" like git co -- filename
-nmap <silent> <leader>gr :Gread<cr>
-" git diff
-nmap <silent> <leader>gd :Gdiff<cr>
-" git commit
-nmap <silent> <leader>gc :Gcommit<cr>
-" git commit all
-nmap <silent> <leader>gca :Gcommit -a<cr>
-" git fixup previous commit
-nmap <silent> <leader>gcf :Gcommit -a --amend<cr>
-
-"-------------------------
-" vim-gitgutter
-"
-" A Vim plugin which shows a git diff in the 'gutter' (sign column).
-"
-NeoBundle 'airblade/vim-gitgutter'
-
-nmap <silent> <leader>gg :GitGutterToggle<cr>
-
-"-------------------------
-" repeat.vim
-"
-" Fix-up dot command behavior
-" it's kind of service plugin
-"
-NeoBundle 'tpope/vim-repeat'
-
-
-"-------------------------
-" EasyMotion
-"
-NeoBundle 'Lokaltog/vim-easymotion'
-
-nmap <Leader><Leader>f <Plug>(easymotion-f)
-nmap <Leader><Leader>F <Plug>(easymotion-F)
-nmap <Leader><Leader>t <Plug>(easymotion-t)
-nmap <Leader><Leader>T <Plug>(easymotion-T)
-nmap <Leader><Leader>j <Plug>(easymotion-j)
-vmap <Leader><Leader>j <Plug>(easymotion-j)
-nmap <Leader><Leader>k <Plug>(easymotion-k)
-vmap <Leader><Leader>k <Plug>(easymotion-k)
-"nmap hh <Plug>(easymotion-linebackward)
-"vmap hh <Plug>(easymotion-linebackward)
-
-let g:EasyMotion_startofline = 0 " keep cursor column when JK motion
-let g:EasyMotion_smartcase = 1 " keep cursor column when JK motion
-let g:EasyMotion_space_jump_first = 1 " keep cursor column when JK motion
-let g:EasyMotion_enter_jump_first = 1 " keep cursor column when JK motion
-
-"-------------------------
-" surround.vim
-"
-" Add usefull hotkey for operation with surroundings
-" cs{what}{towhat} - inside '' or [] or something like this allow
-" change surroundings symbols to another
-" and ds{what} - remove them
-"
-NeoBundle 'tpope/vim-surround'
-
-"-------------------------
-" html5.vim
-"
-" HTML5 + inline SVG omnicomplete funtion, indent and syntax for Vim. Based on 
-" the default htmlcomplete.vim.
-" NeoBundle 'othree/html5.vim'
-
-"-------------------------
-" Meteor Spacebars
-"
-" 
-NeoBundle 'Slava/vim-spacebars'
-
-"-------------------------
-" Twig
-" 
-NeoBundle 'evidens/vim-twig'
-
-"-------------------------
-" MatchTag
-"
-" This plugin highlights the matching HTML tag when the cursor is positioned on
-" a tag. It works in much the same way as the MatchParen plugin.
-"
-NeoBundle 'gregsexton/MatchTag'
-
-"-------------------------
-" vim-css3-syntax
-"
-" Add CSS3 syntax support
-" NeoBundle 'hail2u/vim-css3-syntax'
-
-"-------------------------
-" vim-css-color
-"
-" Better syntax highlighting for CSS3
-" NeoBundle 'skammer/vim-css-color'
-
-"-------------------------
-" web-indent
-"
-" Smart indent for javascript
-" http://www.vim.org/scripts/script.php?script_id=3081
-"
-"NeoBundle 'lukaszb/vim-web-indent'
-
-"-------------------------
-" togglecursor
-"
-" This plugin aims to provide the ability to change the cursor when entering Vim's
-" insert mode on terminals that support it.
-"badddddd
-"NeoBundle 'jszakmeister/vim-togglecursor'
-
-"-------------------------
-" vim-airline
-"
-" Nice statusline/ruler for vim
-" 
-NeoBundle 'bling/vim-airline'
+""-------------------------
+"" Airline
+""
+"" Nice statusline/ruler for vim
+"" 
+NeoBundle 'vim-airline/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 
 " Colorscheme for airline
 let g:airline_theme='base16'
@@ -596,16 +335,26 @@ let g:airline_section_x = ''
 " Don't show whitespace warning
 let g:airline_section_warning = 'syntastic'
 
-" Improve javascritp syntax higlighting, needed for good folding,
-" and good-looking javascritp code
-" NeoBundle 'jelera/vim-javascript-syntax'
-
+" /Airline
+"-------------------------
 
 "-------------------------
-" Greplace
+" vim-startify
 "
+" A fancy start screen for Vim.
+" NerdTree
 "
-NeoBundle 'skwp/greplace.vim'
+NeoBundle 'mhinz/vim-startify'
+" Automatically persist sessions.
+let g:startify_session_persistence = 1
+"
+" /vim-startify
+"-------------------------
+
+"
+" Improved PHP omnicompletion
+"
+NeoBundle 'shawncplus/phpcomplete.vim'
 
 "-------------------------
 " smartpairs.vim
@@ -613,101 +362,65 @@ NeoBundle 'skwp/greplace.vim'
 " 
 NeoBundle 'gorkunov/smartpairs.vim'
 
+"-------------------------
+" Matchit
+"
+NeoBundle 'tmhedberg/matchit'
 
 "-------------------------
-" sudo.vim
+" delimitMate
 "
-" NeoBundle 'vim-scripts/sudo.vim'
+" Allow autoclose paired characters like [,] or (,),
+" and add smart cursor positioning inside it,
+"
+NeoBundle 'Raimondi/delimitMate'
 
 "-------------------------
-" Buffergator
-" Maps <Leader>b to buffer pane
-" 
-"NeoBundle 'jeetsukumaran/vim-buffergator'
-
-"" Make the buffergator window a little bigger
-"let g:buffergator_vsplit_size=55
+" surround.vim
 "
-"let g:buffergator_viewport_split_policy = 'R'
+" Add usefull hotkey for operation with surroundings
+" cs{what}{towhat} - inside '' or [] or something like this allow
+" change surroundings symbols to another
+" and ds{what} - remove them
 "
-""" Don't show absolute paths for buffers
-"let g:buffergator_show_full_directory_path = 0
-"
-""" Sort by most recently used buffer by default.
-"let g:buffergator_sort_regime = "mru"
+NeoBundle 'tpope/vim-surround'
 
 "-------------------------
-" PHP documenting
+" vim-gitgutter
 "
-NeoBundle 'tobyS/pdv'
-NeoBundle 'tobyS/vmustache'
-let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
-nnoremap <C-p> :call pdv#DocumentWithSnip()<CR>
+" A Vim plugin which shows a git diff in the 'gutter' (sign column).
+"
+NeoBundle 'airblade/vim-gitgutter'
 
-"-------------------------
-" Tagbar
-"
-" Sidebar that displays the ctags-generated tags of the current file.
-NeoBundle 'majutsushi/tagbar'
-nmap <Leader>/ :TagbarToggle<CR>
-
-"-------------------------
-" tagbar-phpctags
-"
-" Nicer Tagbar tags for PHP
-NeoBundle 'vim-php/tagbar-phpctags.vim'
-let g:tagbar_phpctags_bin= $HOME ."/.vim/bundle/tagbar-phpctags.vim/bin/phpctags"
-"let g:tagbar_phpctags_memory_limit = '512M'
+nmap <silent> <leader>gg :GitGutterToggle<cr>
 
 "-------------------------
 " vim-signature
+" smartpairs.vim
 "
 " Plugin to toggle, display and navigate marks
 NeoBundle 'kshenoy/vim-signature'
 nmap <Leader>m :SignatureToggle<CR>
 
 "-------------------------
-" vim-less
-"
-" Less syntax highlighting
-NeoBundle 'genoma/vim-less'
+" Twig
+" 
+NeoBundle 'evidens/vim-twig'
 
 "-------------------------
-" vim-twig
+" vim-javascript v0.10.0
 "
-"NeoBundle 'evidens/vim-twig'
+" JavaScript bundle for vim, this bundle provides syntax and indent plugins.
+" 
+NeoBundle 'pangloss/vim-javascript'
 
 "-------------------------
-" Indent Guides
+" vim-jsx
 "
-" Show indent lines
-" NeoBundle 'nathanaelkane/vim-indent-guides'
-
-"-------------------------
-" vim-mustache-handlebars
+" Syntax highlighting and indenting for JSX.
 "
-" Mustache syntax highlighting
-" NeoBundle 'mustache/vim-mustache-handlebars'
-
-
-"-------------------------
-" abolish.vim
-"
-" crc - coerce to camel case.
-" crs - coerce to snake case.
-" crm - coerce to mixed case.
-"
-" NeoBundle 'tpope/vim-abolish'
-
-"-------------------------
-" Vim sneak
-"
-" NeoBundle 'justinmk/vim-sneak'
-
-"-------------------------
-" Matchit
-"
-NeoBundle 'tmhedberg/matchit'
+NeoBundle 'mxw/vim-jsx'
+let g:jsx_ext_required = 0
 
 "-------------------------
 " Colour Schemes
@@ -739,11 +452,15 @@ NeoBundle 'whatyouhide/vim-gotham'
 "
 NeoBundle 'NLKNguyen/papercolor-theme'
 
-" /End Bundles
+" /Colour Schemes
+"-------------------------
+
+" /Bundles
 
 " If there are uninstalled bundles found on startup,
 " this will conveniently prompt you to install them.
 "
+
 call neobundle#end()
 
 " Enable Indent in plugins
@@ -756,10 +473,10 @@ NeoBundleCheck
 "######################################
 
 set background=light
-set t_Co=256
-colorscheme Gotham
-"colorscheme papercolor
-"let g:airline_theme='papercolor'
+"set t_Co=256
+"colorscheme Gotham
+colorscheme papercolor
+let g:airline_theme='papercolor'
 
 "colorscheme solarized
 " colorscheme molokai
