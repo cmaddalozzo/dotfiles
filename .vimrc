@@ -142,8 +142,6 @@ let NERDTreeMinimalUI=1
 " Display current file in the NERDTree on the left
 nmap <silent> <leader>f :NERDTreeFind<CR>
 
-call dein#add('Xuyuanp/nerdtree-git-plugin')
-
 " /NerdTree
 "-------------------------
 
@@ -151,25 +149,9 @@ call dein#add('Xuyuanp/nerdtree-git-plugin')
 " Syntastic
 "
 call dein#add('scrooloose/syntastic')
-" Install jshint and csslint for syntastic
-let g:syntastic_jshint_exec = $HOME . '/.vim/node_modules/.bin/jshint'
-let g:syntastic_javascript_jshint_exec = $HOME . '/.vim/node_modules/.bin/jshint'
 let g:syntastic_javascript_checkers = ['eslint']
-if !executable(expand(g:syntastic_jshint_exec))
-    silent ! echo 'Installing jshint' && npm --prefix /.vim/ install jshint
-endif
-" Path to csslint if it not installed globally, then use local installation
-if !executable("csslint")
-    let g:syntastic_css_csslint_exec='~/.vim/node_modules/.bin/csslint'
-    if !executable(expand(g:syntastic_css_csslint_exec))
-        silent ! echo 'Installing csslint' && npm --prefix ~/.vim/ install csslint
-    endif
-endif
 
 let g:syntastic_phpcs_conf=" --standard=Drupal --extensions=php,module,inc,install,test,profile,theme"
-" let g:syntastic_javascript_checkers = ['jshint']
-" let g:syntastic_javascript_jshint_conf="~/.jshintrc"
-" let g:syntastic_javascript_jshint_args = '--config ' . $HOME . '/.jshintrc'
 
 let g:syntastic_html_tidy_ignore_errors = [ 
       \ '<template> is not recognized!' ,
@@ -184,7 +166,7 @@ let g:syntastic_warning_symbol = '∆'
 let g:syntastic_style_warning_symbol = '≈'
 
 let g:syntastic_mode_map = { 'mode': 'active',
-                               \ 'active_filetypes': ['php'],
+                               \ 'active_filetypes': ['php', 'javscript.javascript-jquery'],
                                \ 'passive_filetypes': ['less'] }
 
 " Enable autochecks
@@ -196,6 +178,109 @@ let g:syntastic_always_populate_loc_list = 1
 
 " /Syntastic
 "-------------------------
+
+"-------------------------
+" neocomplete
+"
+" Keyword completion.
+"
+" 
+call dein#add('Shougo/neocomplete.vim')
+
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" AutoComplPop like behavior.
+let g:neocomplete#enable_auto_select = 1
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  " For no inserting <CR> key.
+  return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+
+" Disable auto popup
+ let g:neocomplcache_disable_auto_complete = 1
+
+" Smart tab Behavior
+"function! CleverTab()
+"    " If autocomplete window visible then select next item in there
+"    if pumvisible()
+"        return "\<C-n>"
+"    endif
+"    " If it's begining of the string then return just tab pressed
+"    let substr = strpart(getline('.'), 0, col('.') - 1)
+"    let substr = matchstr(substr, '[^ \t]*$')
+"    if strlen(substr) == 0
+"        " nothing to match on empty string
+"        return "\<Tab>"
+"    else
+"        " If not begining of the string, and autocomplete popup is not visible
+"        " Open this popup
+"        return "\<C-x>\<C-u>"
+"    endif
+"endfunction
+"inoremap <expr><TAB> CleverTab()
+"smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+"\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"
+
+
+" disable preview in code complete
+set completeopt-=preview
+"
+" /neocomplete
+"-------------------------
+"
+
+
+"-------------------------
+" UltiSnips
+"
+" Track the engine.
+call dein#add('SirVer/ultisnips')
+
+" Snippets are separated from the engine. Add this if you want them:
+call dein#add('honza/vim-snippets')
+
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>" 
+
+nmap <Leader>es :UltiSnipsEdit<return>
 
 "-------------------------
 " Airline
@@ -248,7 +333,7 @@ let g:airline_section_warning = 'syntastic'
 " A fancy start screen for Vim.
 " NerdTree
 "
-dein#call('mhinz/vim-startify')
+call dein#add('mhinz/vim-startify')
 " Automatically persist sessions.
 let g:startify_session_persistence = 1
 "
@@ -323,7 +408,7 @@ call dein#add('pangloss/vim-javascript')
 "
 " Syntax highlighting and indenting for JSX.
 "
-call dein#add('mxw/vim-jsx'
+call dein#add('mxw/vim-jsx')
 let g:jsx_ext_required = 0
 
 "-------------------------
@@ -680,6 +765,16 @@ filetype plugin indent on
 syntax on
 
 
+function! StrTrim(txt)
+  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+endfunction
+
+function! NpmWhich(cmd)
+  let npm_bin = system('npm bin')
+  let local_cmd = StrTrim(npm_bin) . '/' . a:cmd
+  return executable(local_cmd) ? local_cmd : StrTrim(system('which ' . a:cmd))
+endfunction
+
 "--------------------------------------------------
 " Autocmd
 
@@ -742,6 +837,8 @@ if has("autocmd")
         autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
         autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
         autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+        autocmd FileType javascript let b:syntastic_javascript_eslint_exec = NpmWhich('eslint')
+
 
         " Enable Folding, uses plugin vim-javascript-syntax
         "" au FileType javascript* call JavaScriptFold()
@@ -762,12 +859,10 @@ function! s:VSetSearch()
   let @s = temp
 endfunction
 
+inoremap \fn <C-R>=substitute(expand("%:p"), getcwd(), '', '')<CR>
 
 "hi ColorColumn guibg=grey7
 hi MatchParen      guifg=#000000 guibg=#FD971F gui=bold
 
 "" Somebody is turning on gdefault. We don't want that.
 set nogdefault
-
-noremap <Leader>sp :cd ~/Sites/stockpools.dev<return>
-
