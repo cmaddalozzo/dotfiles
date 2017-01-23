@@ -851,6 +851,14 @@ function! NpmWhich(cmd)
   return executable(local_cmd) ? local_cmd : StrTrim(system('which ' . a:cmd))
 endfunction
 
+function! Decaffeinate()
+  let fname = expand('%:r')
+  exec "!decaffeinate --keep-commonjs" . @%
+  exec 'e ' . fname . '.js'
+endfunction
+nnoremap <silent> <Leader>js :silent call Decaffeinate()<CR>
+
+
 "--------------------------------------------------
 " Autocmd
 
