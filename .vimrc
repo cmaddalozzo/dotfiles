@@ -884,7 +884,7 @@ if has("autocmd")
         au FileType less set ft=less.css
         au BufWinEnter * if line2byte(line("$") + 1) > 100000 | syntax clear | endif
         au BufRead,BufNewFile *.js set ft=javascript.javascript-jquery
-        au BufRead,BufNewFile *.json set ft=javascript
+        au BufRead,BufNewFile *.json set ft=json
         " Execute python \ -mjson.tool for autoformatting *.json
         au BufRead,BufNewFile *.json set equalprg=python\ -mjson.tool
         au BufRead,BufNewFile *.bemhtml set ft=javascript
@@ -896,6 +896,7 @@ if has("autocmd")
         au BufRead,BufNewFile *.css set ft=css syntax=css3
         au BufRead,BufNewFile *.less set ft=less syntax=less
         au BufRead,BufNewFile *.scss set ft=sass syntax=sass
+        au BufRead,BufNewFile *.scss.liquid set ft=sass syntax=sass
         au BufRead,BufNewFile *.go set ft=go syntax=go
         " au BufNewFile,BufRead *.ini, *.info, */.hgrc,*/.hg/hgrc setf ini
 
@@ -908,21 +909,20 @@ if has("autocmd")
 
         " Disable vertical line at max string length in NERDTree
         autocmd FileType * setlocal colorcolumn=+1
-        autocmd FileType nerdtree setlocal colorcolumn=""
+        " autocmd FileType nerdtree setlocal colorcolumn=""
 
         " Omnicomplete definitions
-        autocmd FileType python set omnifunc=pythoncomplete#Complete
-        autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-        autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-        autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-        autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-        autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-        autocmd FileType c set omnifunc=ccomplete#Complete
+        "autocmd FileType python set omnifunc=pythoncomplete#Complete
+        "autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+        "autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+        "autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+        "autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+        "autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+        "autocmd FileType c set omnifunc=ccomplete#Complete
 
         " Enable omni completion.
-        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+        " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+        " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
         autocmd FileType javascript let b:syntastic_javascript_eslint_exec = NpmWhich('eslint')
 
 
