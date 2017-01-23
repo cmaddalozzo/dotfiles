@@ -458,12 +458,41 @@ call dein#add('evidens/vim-twig')
 call dein#add('pangloss/vim-javascript')
 
 "-------------------------
+" Typescript
+"
+call dein#add('leafgarland/typescript-vim')
+
+"-------------------------
+" Coffeescript (eww)
+"
+call dein#add('kchmck/vim-coffee-script')
+
+
+"-------------------------
+" vim-js-pretty-template
+"
+call dein#add('Quramy/vim-js-pretty-template')
+
+
+"-------------------------
+" JSON
+" 
+call dein#add('elzr/vim-json')
+
+"-------------------------
 " vim-jsx
 "
 " Syntax highlighting and indenting for JSX.
 "
 call dein#add('mxw/vim-jsx')
 let g:jsx_ext_required = 0
+
+"-------------------------
+" vim-pug
+"
+" Syntax highlighting and indenting for PUG.
+"
+call dein#add('digitaltoad/vim-pug')
 
 "-------------------------
 " Colour Schemes
