@@ -814,13 +814,6 @@ nnoremap <C-Del> :call delete(expand('%'))<CR>
 " map jk in insert mode to escape 
 inoremap jk <esc>
 
-" map escape to no-op to burn the jk mapping into my brain
-" inoremap <esc> <nop>
-
-" Buffer write commands
-nmap <Leader>w :w<CR>
-nmap <Leader>x :x<CR>
-
 "" Q plays back q macro.
 nnoremap Q @q
 
