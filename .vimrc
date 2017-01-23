@@ -131,21 +131,46 @@ call dein#add('Shougo/neomru.vim')
 " Great file system explorer, it appears when you open dir in vim
 " Allow modification of dir, and may other things
 " Must have
-call dein#add('scrooloose/nerdtree')
+" call dein#add('scrooloose/nerdtree')
 " Ctrl-t opens NerdTree
-nnoremap <C-t> :NERDTreeToggle<CR>
+" nnoremap <C-t> :NERDTreeToggle<CR>
 
 " Tell NERDTree to display hidden files on startup
-let NERDTreeShowHidden=1
+" let NERDTreeShowHidden=1
 
 " Disable bookmarks label, and hint about '?'
-let NERDTreeMinimalUI=1
+" let NERDTreeMinimalUI=1
 
 " Display current file in the NERDTree on the left
-nmap <silent> <leader>f :NERDTreeFind<CR>
+" nmap <silent> <leader>f :NERDTreeFind<CR>
 
 " /NerdTree
 "-------------------------
+
+"-------------------------
+" vinegar.vim
+"
+" Great file system explorer, it appears when you open dir in vim
+" Allow modification of dir, and may other things
+" Must have
+"" call dein#add('tpope/vim-vinegar')
+" Ctrl-t opens NerdTree
+" nnoremap <C-t> :Explore<CR>
+" /vinegar.vim
+"-------------------------
+
+"-------------------------
+" Netrw bindings
+"
+let g:netrw_liststyle=3         " tree
+let g:netrw_banner=0            " no banner
+let g:netrw_altv=1              " open files on right
+let g:netrw_preview=1           " open previews vertically
+nnoremap <C-_> :Sex<CR>
+nnoremap <C-\> :Vex<CR>
+nnoremap <C-x> :Exp<CR>
+let g:netrw_localrmdir='rm -r'
+
 
 "-------------------------
 " Syntastic
