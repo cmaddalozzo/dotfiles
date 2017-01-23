@@ -437,6 +437,14 @@ nmap <silent> <leader>gg :GitGutterToggle<cr>
 call dein#add('kshenoy/vim-signature')
 nmap <Leader>m :SignatureToggle<CR>
 
+
+"-------------------------
+" PDV - PHP Documentor for VIM - 2
+call dein#add('tobyS/vmustache')
+call dein#add('tobyS/pdv')
+let g:pdv_template_dir = $HOME ."/.vim/cache/dein/repos/github.com/tobyS/pdv/templates/"
+nnoremap <buffer> <Leader>pd :call pdv#DocumentWithSnip()<CR>
+
 "-------------------------
 " Twig
 " 
