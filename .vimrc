@@ -899,6 +899,8 @@ if has("autocmd")
         au BufRead,BufNewFile *.go set ft=go syntax=go
         " au BufNewFile,BufRead *.ini, *.info, */.hgrc,*/.hg/hgrc setf ini
 
+        autocmd FileType typescript JsPreTmpl html
+
         " Auto close preview window, it uses with tags,
         " I don't use it
         autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
