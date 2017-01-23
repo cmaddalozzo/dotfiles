@@ -46,6 +46,7 @@ call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 " plugin for fuzzy file search, most recent files list
 " and much more
 call dein#add('Shougo/unite.vim')
+call dein#add('Shougo/neoyank.vim')
 
 " Set unite window height
 let g:unite_winheight = 15
@@ -89,7 +90,8 @@ nmap <space> [unite]
 nnoremap <silent> [unite]<space> :<C-u>Unite -buffer-name=files file_rec/async<CR>
 " nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr><c-u>
 nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async<cr><c-u>
-nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
+" nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
+nnoremap <silent> [unite]y :YRShow<cr>
 nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
 nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
 nnoremap <silent> [unite]/ :<C-u>Unite -buffer-name=search grep:.<cr>
