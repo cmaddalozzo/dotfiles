@@ -324,6 +324,11 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 nmap <Leader>es :UltiSnipsEdit<return>
 
 "-------------------------
+" YankRing.vim
+"
+call dein#add('vim-scripts/YankRing.vim')
+
+"-------------------------
 " Airline
 "
 " Nice statusline/ruler for vim
