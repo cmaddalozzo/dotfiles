@@ -551,8 +551,8 @@ call plug#end()
 "   Vim settings
 "######################################
 
-set background=light
-"set t_Co=256
+set background=dark
+" set t_Co=256
 "colorscheme Gotham
 colorscheme papercolor
 let g:airline_theme='papercolor'
