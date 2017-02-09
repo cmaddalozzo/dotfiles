@@ -14,19 +14,11 @@ if system('uname -o') =~ '^GNU/'
 endif
 
 "######################################
-"#  Dein.vim init
+"#  vim-plug init
 "######################################
 
-set runtimepath^=~/.vim/bundle/dein.vim/repos/github.com/Shougo/dein.vim
-
-call dein#begin(expand('~/.vim/cache/dein'))
-
-" Let dein manage dein
-" Required:
-call dein#add('Shougo/dein.vim')
-
-" Turn off filetype plugins before bundles init
-filetype off
+" Specify a directory for plugins
+call plug#begin('~/.vim/plugged')
 
 "######################################
 "#   Bundles
@@ -38,15 +30,15 @@ filetype off
 "
 " Interactive command execution in Vim.
 
-call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 "-------------------------
 " Unite
 "
 " plugin for fuzzy file search, most recent files list
 " and much more
-call dein#add('Shougo/unite.vim')
-call dein#add('Shougo/neoyank.vim')
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/neoyank.vim'
 
 " Set unite window height
 let g:unite_winheight = 15
@@ -116,7 +108,7 @@ endfunction
 "
 " Most recent files source for unite
 "
-call dein#add('Shougo/neomru.vim')
+Plug 'Shougo/neomru.vim'
 
 "call unite#define_filter(s:filters)
 "unlet s:filters
@@ -131,7 +123,7 @@ call dein#add('Shougo/neomru.vim')
 " Great file system explorer, it appears when you open dir in vim
 " Allow modification of dir, and may other things
 " Must have
-" call dein#add('scrooloose/nerdtree')
+" Plug 'scrooloose/nerdtree'
 " Ctrl-t opens NerdTree
 " nnoremap <C-t> :NERDTreeToggle<CR>
 
@@ -153,7 +145,7 @@ call dein#add('Shougo/neomru.vim')
 " Great file system explorer, it appears when you open dir in vim
 " Allow modification of dir, and may other things
 " Must have
-"" call dein#add('tpope/vim-vinegar')
+"" Plug 'tpope/vim-vinegar'
 " Ctrl-t opens NerdTree
 " nnoremap <C-t> :Explore<CR>
 " /vinegar.vim
@@ -175,7 +167,7 @@ let g:netrw_localrmdir='rm -r'
 "-------------------------
 " Syntastic
 "
-call dein#add('scrooloose/syntastic')
+Plug 'scrooloose/syntastic'
 let g:syntastic_javascript_checkers = ['eslint']
 
 let g:syntastic_phpcs_conf=" --standard=Drupal --extensions=php,module,inc,install,test,profile,theme"
@@ -209,10 +201,14 @@ let g:syntastic_always_populate_loc_list = 1
 "-------------------------
 " YouCompleteMe
 "
-call dein#add('Valloric/YouCompleteMe')
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 set shortmess+=c
 
-call dein#add('Quramy/tsuquyomi')
+"-------------------------
+" Tsuquyomi
+"
+" Make your Vim a TypeScript IDE.
+Plug 'Quramy/tsuquyomi'
 let g:tsuquyomi_use_dev_node_module=2
 let g:tsuquyomi_tsserver_path='/Users/cmadd/.nvm/versions/node/v6.9.2/bin/tsserver'
 let g:tsuquyomi_disable_quickfix = 1
@@ -225,7 +221,7 @@ let g:tsuquyomi_shortest_import_path = 1
 " Keyword completion.
 "
 " 
-" call dein#add('Shougo/neocomplete.vim')
+" Plug 'Shougo/neocomplete.vim'
 "
 
 " Disable AutoComplPop.
@@ -312,10 +308,10 @@ set completeopt-=preview
 " UltiSnips
 "
 " Track the engine.
-call dein#add('SirVer/ultisnips')
+Plug 'SirVer/ultisnips'
 
 " Snippets are separated from the engine. Add this if you want them:
-call dein#add('honza/vim-snippets')
+Plug 'honza/vim-snippets'
 
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -326,15 +322,15 @@ nmap <Leader>es :UltiSnipsEdit<return>
 "-------------------------
 " YankRing.vim
 "
-call dein#add('vim-scripts/YankRing.vim')
+Plug 'vim-scripts/YankRing.vim'
 
 "-------------------------
 " Airline
 "
 " Nice statusline/ruler for vim
 "
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Colorscheme for airline
 let g:airline_theme='base16'
@@ -379,7 +375,7 @@ let g:airline_section_warning = 'syntastic'
 " A fancy start screen for Vim.
 " NerdTree
 "
-call dein#add('mhinz/vim-startify')
+Plug 'mhinz/vim-startify'
 " Automatically persist sessions.
 let g:startify_session_persistence = 1
 "
@@ -389,18 +385,18 @@ let g:startify_session_persistence = 1
 "
 " Improved PHP omnicompletion
 "
-call dein#add('shawncplus/phpcomplete.vim')
+Plug 'shawncplus/phpcomplete.vim'
 
 "-------------------------
 " smartpairs.vim
 "
 " 
-call dein#add('gorkunov/smartpairs.vim')
+Plug 'gorkunov/smartpairs.vim'
 
 "-------------------------
 " Matchit
 "
-call dein#add('tmhedberg/matchit')
+Plug 'tmhedberg/matchit'
 
 "-------------------------
 " delimitMate
@@ -408,7 +404,7 @@ call dein#add('tmhedberg/matchit')
 " Allow autoclose paired characters like [,] or (,),
 " and add smart cursor positioning inside it,
 "
-call dein#add('Raimondi/delimitMate')
+Plug 'Raimondi/delimitMate'
 
 "-------------------------
 " surround.vim
@@ -418,14 +414,14 @@ call dein#add('Raimondi/delimitMate')
 " change surroundings symbols to another
 " and ds{what} - remove them
 "
-call dein#add('tpope/vim-surround')
+Plug 'tpope/vim-surround'
 
 "-------------------------
 " vim-gitgutter
 "
 " A Vim plugin which shows a git diff in the 'gutter' (sign column).
 "
-call dein#add('airblade/vim-gitgutter')
+Plug 'airblade/vim-gitgutter'
 
 nmap <silent> <leader>gg :GitGutterToggle<cr>
 
@@ -434,57 +430,57 @@ nmap <silent> <leader>gg :GitGutterToggle<cr>
 " smartpairs.vim
 "
 " Plugin to toggle, display and navigate marks
-call dein#add('kshenoy/vim-signature')
+Plug 'kshenoy/vim-signature'
 nmap <Leader>m :SignatureToggle<CR>
 
 
 "-------------------------
 " PDV - PHP Documentor for VIM - 2
-call dein#add('tobyS/vmustache')
-call dein#add('tobyS/pdv')
+Plug 'tobyS/vmustache'
+Plug 'tobyS/pdv'
 let g:pdv_template_dir = $HOME ."/.vim/cache/dein/repos/github.com/tobyS/pdv/templates/"
 nnoremap <buffer> <Leader>pd :call pdv#DocumentWithSnip()<CR>
 
 "-------------------------
 " Twig
 " 
-call dein#add('evidens/vim-twig')
+Plug 'evidens/vim-twig'
 
 "-------------------------
 " vim-javascript v0.10.0
 "
 " JavaScript bundle for vim, this bundle provides syntax and indent plugins.
 " 
-call dein#add('pangloss/vim-javascript')
+Plug 'pangloss/vim-javascript'
 
 "-------------------------
 " Typescript
 "
-call dein#add('leafgarland/typescript-vim')
+Plug 'leafgarland/typescript-vim'
 
 "-------------------------
 " Coffeescript (eww)
 "
-call dein#add('kchmck/vim-coffee-script')
+Plug 'kchmck/vim-coffee-script'
 
 
 "-------------------------
 " vim-js-pretty-template
 "
-call dein#add('Quramy/vim-js-pretty-template')
+Plug 'Quramy/vim-js-pretty-template'
 
 
 "-------------------------
 " JSON
 " 
-call dein#add('elzr/vim-json')
+Plug 'elzr/vim-json'
 
 "-------------------------
 " vim-jsx
 "
 " Syntax highlighting and indenting for JSX.
 "
-call dein#add('mxw/vim-jsx')
+Plug 'mxw/vim-jsx'
 let g:jsx_ext_required = 0
 
 "-------------------------
@@ -492,7 +488,7 @@ let g:jsx_ext_required = 0
 "
 " Syntax highlighting and indenting for PUG.
 "
-call dein#add('digitaltoad/vim-pug')
+Plug 'digitaltoad/vim-pug'
 
 "-------------------------
 " Colour Schemes
@@ -501,28 +497,27 @@ call dein#add('digitaltoad/vim-pug')
 "-------------------------
 " Solarized
 "
-"call dein#add('altercation/vim-colors-solarized')
+"Plug 'altercation/vim-colors-solarized'
 
 "-------------------------
 " Gotham
 "
-call dein#add('whatyouhide/vim-gotham')
+Plug 'whatyouhide/vim-gotham'
 
 "-------------------------
 " Molokai
-"
-" call dein#add('tomasr/molokai')
+"Plug 'tomasr/molokai'
 
 "-------------------------
 " Bad Wolf
 "
-" call dein#add('sjl/badwolf')
+" Plug 'sjl/badwolf'
 
 
 "-------------------------
 " Paper Color (sic)
 "
-call dein#add('NLKNguyen/papercolor-theme')
+Plug 'NLKNguyen/papercolor-theme'
 
 " /Colour Schemes
 "-------------------------
@@ -530,15 +525,10 @@ call dein#add('NLKNguyen/papercolor-theme')
 
 " /Bundles
 "
+" Initialize plugin system
+" Automatically executes filetype plugin indent on and syntax enable
+call plug#end()
 
-call dein#end()
-
-" Enable Indent in plugins
-filetype plugin indent on
-
-if dein#check_install()
-  call dein#install()
-endif
 
 "######################################
 "   Vim settings
@@ -566,9 +556,6 @@ set encoding=utf-8
 
 " Let vim know what encoding we use in our terminal
 set termencoding=utf-8
-
-" Enable syntax highlighting
-syntax on
 
 " Which EOl used. For us it's unix
 " Not works with modifiable=no
