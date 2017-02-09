@@ -928,6 +928,13 @@ if has("autocmd")
         " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
         " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
         autocmd FileType javascript let b:syntastic_javascript_eslint_exec = NpmWhich('eslint')
+        autocmd FileType coffee setl foldmethod=indent nofoldenable
+        " Typescript
+        autocmd FileType typescript setlocal balloonexpr=tsuquyomi#balloonexpr()
+        autocmd FileType typescript nmap <buffer> <LocalLeader>tr <Plug>(TsuquyomiRenameSymbol)
+        autocmd FileType typescript nmap <buffer> <LocalLeader>tR <Plug>(TsuquyomiRenameSymbolC)
+        autocmd FileType typescript nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
+        autocmd FileType typescript nmap <buffer> <LocalLeader>tg <Plug>(TsuquyomiDefinition)
 
 
         " Enable Folding, uses plugin vim-javascript-syntax
