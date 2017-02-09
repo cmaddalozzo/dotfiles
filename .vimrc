@@ -142,6 +142,14 @@ Plug 'Shougo/neomru.vim'
 "-------------------------
 
 "-------------------------
+" Tmux plugins
+"
+" Add proper support for focus events
+Plug 'tmux-plugins/vim-tmux-focus-events'
+" Allow seemless navigation between tmux splits
+Plug 'christoomey/vim-tmux-navigator'
+
+"-------------------------
 " vinegar.vim
 "
 " Great file system explorer, it appears when you open dir in vim
