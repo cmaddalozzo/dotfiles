@@ -1,5 +1,7 @@
 " Change that leader.
 let mapleader=","
+" Change the local leader.
+let maplocalleader="\\"
 
 set shell=/bin/bash
 
