@@ -857,7 +857,7 @@ endfunction
 
 function! Decaffeinate()
   let fname = expand('%:r')
-  exec "!decaffeinate --keep-commonjs" . @%
+  exec "!decaffeinate --keep-commonjs --prefer-const " . @%
   exec 'e ' . fname . '.js'
 endfunction
 nnoremap <silent> <Leader>js :silent call Decaffeinate()<CR>
