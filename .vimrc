@@ -658,6 +658,8 @@ set textwidth=96
 " highlight column right after max textwidth
 set colorcolumn=+1
 
+set ballooneval
+
 " Use OS X clipboard
 " set clipboard=unnamed
 
