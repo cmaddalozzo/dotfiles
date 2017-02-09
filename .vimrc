@@ -607,6 +607,9 @@ set novisualbell
 " instead readonly and + instead modified
 set shortmess=atI
 
+" Allow scrolling in tmux vim
+set mouse=a
+
 " Enable display whitespace characters
 set list
 
