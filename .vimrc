@@ -226,6 +226,13 @@ let g:syntastic_typescript_checkers = ['tsuquyomi']
 let g:tsuquyomi_shortest_import_path = 1
 
 "-------------------------
+" Tern for Vim
+"
+" Tern-based JavaScript editing support
+Plug 'ternjs/tern_for_vim'
+let g:tern_map_keys=1
+
+"-------------------------
 " neocomplete
 "
 " Keyword completion.
