@@ -652,8 +652,8 @@ set number
 " Highlight line with cursor
 set cursorline
 
-" maximum text length at 80 symbols, dictates where colour column shows.
-set textwidth=80
+" maximum text length at N symbols, dictates where colour column shows.
+set textwidth=96
 
 " highlight column right after max textwidth
 set colorcolumn=+1
