@@ -218,11 +218,6 @@ Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 set shortmess+=c
 
 "-------------------------
-" Prefer local ESLINT
-"
-Plug 'mtscout6/syntastic-local-eslint.vim'
-
-"-------------------------
 " Tsuquyomi
 "
 " Make your Vim a TypeScript IDE.
@@ -945,9 +940,7 @@ if has("autocmd")
         autocmd FileType typescript nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
         autocmd FileType typescript nmap <buffer> <LocalLeader>tg <Plug>(TsuquyomiDefinition)
 
-
-        " Enable Folding, uses plugin vim-javascript-syntax
-        "" au FileType javascript* call JavaScriptFold()
+        autocmd FileType javascript let b:syntastic_javascript_eslint_exec = NpmWhich('eslint')
 
     " Group end
     augroup END
