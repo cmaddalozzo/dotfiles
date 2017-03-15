@@ -214,8 +214,8 @@ let g:syntastic_aggregate_errors = 1
 "-------------------------
 " YouCompleteMe
 "
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-" set shortmess+=c
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+set shortmess+=c
 
 "-------------------------
 " Prefer local ESLINT
