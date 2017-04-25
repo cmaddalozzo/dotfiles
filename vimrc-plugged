@@ -463,6 +463,19 @@ Plug 'airblade/vim-gitgutter'
 nmap <silent> <leader>gg :GitGutterToggle<cr>
 
 "-------------------------
+" vim-fugitive
+"
+" git wrapper
+"
+Plug 'tpope/vim-fugitive'
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>gc :Gcommit<CR>
+
+
+"-------------------------
 " vim-signature
 " smartpairs.vim
 "
