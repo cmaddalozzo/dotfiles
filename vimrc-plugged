@@ -968,6 +968,7 @@ if has("autocmd")
         autocmd FileType typescript nmap <buffer> <LocalLeader>tR <Plug>(TsuquyomiRenameSymbolC)
         autocmd FileType typescript nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
         autocmd FileType typescript nmap <buffer> <LocalLeader>tg <Plug>(TsuquyomiDefinition)
+        autocmd FileType typescript let b:syntastic_typescript_tslint_exec = NpmWhich('tslint')
 
         autocmd FileType javascript let b:syntastic_javascript_eslint_exec = NpmWhich('eslint')
 
