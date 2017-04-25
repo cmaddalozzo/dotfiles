@@ -704,8 +704,7 @@ set colorcolumn=+1
 " set ballooneval
 
 " Use OS X clipboard
-" set clipboard=unnamed
-
+set clipboard=unnamedplus
 
 "--------------------------------------------------
 " Tab options
