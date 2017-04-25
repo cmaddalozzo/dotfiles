@@ -393,11 +393,10 @@ let g:airline_section_warning = 'syntastic'
 " vim-startify
 "
 " A fancy start screen for Vim.
-" NerdTree
 "
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 " Automatically persist sessions.
-let g:startify_session_persistence = 1
+" let g:startify_session_persistence = 1
 "
 " /vim-startify
 "-------------------------
@@ -437,6 +436,24 @@ Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 
 "-------------------------
+" vim-easygrep
+"
+" Fast and Easy Find and Replace Across Multiple Files
+"
+" <Leader>vv  - Grep for the word under the cursor, match all occurences,
+"               like 'g*'.  See ":help gstar".
+" <Leader>vV  - Grep for the word under the cursor, match whole word, like
+"               '*'.  See ":help star".
+" <Leader>va  - Like vv, but add to existing list.
+" <Leader>vA  - Like vV, but add to existing list.
+" 
+" <Leader>vr  - Perform a global search on the word under the cursor
+"               and prompt for a pattern with which to replace it.
+" <Leader>vR  - Like vr, but match whole word.
+"
+Plug 'dkprice/vim-easygrep'
+
+"-------------------------
 " vim-gitgutter
 "
 " A Vim plugin which shows a git diff in the 'gutter' (sign column).
@@ -453,6 +470,16 @@ nmap <silent> <leader>gg :GitGutterToggle<cr>
 Plug 'kshenoy/vim-signature'
 nmap <Leader>m :SignatureToggle<CR>
 
+"-------------------------
+" Scratch.vim
+"
+" Unobtrusive scratch window
+"
+" gs in normal mode opens the scratch window
+" gs in visual mode pastes the current selection
+
+" Plug 'mtth/scratch.vim'
+" let g:scratch_persistence_file=$HOME ."/.vim/scratchfile"
 
 "-------------------------
 " PDV - PHP Documentor for VIM - 2
@@ -508,7 +535,7 @@ let g:jsx_ext_required = 0
 "
 " Syntax highlighting and indenting for PUG.
 "
-Plug 'digitaltoad/vim-pug'
+" Plug 'digitaltoad/vim-pug'
 
 "-------------------------
 " Colour Schemes
@@ -579,9 +606,9 @@ set termencoding=utf-8
 
 " Which EOl used. For us it's unix
 " Not works with modifiable=no
-if &modifiable
-    set fileformat=unix
-endif
+" if &modifiable
+"     set fileformat=unix
+" endif
 
 " Use 256 colors in vim
 " vim-airline not work without it
@@ -602,9 +629,6 @@ set noshowmode
 
 " Show file name in window title
 set title
-
-" Mute error bell
-set novisualbell
 
 " Remove all useless messages like intro screen and use abbreviation like RO
 " instead readonly and + instead modified
@@ -676,7 +700,7 @@ set colorcolumn=+1
 " Copy indent from previous line
 set autoindent
 
-" Enable smart indent. it add additional indents whe necessary
+" Add additional indents when necessary
 set smartindent
 
 " Replace tabs with spaces
@@ -685,15 +709,11 @@ set expandtab
 " Whe you hit tab at start of line, indent added according to shiftwidth value
 set smarttab
 
-
-" Show line numbers
-set number
-
 " Set tabsize
 set tabstop=2
 set shiftwidth=2
 
-" Indentation always be multiple of shiftwidth
+" Indentation always multiple of shiftwidth
 " Applies to  < and > command
 set shiftround
 
@@ -709,18 +729,19 @@ set hlsearch
 " Ignore case in search patterns
 set ignorecase
 
-" Override the 'ignorecase' option if the search patter ncontains upper case characters
+" Override the 'ignorecase' option if the search pattern contains upper case characters
 set smartcase
 
-" Live search. While typing a search command, show where the pattern
+" Live search. While typing a search command, show matches
 set incsearch
 
-"" Splits
+" New verticle splits go right
 set splitright
 
+" New horizontal splits go below
 set splitbelow
 
-"" Escape gets rid of highlighting
+" <Leader>n gets rid of highlighting
 nnoremap <Leader>n :noh<return><esc>
 
 " Disable higlighting search result on Enter key
@@ -750,12 +771,9 @@ set wildcharm=<TAB>
 " Enable syntax folding in javascript
 let javaScript_fold=1
 
-" No fold closed at open file
+" Folds open by default 
 set foldlevelstart=99
 set nofoldenable
-
-" Keymap to toggle folds with space
-"nmap <space> za
 
 "--------------------------------------------------
 " Edit
@@ -855,7 +873,6 @@ set runtimepath+=/usr/local/go/misc/vim
 filetype plugin indent on
 syntax on
 
-
 function! StrTrim(txt)
   return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
 endfunction
@@ -876,12 +893,10 @@ nnoremap <silent> <Leader>js :silent call Decaffeinate()<CR>
 
 "--------------------------------------------------
 " Autocmd
-
-" It executes specific command when specific events occured
-" like reading or writing file, or open or close buffer
+"
 if has("autocmd")
     " Define group of commands,
-    " Commands defined in .vimrc don't bind twice if .vimrc will reload
+    " Commands defined in .vimrc don't bind twice if .vimrc is re-sourced
     augroup vimrc
     " Delete any previosly defined autocommands
     au!
