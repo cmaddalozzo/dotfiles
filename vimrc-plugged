@@ -954,12 +954,9 @@ if has("autocmd")
         autocmd FileType coffee setl foldmethod=indent nofoldenable
 
         " Typescript
-        autocmd FileType typescript nmap <buffer> <LocalLeader>tr <Plug>(TsuquyomiRenameSymbol)
-        autocmd FileType typescript nmap <buffer> <LocalLeader>tR <Plug>(TsuquyomiRenameSymbolC)
-        autocmd FileType typescript nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
-        autocmd FileType typescript nmap <buffer> <LocalLeader>tg <Plug>(TsuquyomiDefinition)
-        autocmd FileType typescript let b:syntastic_typescript_tslint_exec = NpmWhich('tslint')
+        autocmd FileType typescript call s:typescript_local_config()
 
+        " Javascript
         autocmd FileType javascript let b:syntastic_javascript_eslint_exec = NpmWhich('eslint')
 
     " Group end
@@ -970,6 +967,17 @@ endif
 " Visual star
 xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
+
+function! s:typescript_local_config()
+  nmap <buffer> <LocalLeader>tr <Plug>(TsuquyomiRenameSymbol)
+  nmap <buffer> <LocalLeader>tR <Plug>(TsuquyomiRenameSymbolC)
+  nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
+  nmap <buffer> <LocalLeader>tg <Plug>(TsuquyomiDefinition)
+  let b:syntastic_typescript_tslint_exec = NpmWhich('tslint')
+  let b:syntastic_typescript_tsuquyomi_exec = NpmWhich('tsc')
+  let g:tsuquyomi_tsserver_path=NpmWhich('tsserver')
+  let temp = @s
+endfunction
 
 function! s:VSetSearch()
   let temp = @s
