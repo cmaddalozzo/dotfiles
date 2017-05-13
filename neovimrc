@@ -202,10 +202,13 @@ let g:ycm_show_diagnostics_ui=0
 " Make your Vim a TypeScript IDE.
 Plug 'Quramy/tsuquyomi'
 let g:tsuquyomi_use_dev_node_module=2
-let g:tsuquyomi_tsserver_path='/Users/cmadd/.nvm/versions/node/v6.9.2/bin/tsserver'
 let g:tsuquyomi_disable_quickfix = 1
 " let g:syntastic_typescript_checkers = ['tslint', 'tsuquyomi']
 let g:tsuquyomi_shortest_import_path = 1
+let g:tsuquyomi_tsserver_path=NpmWhich('tsserver')
+
+let g:neomake_typescript_tsc_exe = NpmWhich('tsc')
+let g:neomake_typescript_tslint_exe = NpmWhich('tslint')
 
 "-------------------------
 " Tern for Vim
