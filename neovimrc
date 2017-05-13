@@ -193,6 +193,8 @@ nnoremap <Leader>c :Neomake<CR>
 "
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 set shortmess+=c
+" This was a bastard
+let g:ycm_show_diagnostics_ui=0
 
 "-------------------------
 " Tsuquyomi
