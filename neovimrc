@@ -9,6 +9,15 @@ if &compatible
   set nocompatible
 endif
 
+""
+" Functions
+""
+source ~/Code/dotfiles/functions.vim
+
+""
+" Autocommands
+""
+source ~/Code/dotfiles/autocommands.vim
 
 
 "######################################
@@ -90,18 +99,6 @@ nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
 
 " Try to lose reliance on buffergator by remapping to unite buffers
 nmap <Leader>b [unite]b
-
-autocmd FileType unite call s:unite_my_settings()
-
-function! s:unite_my_settings()
-  imap <buffer> jj      <Plug>(unite_quick_match_default_action)
-  imap <buffer> kk      <Plug>(unite_quick_match_default_action)
-  imap <buffer> jk      <Plug>(unite_quick_match_choose_action)
-  nmap <buffer> Q <plug>(unite_exit)
-  nmap <buffer> <esc> <plug>(unite_exit)
-  imap <expr><silent><buffer> <C-s> unite#do_action('split')
-  imap <expr><silent><buffer> <C-v> unite#do_action('vsplit')
-endfunction
 
 "
 " Most recent files source for unite
@@ -763,97 +760,9 @@ cmap w!! w !sudo tee % >/dev/null
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
 
-function! StrTrim(txt)
-  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-endfunction
-
-function! NpmWhich(cmd)
-  let npm_bin = system('npm bin')
-  let local_cmd = StrTrim(npm_bin) . '/' . a:cmd
-  return executable(local_cmd) ? local_cmd : StrTrim(system('which ' . a:cmd))
-endfunction
-
-function! Decaffeinate()
-  let fname = expand('%:r')
-  exec "!decaffeinate --keep-commonjs --prefer-const " . @%
-  exec 'e ' . fname . '.js'
-endfunction
 nnoremap <silent> <Leader>js :silent call Decaffeinate()<CR>
 
 
-"--------------------------------------------------
-" Autocmd
-"
-if has("autocmd")
-    " Define group of commands,
-    " Commands defined in .vimrc don't bind twice if .vimrc is re-sourced
-    augroup vimrc
-    " Delete any previosly defined autocommands
-    au!
-        " Auto reload vim after your change it
-        au BufWritePost *.vim source $MYVIMRC | AirlineRefresh
-        au BufWritePost .vimrc source $MYVIMRC | AirlineRefresh
-
-        " Restore cursor position :help last-position-jump
-        au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-          \| exe "normal g'\"" | endif
-
-        " Set filetypes aliases
-        au FileType htmldjango set ft=html.htmldjango
-        au FileType scss set ft=scss.css
-        au FileType less set ft=less.css
-        au BufWinEnter * if line2byte(line("$") + 1) > 100000 | syntax clear | endif
-        au BufRead,BufNewFile *.js set ft=javascript
-        au BufRead,BufNewFile *.json set ft=json
-        au BufRead,BufNewFile *.plaintex set ft=plaintex.tex
-
-        " Syntax definitions
-        au BufRead,BufNewFile *.css set ft=css syntax=css3
-        au BufRead,BufNewFile *.less set ft=less syntax=less
-        au BufRead,BufNewFile *.scss set ft=sass syntax=sass
-        au BufRead,BufNewFile *.scss.liquid set ft=sass syntax=sass
-        au BufRead,BufNewFile *.go set ft=go syntax=go
-        " au BufNewFile,BufRead *.ini, *.info, */.hgrc,*/.hg/hgrc setf ini
-
-        " Auto close preview window, it uses with tags,
-        " I don't use it
-        autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-        autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-
-        " Disable vertical line at max string length in NERDTree
-        autocmd FileType * setlocal colorcolumn=+1
-        " autocmd FileType nerdtree setlocal colorcolumn=""
-
-        " Omnicomplete definitions
-        "autocmd FileType python set omnifunc=pythoncomplete#Complete
-        "autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-        "autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-        "autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-        "autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-        "autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-        "autocmd FileType c set omnifunc=ccomplete#Complete
-        " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-        " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-
-        " Format JSON with jq
-        au FileType json set equalprg=jq\ .
-
-        " Fold coffee files
-        autocmd FileType coffee setl foldmethod=indent nofoldenable
-
-        " Typescript
-        autocmd FileType typescript nmap <buffer> <LocalLeader>tr <Plug>(TsuquyomiRenameSymbol)
-        autocmd FileType typescript nmap <buffer> <LocalLeader>tR <Plug>(TsuquyomiRenameSymbolC)
-        autocmd FileType typescript nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
-        autocmd FileType typescript nmap <buffer> <LocalLeader>tg <Plug>(TsuquyomiDefinition)
-        " autocmd FileType typescript let b:syntastic_typescript_tslint_exec = NpmWhich('tslint')
-
-        " autocmd FileType javascript let b:syntastic_javascript_eslint_exec = NpmWhich('eslint')
-
-    " Group end
-    augroup END
-
-endif
 
 " Visual star
 xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
