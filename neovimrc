@@ -149,6 +149,7 @@ let g:netrw_localrmdir='rm -r'
 " /Neomake
 "
 Plug 'neomake/neomake'
+nnoremap <Leader>c :Neomake<CR>
 
 "-------------------------
 " Syntastic
