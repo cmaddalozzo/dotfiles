@@ -3,13 +3,13 @@ function! StrTrim(txt)
 endfunction
 
 function! NpmWhich(cmd)
-  let npm_bin = system('npm bin')
-  let local_cmd = StrTrim(npm_bin) . '/' . a:cmd
-  return executable(local_cmd) ? local_cmd : StrTrim(system('which ' . a:cmd))
+  let l:npm_bin = system('npm bin')
+  let l:local_cmd = StrTrim(l:npm_bin) . '/' . a:cmd
+  return executable(l:local_cmd) ? l:local_cmd : StrTrim(system('which ' . a:cmd))
 endfunction
 
 function! Decaffeinate()
-  let fname = expand('%:r')
-  exec "!decaffeinate --keep-commonjs --prefer-const " . @%
-  exec 'e ' . fname . '.js'
+  let l:fname = expand('%:r')
+  exec '!decaffeinate --keep-commonjs --prefer-const ' . @%
+  exec 'e ' . l:fname . '.js'
 endfunction

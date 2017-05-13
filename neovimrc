@@ -1,13 +1,12 @@
+" Set character encoding to use in vim
+set encoding=utf-8
+scriptencoding utf-8
 " Change that leader.
-let mapleader=","
+let g:mapleader=','
 " Change the local leader.
-let maplocalleader="\\"
+let g:maplocalleader='\'
 
 set shell=/bin/bash
-
-if &compatible
-  set nocompatible
-endif
 
 ""
 " Functions
@@ -149,45 +148,8 @@ let g:netrw_localrmdir='rm -r'
 " /Neomake
 "
 Plug 'neomake/neomake'
-nnoremap <Leader>c :Neomake<CR>
+nnoremap <silent><Leader>c :Neomake<CR>
 
-"-------------------------
-" Syntastic
-"
-" Plug 'scrooloose/syntastic'
-" let g:syntastic_javascript_checkers = ['eslint']
-" 
-" let g:syntastic_phpcs_conf=" --standard=Drupal --extensions=php,module,inc,install,test,profile,theme"
-" 
-" let g:syntastic_html_tidy_ignore_errors = [ 
-"       \ '<template> is not recognized!' ,
-"       \ 'discarding unexpected <template>' ,
-"       \ 'discarding unexpected </template>' ,
-"       \ 'inserting implicit <ul>' 
-" \]
-" 
-" let g:syntastic_error_symbol = '✗'
-" let g:syntastic_style_error_symbol = '✠'
-" let g:syntastic_warning_symbol = '∆'
-" let g:syntastic_style_warning_symbol = '≈'
-" 
-" let g:syntastic_mode_map = { 'mode': 'active',
-"                                \ 'active_filetypes': ['php', 'javascript'],
-"                                \ 'passive_filetypes': ['less'] }
-" 
-" " Enable autochecks
-" let g:syntastic_check_on_open=1
-" let g:syntastic_enable_signs=1
-" 
-" " For correct works of next/previous error navigation
-" let g:syntastic_always_populate_loc_list = 1
-" 
-" " Show errors with multiple checkers
-" let g:syntastic_aggregate_errors = 1
-" 
-" /Syntastic
-"-------------------------
-"
 "-------------------------
 " YouCompleteMe
 "
@@ -215,17 +177,7 @@ let g:neomake_typescript_tslint_exe = NpmWhich('tslint')
 "
 " Tern-based JavaScript editing support
 Plug 'ternjs/tern_for_vim'
-let g:tern_map_keys=1
-
-" <LocalLeader>tD   :TernDoc
-" <LocalLeader>tb   :TernDocBrowse
-" <LocalLeader>tt   :TernType
-" <LocalLeader>td   :TernDef
-" <LocalLeader>tpd  :TernDefPreview
-" <LocalLeader>tsd  :TernDefSplit
-" <LocalLeader>ttd  :TernDefTab
-" <LocalLeader>tr   :TernRefs
-" <LocalLeader>tR   :TernRename
+let g:tern_map_keys=0
 
 "-------------------------
 " UltiSnips with snippets
@@ -233,9 +185,9 @@ let g:tern_map_keys=1
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>" 
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsJumpForwardTrigger='<tab>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>' 
 
 nmap <Leader>es :UltiSnipsEdit<return>
 
@@ -412,13 +364,8 @@ nmap <Leader>m :SignatureToggle<CR>
 " PDV - PHP Documentor for VIM - 2
 Plug 'tobyS/vmustache', { 'for': 'php' }
 Plug 'tobyS/pdv', { 'for': 'php' }
-let g:pdv_template_dir = $HOME ."/.vim/cache/dein/repos/github.com/tobyS/pdv/templates/"
+let g:pdv_template_dir = $HOME .'/.vim/cache/dein/repos/github.com/tobyS/pdv/templates/'
 nnoremap <buffer> <Leader>pd :call pdv#DocumentWithSnip()<CR>
-
-"-------------------------
-" Twig
-" 
-Plug 'evidens/vim-twig'
 
 "-------------------------
 " vim-javascript v0.10.0
@@ -524,9 +471,6 @@ set autoread
 
 " Indicates fast terminal connection
 set ttyfast
-
-" Set character encoding to use in vim
-set encoding=utf-8
 
 " Let vim know what encoding we use in our terminal
 set termencoding=utf-8
@@ -695,7 +639,7 @@ set wildcharm=<TAB>
 " Folding
 
 " Enable syntax folding in javascript
-let javaScript_fold=1
+let g:javaScript_fold=1
 
 " Folds open by default 
 set foldlevelstart=99
@@ -725,10 +669,10 @@ set nowritebackup
 set noswapfile
 
 " Do not add eol at the end of file.
-set noeol
+set noendofline
 
 " Visual bell
-set vb
+set visualbell
 
 "Nice typeface
 set guifont=Source\ Code\ Pro:h11
@@ -800,10 +744,10 @@ xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
 
 function! s:VSetSearch()
-  let temp = @s
+  let l:temp = @s
   norm! gv"sy
   let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
-  let @s = temp
+  let @s = l:temp
 endfunction
 
 inoremap \fn <C-R>=substitute(expand("%:p"), getcwd(), '', '')<CR>
