@@ -302,7 +302,7 @@ let g:airline_section_x = ''
 "
 " Improved PHP omnicompletion
 "
-Plug 'shawncplus/phpcomplete.vim'
+Plug 'shawncplus/phpcomplete.vim', { 'for' : 'json' }
 
 "-------------------------
 " smartpairs.vim
@@ -408,8 +408,8 @@ nmap <Leader>m :SignatureToggle<CR>
 
 "-------------------------
 " PDV - PHP Documentor for VIM - 2
-Plug 'tobyS/vmustache'
-Plug 'tobyS/pdv'
+Plug 'tobyS/vmustache', { 'for': 'php' }
+Plug 'tobyS/pdv', { 'for': 'php' }
 let g:pdv_template_dir = $HOME ."/.vim/cache/dein/repos/github.com/tobyS/pdv/templates/"
 nnoremap <buffer> <Leader>pd :call pdv#DocumentWithSnip()<CR>
 
@@ -423,17 +423,17 @@ Plug 'evidens/vim-twig'
 "
 " JavaScript bundle for vim, this bundle provides syntax and indent plugins.
 " 
-Plug 'pangloss/vim-javascript'
+ Plug 'pangloss/vim-javascript', { 'for' : 'javascript' }
 
 "-------------------------
 " Typescript
 "
-Plug 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim', { 'for' : 'typescript' }
 
 "-------------------------
 " Coffeescript (eww)
 "
-Plug 'kchmck/vim-coffee-script'
+Plug 'kchmck/vim-coffee-script', { 'for' : 'coffeescript' }
 
 
 "-------------------------
@@ -445,14 +445,14 @@ Plug 'kchmck/vim-coffee-script'
 "-------------------------
 " JSON
 " 
-Plug 'elzr/vim-json'
+Plug 'elzr/vim-json', { 'for' : 'json' }
 
 "-------------------------
 " vim-jsx
 "
 " Syntax highlighting and indenting for JSX.
 "
-Plug 'mxw/vim-jsx'
+Plug 'mxw/vim-jsx', { 'for' : 'json' }
 let g:jsx_ext_required = 0
 
 "-------------------------
