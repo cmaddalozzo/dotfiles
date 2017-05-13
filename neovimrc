@@ -212,6 +212,15 @@ let g:tsuquyomi_shortest_import_path = 1
 Plug 'ternjs/tern_for_vim'
 let g:tern_map_keys=1
 
+" <LocalLeader>tD   :TernDoc
+" <LocalLeader>tb   :TernDocBrowse
+" <LocalLeader>tt   :TernType
+" <LocalLeader>td   :TernDef
+" <LocalLeader>tpd  :TernDefPreview
+" <LocalLeader>tsd  :TernDefSplit
+" <LocalLeader>ttd  :TernDefTab
+" <LocalLeader>tr   :TernRefs
+" <LocalLeader>tR   :TernRename
 
 "-------------------------
 "
