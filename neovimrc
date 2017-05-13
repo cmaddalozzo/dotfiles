@@ -228,7 +228,9 @@ let g:tern_map_keys=1
 " <LocalLeader>tR   :TernRename
 
 "-------------------------
+" UltiSnips with snippets
 "
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 
 let g:UltiSnipsExpandTrigger="<tab>"
