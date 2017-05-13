@@ -781,7 +781,7 @@ nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>l :e#<CR>
 
 "" Easy open this.
-nnoremap <Leader>vrc :tabe ~/.vimrc<CR>
+nnoremap <Leader>vrc :tabe $MYVIMRC<CR>
 
 " w!! sudo opens file and saves it
 cmap w!! w !sudo tee % >/dev/null
