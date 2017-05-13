@@ -323,6 +323,20 @@ Plug 'Raimondi/delimitMate'
 "-------------------------
 " surround.vim
 "
+" Enable repeating supported plugin maps with '.'
+"
+Plug 'tpope/vim-repeat'
+
+"-------------------------
+" abolish.vim
+"
+" Easily search for, substitute, and abbreviate multiple variants of a word
+"
+Plug 'tpope/vim-abolish'
+
+"-------------------------
+" surround.vim
+"
 " Add usefull hotkey for operation with surroundings
 " cs{what}{towhat} - inside '' or [] or something like this allow
 " change surroundings symbols to another
