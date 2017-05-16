@@ -181,14 +181,14 @@ let g:tern_map_keys=0
 "-------------------------
 " UltiSnips with snippets
 "
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+"
+"
+" let g:UltiSnipsExpandTrigger='<tab>'
+" let g:UltiSnipsJumpForwardTrigger='<tab>'
+" let g:UltiSnipsJumpBackwardTrigger='<s-tab>' 
 
-
-let g:UltiSnipsExpandTrigger='<tab>'
-let g:UltiSnipsJumpForwardTrigger='<tab>'
-let g:UltiSnipsJumpBackwardTrigger='<s-tab>' 
-
-nmap <Leader>es :UltiSnipsEdit<return>
+" nmap <Leader>es :UltiSnipsEdit<return>
 
 "-------------------------
 " YankRing.vim
@@ -238,18 +238,6 @@ let g:airline_section_x = ''
 " let g:airline_section_warning = 'syntastic'
 
 " /Airline
-"-------------------------
-
-"-------------------------
-" vim-startify
-"
-" A fancy start screen for Vim.
-"
-" Plug 'mhinz/vim-startify'
-" Automatically persist sessions.
-" let g:startify_session_persistence = 1
-"
-" /vim-startify
 "-------------------------
 
 "
@@ -549,9 +537,6 @@ set formatoptions-=t
 
 " Display Line numbers
 set number
-
-" Highlight line with cursor
-set cursorline
 
 " maximum text length at N symbols, dictates where colour column shows.
 set textwidth=96
