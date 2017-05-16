@@ -443,10 +443,10 @@ call s:denite_config()
 "   Vim settings
 "######################################
 
-set background=dark
+set background=light
 " set t_Co=256
 "colorscheme Gotham
-colorscheme papercolor
+colorscheme PaperColor
 let g:airline_theme='papercolor'
 
 "colorscheme solarized
