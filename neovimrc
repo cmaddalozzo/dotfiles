@@ -38,77 +38,76 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
-"-------------------------
-" Unite
+" Denite.vim
 "
 " plugin for fuzzy file search, most recent files list
 " and much more
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/neoyank.vim'
+Plug 'Shougo/denite.nvim'
 
-" Set unite window height
-let g:unite_winheight = 15
-
-" Start unite in insert mode by default
-let g:unite_enable_start_insert = 1
-
-" Display unite on the bottom (or bottom right) part of the screen
-let g:unite_split_rule = 'botright'
-
-" Set short limit for max most recent files count.
-" It less unrelative recent files this way
-let g:unite_source_file_mru_limit = 100
-
-" Enable history for yanks
-let g:unite_source_history_yank_enable = 1
-
-" Make samll limit for yank history,
-let g:unite_source_history_yank_limit = 40
-
-" Grep options Default for unite + supress error messages
-let g:unite_source_grep_default_opts = '-iRHns'
-
-let g:unite_source_rec_max_cache_files = 99999
-
-" If ag exists use it instead of grep
-if executable('ag')
+function! s:denite_config()
+  " If ag exists use it instead of grep
+  if executable('ag')
     " Use ag (the silver searcher)
     " https://github.com/ggreer/the_silver_searcher
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts =
-    \ '-i --vimgrep --hidden --ignore ' .
-    \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-    let g:unite_source_grep_recursive_opt = ''
-    " Use ack for fuzzy file search
-    let g:unite_source_rec_async_command = ['ag', '--follow', '--nocolor', '--nogroup', '-g', '']
-endif
+    "
+    " Change file_rec command.
+    call denite#custom#var('file_rec', 'command',
+    \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 
-nnoremap [unite] <Nop>
-nmap <space> [unite]
-nnoremap <silent> [unite]<space> :<C-u>Unite -buffer-name=files file_rec/async<CR>
-" nnoremap <silent> [unite]<space> :<C-u>Unite -toggle -buffer-name=mixed file_rec/async buffer file_mru bookmark<cr><c-u>
-nnoremap <silent> [unite]f :<C-u>Unite -toggle -auto-resize -buffer-name=files file_rec/async<cr><c-u>
-" nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<cr>
-nnoremap <silent> [unite]y :YRShow<cr>
-nnoremap <silent> [unite]l :<C-u>Unite -auto-resize -buffer-name=line line<cr>
-nnoremap <silent> [unite]b :<C-u>Unite -auto-resize -buffer-name=buffers buffer<cr>
-nnoremap <silent> [unite]/ :<C-u>Unite -buffer-name=search grep:.<cr>
-nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -buffer-name=mappings mapping<cr>
-nnoremap <silent> [unite]s :<C-u>Unite -quick-match buffer<cr>
+    " Change grep source
+    call denite#custom#var('grep', 'command', ['ag'])
+    call denite#custom#var('grep', 'default_opts',
+        \ ['-i', '--vimgrep'])
+    call denite#custom#var('grep', 'recursive_opts', [])
+    call denite#custom#var('grep', 'pattern_opt', [])
+    call denite#custom#var('grep', 'separator', ['--'])
+    call denite#custom#var('grep', 'final_opts', [])
+  endif
 
-" Try to lose reliance on buffergator by remapping to unite buffers
-nmap <Leader>b [unite]b
+  " Change matchers.
+  call denite#custom#source('file_rec', 'matchers', ['matcher_cpsm'])
+  call denite#custom#source('buffer', 'matchers', ['matcher_cpsm'])
+
+  " Change sorters.
+  call denite#custom#source('file_rec', 'sorters', ['sorter_rank'])
+
+  " Always autoresize
+  call denite#custom#option('_', 'auto_resize', v:true)
+  call denite#custom#option('_', 'cursor_wrap', v:true)
+  call denite#custom#option('_', 'highlight_mode_insert', 'DiffText')
+  call denite#custom#option('_', 'highlight_mode_normal', 'SpellCap')
+  call denite#custom#option('_', 'highlight_matched_range', 'Title')
+  call denite#custom#option('_', 'highlight_matched_char', 'SpellCap')
+
+  " kk switches to 'normal' mode
+  call denite#custom#map('insert', 'kk', '<C-o>')
+  " a performs default action
+  call denite#custom#map('normal', 'a', '<CR>')
+endfunction
+
+nnoremap [denite] <Nop>
+nmap <space> [denite]
+nnoremap <silent> [denite]<space> :<C-u>Denite file_rec<CR>
+nnoremap <silent> [denite]g :<C-u>Denite -buffer-name=changes change<cr>
+nnoremap <silent> [denite]b :<C-u>Denite -buffer-name=buffers buffer<cr>
+nnoremap <silent> [denite]p :<C-u>Denite -buffer-name=registers register<cr>
+nnoremap <silent> [denite]/ :<C-u>Denite -buffer-name=search grep<cr>
+nnoremap <silent> [denite]* :<C-u>DeniteCursorWord -buffer-name=searchword grep<cr>
+
+nmap <silent> [denite]c [denite]g<cr>
+
+nmap <Leader>b [denite]b
+
+" cpsm
+"
+" A CtrlP matcher, specialized for paths.
+"
+Plug 'nixprime/cpsm'
 
 "
 " Most recent files source for unite
 "
-Plug 'Shougo/neomru.vim'
-
-"call unite#define_filter(s:filters)
-"unlet s:filters
-
-" /Unite
-"-------------------------
+" Plug 'Shougo/neomru.vim'
 
 "-------------------------
 " Tmux plugins
@@ -450,6 +449,7 @@ Plug 'NLKNguyen/papercolor-theme'
 " Automatically executes filetype plugin indent on and syntax enable
 call plug#end()
 
+call s:denite_config()
 
 "######################################
 "   Vim settings
