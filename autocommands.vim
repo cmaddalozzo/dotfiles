@@ -84,8 +84,8 @@ function! s:typescript_local_config()
   nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
   nmap <buffer> <LocalLeader>tg <Plug>(TsuquyomiDefinition)
   nmap <buffer> <LocalLeader>td <Plug>(TsuquyomiDefinition)
-  let b:neomake_typescript_tsc_exe = NpmWhich('tsc')
-  let b:neomake_typescript_tslint_exe = NpmWhich('tslint')
+  " let b:neomake_typescript_tsc_exe = NpmWhich('tsc')
+  " let b:neomake_typescript_tslint_exe = NpmWhich('tslint')
 endfunction
 
 function! s:javascript_local_config()
