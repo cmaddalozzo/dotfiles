@@ -233,10 +233,6 @@ let g:airline_section_x = ''
 " /Airline
 "-------------------------
 
-"
-" Improved PHP omnicompletion
-"
-Plug 'shawncplus/phpcomplete.vim', { 'for' : 'json' }
 
 "-------------------------
 " smartpairs.vim
@@ -282,22 +278,7 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-surround'
 
 "-------------------------
-" vim-easygrep
 "
-" Fast and Easy Find and Replace Across Multiple Files
-"
-" <Leader>vv  - Grep for the word under the cursor, match all occurences,
-"               like 'g*'.  See ":help gstar".
-" <Leader>vV  - Grep for the word under the cursor, match whole word, like
-"               '*'.  See ":help star".
-" <Leader>va  - Like vv, but add to existing list.
-" <Leader>vA  - Like vV, but add to existing list.
-" 
-" <Leader>vr  - Perform a global search on the word under the cursor
-"               and prompt for a pattern with which to replace it.
-" <Leader>vR  - Like vr, but match whole word.
-"
-Plug 'dkprice/vim-easygrep'
 
 "-------------------------
 " vim-gitgutter
@@ -330,66 +311,16 @@ Plug 'kshenoy/vim-signature'
 nmap <Leader>m :SignatureToggle<CR>
 
 "-------------------------
-" Scratch.vim
+" Colour Schemes
 "
-" Unobtrusive scratch window
-"
-" gs in normal mode opens the scratch window
-" gs in visual mode pastes the current selection
-
-" Plug 'mtth/scratch.vim'
-" let g:scratch_persistence_file=$HOME ."/.vim/scratchfile"
-
-"-------------------------
-" PDV - PHP Documentor for VIM - 2
-Plug 'tobyS/vmustache', { 'for': 'php' }
-Plug 'tobyS/pdv', { 'for': 'php' }
-let g:pdv_template_dir = $HOME .'/.vim/cache/dein/repos/github.com/tobyS/pdv/templates/'
-nnoremap <buffer> <Leader>pd :call pdv#DocumentWithSnip()<CR>
-
-"-------------------------
-" vim-javascript v0.10.0
-"
-" JavaScript bundle for vim, this bundle provides syntax and indent plugins.
-" 
- Plug 'pangloss/vim-javascript', { 'for' : 'javascript' }
-
-"-------------------------
-" Typescript
-"
-Plug 'leafgarland/typescript-vim', { 'for' : 'typescript' }
-
-"-------------------------
-" Coffeescript (eww)
-"
-Plug 'kchmck/vim-coffee-script', { 'for' : 'coffeescript' }
 
 
 "-------------------------
-" vim-js-pretty-template
 "
-" Plug 'Quramy/vim-js-pretty-template'
-
+"
 
 "-------------------------
-" JSON
-" 
-Plug 'elzr/vim-json', { 'for' : 'json' }
-
-"-------------------------
-" vim-jsx
 "
-" Syntax highlighting and indenting for JSX.
-"
-Plug 'mxw/vim-jsx', { 'for' : 'json' }
-let g:jsx_ext_required = 0
-
-"-------------------------
-" vim-pug
-"
-" Syntax highlighting and indenting for PUG.
-"
-" Plug 'digitaltoad/vim-pug'
 
 "-------------------------
 " Colour Schemes
