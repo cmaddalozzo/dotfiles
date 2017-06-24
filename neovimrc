@@ -112,7 +112,7 @@ nmap <Leader>b [denite]b
 "
 " Most recent files source for unite
 "
-" Plug 'Shougo/neomru.vim'
+Plug 'Shougo/neomru.vim'
 
 "-------------------------
 " Tmux plugins
