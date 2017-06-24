@@ -316,11 +316,16 @@ nmap <Leader>m :SignatureToggle<CR>
 
 
 "-------------------------
+" Polyglot
 "
+" A collection of language packs
 "
+Plug 'sheerun/vim-polyglot'
 
 "-------------------------
+" Solarized
 "
+"Plug 'altercation/vim-colors-solarized'
 
 "-------------------------
 " Colour Schemes
