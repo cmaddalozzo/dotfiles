@@ -198,7 +198,7 @@ let g:tern_map_keys=0
 "-------------------------
 " YankRing.vim
 "
-Plug 'vim-scripts/YankRing.vim'
+"slow-Plug 'vim-scripts/YankRing.vim'
 
 "-------------------------
 " Airline
