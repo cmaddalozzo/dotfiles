@@ -84,6 +84,7 @@ function! s:denite_config()
 
   " kk switches to 'normal' mode
   call denite#custom#map('insert', 'kk', '<C-o>')
+  call denite#custom#map('insert', 'jj', '<C-o>')
   " a performs default action
   call denite#custom#map('normal', 'a', '<CR>')
 endfunction
