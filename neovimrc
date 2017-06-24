@@ -333,33 +333,42 @@ Plug 'sheerun/vim-polyglot'
 "Plug 'altercation/vim-colors-solarized'
 
 "-------------------------
-" Colour Schemes
+" iceberg.vim
 "
-
-"-------------------------
-" Solarized
+Plug 'cocopon/iceberg.vim'
 "
-"Plug 'altercation/vim-colors-solarized'
-
 "-------------------------
 " Gotham
 "
-Plug 'whatyouhide/vim-gotham'
+"Plug 'whatyouhide/vim-gotham'
 
 "-------------------------
 " Molokai
-"Plug 'tomasr/molokai'
+" Plug 'tomasr/molokai'
+
+"-------------------------
+" Afterglow
+" Plug 'danilo-augusto/vim-afterglow'
 
 "-------------------------
 " Bad Wolf
 "
 " Plug 'sjl/badwolf'
 
+"-------------------------
+" Onedark
+"
+Plug 'joshdick/onedark.vim'
 
 "-------------------------
 " Paper Color (sic)
 "
-Plug 'NLKNguyen/papercolor-theme'
+" Plug 'NLKNguyen/papercolor-theme'
+"
+"-------------------------
+" Moonfly
+"
+Plug 'bluz71/vim-moonfly-colors'
 
 " /Colour Schemes
 "-------------------------
