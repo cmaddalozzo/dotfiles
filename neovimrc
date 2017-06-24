@@ -107,7 +107,7 @@ nmap <Leader>b [denite]b
 "
 " A CtrlP matcher, specialized for paths.
 "
-Plug 'nixprime/cpsm'
+" Plug 'nixprime/cpsm'
 
 "
 " Most recent files source for unite
