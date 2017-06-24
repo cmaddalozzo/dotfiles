@@ -54,7 +54,7 @@ function! s:denite_config()
     call denite#custom#var('file_rec', 'command',
     \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
 
-    " Change grep source
+   " Change grep source
     call denite#custom#var('grep', 'command', ['ag'])
     call denite#custom#var('grep', 'default_opts',
         \ ['-i', '--vimgrep'])
@@ -65,8 +65,11 @@ function! s:denite_config()
   endif
 
   " Change matchers.
-  call denite#custom#source('file_rec', 'matchers', ['matcher_cpsm'])
-  call denite#custom#source('buffer', 'matchers', ['matcher_cpsm'])
+  call denite#custom#source('file_rec', 'matchers', ['matcher_substring'])
+  call denite#custom#source('buffer', 'matchers', ['matcher_substring'])
+  call denite#custom#source('file_mru', 'matchers', ['matcher_substring', 'matcher_project_files'])
+	call denite#custom#source('file_mru', 'converters',
+	      \ ['converter_relative_word'])
 
   " Change sorters.
   call denite#custom#source('file_rec', 'sorters', ['sorter_rank'])
