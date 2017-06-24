@@ -171,10 +171,10 @@ let g:tsuquyomi_use_dev_node_module=2
 let g:tsuquyomi_disable_quickfix = 1
 " let g:syntastic_typescript_checkers = ['tslint', 'tsuquyomi']
 let g:tsuquyomi_shortest_import_path = 1
-let g:tsuquyomi_tsserver_path=NpmWhich('tsserver')
 
-let g:neomake_typescript_tsc_exe = NpmWhich('tsc')
-let g:neomake_typescript_tslint_exe = NpmWhich('tslint')
+call NpmExecSet('tsserver', 'tsuquyomi_tsserver_path')
+call NpmExecSet('tsc', 'neomake_typescript_tsc_exe')
+call NpmExecSet('tslint', 'neomake_typescript_tslint_exe')
 
 "-------------------------
 " Tern for Vim
