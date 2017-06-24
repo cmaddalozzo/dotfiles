@@ -166,6 +166,7 @@ let g:ycm_show_diagnostics_ui=0
 " Tsuquyomi
 "
 " Make your Vim a TypeScript IDE.
+"
 Plug 'Quramy/tsuquyomi'
 let g:tsuquyomi_use_dev_node_module=2
 let g:tsuquyomi_disable_quickfix = 1
@@ -278,7 +279,11 @@ Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-surround'
 
 "-------------------------
+" ack.vim
 "
+Plug 'mileszs/ack.vim'
+
+let g:ackprg = 'ag --vimgrep'
 
 "-------------------------
 " vim-gitgutter
