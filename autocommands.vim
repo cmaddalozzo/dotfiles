@@ -99,11 +99,20 @@ function! s:javascript_local_config()
   nmap <buffer> <LocalLeader>ttd :TernDefTab<return>
   nmap <buffer> <LocalLeader>tr  :TernRefs<return>
   nmap <buffer> <LocalLeader>tR  :TernRename<return>
-  let b:neomake_javascript_eslint_exe = NpmWhich('eslint')
+  let l:eslint_exe = NpmWhich('eslint')
+  let b:neomake_javascript_eslint_exe = l:eslint_exe
+  setlocal formatprg=prettier\ --stdin
   setlocal suffixesadd=.js,.json,.coffee
+  let g:neomake_eslint_maker ={
+  \ 'exe' : l:eslint_exe,
+  \ 'args': ['-f', 'compact', '.'],
+  \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
+  \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#'
+  \ }
 endfunction
 
 function! s:neomake_config()
   hi NeomakeError ctermfg=red
+  hi NeomakeErrorSign ctermfg=red
 endfunction
 
