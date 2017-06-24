@@ -77,10 +77,10 @@ function! s:denite_config()
   " Always autoresize
   call denite#custom#option('_', 'auto_resize', v:true)
   call denite#custom#option('_', 'cursor_wrap', v:true)
-  call denite#custom#option('_', 'highlight_mode_insert', 'DiffText')
-  call denite#custom#option('_', 'highlight_mode_normal', 'SpellCap')
-  call denite#custom#option('_', 'highlight_matched_range', 'Title')
-  call denite#custom#option('_', 'highlight_matched_char', 'SpellCap')
+  " call denite#custom#option('_', 'highlight_mode_insert', 'DiffText')
+  " call denite#custom#option('_', 'highlight_mode_normal', 'SpellCap')
+  " call denite#custom#option('_', 'highlight_matched_range', 'Title')
+  " call denite#custom#option('_', 'highlight_matched_char', 'SpellCap')
 
   " kk switches to 'normal' mode
   call denite#custom#map('insert', 'kk', '<C-o>')
