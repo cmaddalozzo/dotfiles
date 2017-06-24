@@ -6,7 +6,7 @@ let g:mapleader=','
 " Change the local leader.
 let g:maplocalleader='\'
 
-set shell=/bin/bash
+set shell=/bin/zsh
 
 ""
 " Functions
