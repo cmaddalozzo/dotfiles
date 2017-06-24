@@ -8,15 +8,18 @@ let g:maplocalleader='\'
 
 set shell=/bin/zsh
 
+let $MYVIMFUNCTIONS = fnamemodify($MYVIMRC, ':h') . '/functions.vim'
+let $MYVIMAUTOCOMMANDS   = fnamemodify($MYVIMRC, ':h') . '/autocommands.vim'
+
 ""
 " Functions
 ""
-source fnamemodify($MYVIMRC, ':h') + '/functions.vim'
+source $MYVIMFUNCTIONS
 
 ""
 " Autocommands
 ""
-source ~/Code/dotfiles/autocommands.vim
+source $MYVIMAUTOCOMMANDS
 
 
 "######################################
@@ -93,7 +96,7 @@ nnoremap [denite] <Nop>
 nmap <space> [denite]
 nnoremap <silent> [denite]<space> :<C-u>Denite file_rec<CR>
 nnoremap <silent> [denite]g :<C-u>Denite -buffer-name=changes change<cr>
-nnoremap <silent> [denite]b :<C-u>Denite -buffer-name=buffer buffer<cr>
+nnoremap <silent> [denite]b :<C-u>Denite -buffer-name=buffers buffer<cr>
 nnoremap <silent> [denite]m :<C-u>Denite -buffer-name=mru file_mru<cr>
 nnoremap <silent> [denite]p :<C-u>Denite -buffer-name=registers register<cr>
 nnoremap <silent> [denite]/ :<C-u>Denite -buffer-name=search grep<cr>
@@ -384,8 +387,7 @@ call s:denite_config()
 
 "######################################
 "   Vim settings
-"#####################################
-"
+"######################################
 
 set background=dark
 colorscheme iceberg
