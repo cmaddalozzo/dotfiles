@@ -153,6 +153,7 @@ let g:netrw_localrmdir='rm -r'
 "
 Plug 'neomake/neomake'
 nnoremap <silent><Leader>c :Neomake<CR>
+let g:neomake_error_sign = {'text': '✗', 'texthl': 'NeomakeErrorSign'}
 
 "-------------------------
 " YouCompleteMe
