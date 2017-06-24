@@ -319,16 +319,16 @@ Plug 'kshenoy/vim-signature'
 nmap <Leader>m :SignatureToggle<CR>
 
 "-------------------------
-" Colour Schemes
-"
-
-
-"-------------------------
 " Polyglot
 "
 " A collection of language packs
 "
 Plug 'sheerun/vim-polyglot'
+
+"-------------------------
+" Colour Schemes
+"
+
 
 "-------------------------
 " Solarized
