@@ -45,7 +45,7 @@ if has('autocmd')
       autocmd FileType json set equalprg=jq\ .
 
       " Fold coffee files
-      autocmd FileType coffee setlocal foldmethod=indent nofoldenable
+      autocmd FileType coffee setlocal foldmethod=indent nofoldenable suffixesadd=.js,.json,.ts
 
       " Typescript
       autocmd FileType typescript call s:typescript_local_config()
@@ -65,7 +65,6 @@ if has('autocmd')
       autocmd!
       autocmd FileType unite call s:unite_config()
     augroup END
-
 endif
 
 function! s:unite_config()
@@ -84,6 +83,7 @@ function! s:typescript_local_config()
   nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
   nmap <buffer> <LocalLeader>tg <Plug>(TsuquyomiDefinition)
   nmap <buffer> <LocalLeader>td <Plug>(TsuquyomiDefinition)
+  setlocal suffixesadd=.js,.json,.coffee
   " let b:neomake_typescript_tsc_exe = NpmWhich('tsc')
   " let b:neomake_typescript_tslint_exe = NpmWhich('tslint')
 endfunction
@@ -100,6 +100,7 @@ function! s:javascript_local_config()
   nmap <buffer> <LocalLeader>tr  :TernRefs<return>
   nmap <buffer> <LocalLeader>tR  :TernRename<return>
   let b:neomake_javascript_eslint_exe = NpmWhich('eslint')
+  setlocal suffixesadd=.js,.json,.coffee
 endfunction
 
 function! s:neomake_config()
