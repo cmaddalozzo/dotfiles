@@ -663,6 +663,9 @@ nnoremap <Leader>q :q<CR>
 
 nnoremap <silent> <Leader>js :silent call Decaffeinate()<CR>
 
+" Toggle quickfix/location lists
+nmap <silent> <leader>e :call ToggleList("Location List", 'l')<CR>
+nmap <silent> <leader>c :call ToggleList("Quickfix List", 'c')<CR>
 
 
 " Visual star
