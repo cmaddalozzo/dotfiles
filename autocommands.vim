@@ -99,6 +99,7 @@ function! s:javascript_local_config()
   nmap <buffer> <LocalLeader>ttd :TernDefTab<return>
   nmap <buffer> <LocalLeader>tr  :TernRefs<return>
   nmap <buffer> <LocalLeader>tR  :TernRename<return>
+  nmap <buffer> <Leader>t :te npm run test %<return>
   let l:eslint_exe = NpmWhich('eslint')
   let b:neomake_javascript_eslint_exe = l:eslint_exe
   setlocal formatprg=prettier\ --stdin
