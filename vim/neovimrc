@@ -326,6 +326,26 @@ nmap <Leader>m :SignatureToggle<CR>
 Plug 'sheerun/vim-polyglot'
 
 "-------------------------
+" Vimwiki
+"
+" Personal Wiki for Vim
+"
+Plug 'vimwiki/vimwiki'
+
+let tractable = {}
+let tractable.path = '~/vimwiki/tractable'
+let tractable.syntax = 'markdown'
+let tractable.ext = '.md'
+let tractable.nested_syntaxes = {'js': 'javascript', 'ts': 'typescript'}
+
+let personal = {}
+let personal.path = '~/vimwiki/personal'
+let personal.syntax = 'markdown'
+let personal.ext = '.md'
+
+let g:vimwiki_list = [tractable, personal]
+
+"-------------------------
 " Colour Schemes
 "
 
@@ -339,6 +359,7 @@ Plug 'sheerun/vim-polyglot'
 " iceberg.vim
 "
 Plug 'cocopon/iceberg.vim'
+
 "
 "-------------------------
 " Gotham
@@ -389,7 +410,7 @@ call s:denite_config()
 "   Vim settings
 "######################################
 
-set background=dark
+set background=light
 colorscheme iceberg
 let g:airline_theme='onedark'
 
