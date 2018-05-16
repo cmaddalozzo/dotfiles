@@ -55,9 +55,6 @@
 [user]
 	name = Curtis Maddalozzo
 	email = curtis@tractable.io
-[github]
-	user = cmaddalozzo
-	token = fd53acb078301830f015e9e825efe134
 [filter "media"]
 	required = true
 	clean = git media clean %f
