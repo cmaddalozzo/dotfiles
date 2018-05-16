@@ -373,6 +373,13 @@ Plug 'kburdett/vim-nuuid'
 "   MarkdownPreviewStop
 "     close the preview window and server
 Plug 'iamcco/markdown-preview.vim'
+
+"-------------------------
+" Markdown TOC generator
+let g:vmt_link_prefix = 'markdown-header-'
+Plug '~/Code/vim-markdown-toc'
+
+"-------------------------
 " Vimwiki
 "
 " Personal Wiki for Vim
