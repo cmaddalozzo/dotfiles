@@ -43,6 +43,8 @@ if has('autocmd')
 
       autocmd BufRead,BufNewFile *.md set filetype=markdown syntax=markdown
 
+      autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
+
       " Format JSON with jq
       autocmd FileType json set equalprg=jq\ .
 
