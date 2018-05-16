@@ -355,6 +355,14 @@ Plug 'sheerun/vim-polyglot'
 " Avro syntax
 "
 Plug 'dln/avro-vim'
+
+"-------------------------
+" nuuid.vim
+" <Plug>Nuuid mapping to insert a new UUID at your current cursor location. 
+" <Leader>u in normal and visual modes.
+"
+Plug 'kburdett/vim-nuuid'
+
 " Vimwiki
 "
 " Personal Wiki for Vim
