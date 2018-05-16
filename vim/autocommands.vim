@@ -91,7 +91,9 @@ function! s:typescript_local_config()
   nmap <buffer> <LocalLeader>td <Plug>(TsuTypeDefinition)
   setlocal suffixesadd=.js,.json
   " let b:neomake_typescript_tsc_exe = NpmWhich('tsc')
-  " let b:neomake_typescript_tslint_exe = NpmWhich('tslint')
+  let b:neomake_typescript_tslint_args = ['-p', '.', '%:p']
+  let b:neomake_typescript_tslint_errorformat ='%E%t%s %f[%l\, %c]: %m'
+
 endfunction
 
 function! s:javascript_local_config()
