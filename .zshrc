@@ -101,6 +101,9 @@ function git_prompt_info() {
 function new_tmux_from_dir_name() { 
   tmux new-session -As `basename $PWD | sed 's/\./-/g'` 
 }
+
+function wiki() {
+  tmux new-session -As wiki -n main "nvim -c VimwikiMakeDiaryNote"
 }
 
 alias tnew='new_tmux_from_dir_name'
