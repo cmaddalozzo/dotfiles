@@ -41,6 +41,8 @@ if has('autocmd')
 
       autocmd BufRead,BufNewFile *.go set filetype=go syntax=go
 
+      autocmd BufRead,BufNewFile *.md set filetype=markdown syntax=markdown
+
       " Format JSON with jq
       autocmd FileType json set equalprg=jq\ .
 
