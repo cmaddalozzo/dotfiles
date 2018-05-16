@@ -352,6 +352,9 @@ nmap <Leader>m :SignatureToggle<CR>
 Plug 'sheerun/vim-polyglot'
 
 "-------------------------
+" Avro syntax
+"
+Plug 'dln/avro-vim'
 " Vimwiki
 "
 " Personal Wiki for Vim
@@ -359,13 +362,15 @@ Plug 'sheerun/vim-polyglot'
 Plug 'vimwiki/vimwiki'
 
 let tractable = {}
-let tractable.path = '~/vimwiki/tractable'
+let tractable.path = '/Users/cmadd/Dropbox/Documents/vimwiki/tractable/'
 let tractable.syntax = 'markdown'
 let tractable.ext = '.md'
-let tractable.nested_syntaxes = {'js': 'javascript', 'ts': 'typescript'}
+let tractable.nested_syntaxes = {'js': 'javascript', 'ts': 'typescript', 'cql' : 'cql', 'json': 'json', 'sh' : 'sh'}
+let tractable.automatic_nested_syntaxes = 1
+let tractable.auto_tags = 1
 
 let personal = {}
-let personal.path = '~/vimwiki/personal'
+let personal.path = '/Users/cmadd/Dropbox/Documents/vimwiki/personal/'
 let personal.syntax = 'markdown'
 let personal.ext = '.md'
 
