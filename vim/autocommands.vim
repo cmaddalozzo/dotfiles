@@ -56,6 +56,9 @@ if has('autocmd')
 
       " Javascript
       autocmd FileType javascript call s:javascript_local_config()
+
+      au BufRead,BufNewFile *.avdl setlocal filetype=avro-idl
+
     augroup END
 
     augroup neomake_config
