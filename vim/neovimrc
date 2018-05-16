@@ -207,8 +207,8 @@ call NpmExecSet('tslint', 'neomake_typescript_tslint_exe')
 " Tern for Vim
 "
 " Tern-based JavaScript editing support
-Plug 'ternjs/tern_for_vim'
-let g:tern_map_keys=0
+"Plug 'ternjs/tern_for_vim'
+"let g:tern_map_keys=0
 
 "-------------------------
 " UltiSnips with snippets
