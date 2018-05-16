@@ -151,6 +151,11 @@ export PATH=$PATH:/Users/cmadd/.kafka/current/bin
 #Tractable tools
 export PATH="/Users/cmadd/tractable/cli-tools/bin:$PATH"
 
+# Virtualenvwrapper init
+export VIRTUALENVWRAPPER_PYTHON='/usr/local/bin/python3'
+export WORKON_HOME=~/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+
 export NVM_DIR="/Users/cmadd/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
