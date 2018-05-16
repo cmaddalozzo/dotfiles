@@ -21,7 +21,6 @@ source $MYVIMFUNCTIONS
 ""
 source $MYVIMAUTOCOMMANDS
 
-
 "######################################
 "#  vim-plug init
 "######################################
