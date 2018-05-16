@@ -169,3 +169,4 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 [[ -f /Users/cmadd/.config/yarn/global/node_modules/tabtab/.completions/yarn.zsh ]] && . /Users/cmadd/.config/yarn/global/node_modules/tabtab/.completions/yarn.zsh
 export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
 
+export LC_CTYPE="UTF-8"
