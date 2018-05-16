@@ -1,9 +1,11 @@
 [alias]
   co = checkout
   ci = commit
+  cm = commit -m
+  ca = commit -am
   st = status
   br = branch
-  df = diff
+  d = diff
   ds = diff --stat
   dc = diff --cached
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
