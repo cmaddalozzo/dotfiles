@@ -363,6 +363,16 @@ Plug 'dln/avro-vim'
 "
 Plug 'kburdett/vim-nuuid'
 
+"-------------------------
+" Markdown preview
+"
+" Personal Wiki for Vim
+"
+"   MarkdownPreview
+"     open preview window in markdown buffer
+"   MarkdownPreviewStop
+"     close the preview window and server
+Plug 'iamcco/markdown-preview.vim'
 " Vimwiki
 "
 " Personal Wiki for Vim
