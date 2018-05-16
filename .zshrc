@@ -127,6 +127,10 @@ alias tsc='$(npm bin)/tsc'
 alias tslint='$(npm bin)/tslint'
 alias babel-node='$(npm bin)/babel-node'
 alias ts-node='$(npm bin)/ts-node'
+
+alias pbp='pbpaste'
+alias pbc='pbcopy'
+
 alias vimm='mvim'
 alias vim='nvim'
 alias composer='php -dmemory_limit=4G /usr/local/bin/composer'
