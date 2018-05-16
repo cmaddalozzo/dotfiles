@@ -143,8 +143,13 @@ alias nis='npm i --save'
 export PATH="/usr/local/sbin:$PATH"
 
 # touch ID sudo!
-export PATH="/usr/local/opt/sudo-touchid/bin:$PATH"
+export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
 
+#Kafka
+export PATH=$PATH:/Users/cmadd/.kafka/current/bin
+
+#Tractable tools
+export PATH="/Users/cmadd/tractable/cli-tools/bin:$PATH"
 
 export NVM_DIR="/Users/cmadd/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
