@@ -213,14 +213,16 @@ call NpmExecSet('tslint', 'neomake_typescript_tslint_exe')
 "-------------------------
 " UltiSnips with snippets
 "
-" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-"
-"
-" let g:UltiSnipsExpandTrigger='<tab>'
-" let g:UltiSnipsJumpForwardTrigger='<tab>'
-" let g:UltiSnipsJumpBackwardTrigger='<s-tab>' 
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
-" nmap <Leader>es :UltiSnipsEdit<return>
+let g:UltiSnipsSnippetsDir = fnamemodify($MYVIMRC, ':h') . '/snippets'
+
+let g:UltiSnipsExpandTrigger="<f2>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsListSnippets="<c-e>"
+
+nmap <Leader>es :UltiSnipsEdit<return>
 
 "-------------------------
 " YankRing.vim
