@@ -453,7 +453,6 @@ Plug 'bluz71/vim-moonfly-colors'
 " /Colour Schemes
 "-------------------------
 
-
 " /Bundles
 "
 " Initialize plugin system
@@ -483,22 +482,6 @@ set ttyfast
 
 " Let vim know what encoding we use in our terminal
 set termencoding=utf-8
-
-" Which EOl used. For us it's unix
-" Not works with modifiable=no
-" if &modifiable
-"     set fileformat=unix
-" endif
-
-" Use 256 colors in vim
-" vim-airline not work without it
-" set t_Co=256
-
-" Enable Tcl interface. Not shure what is exactly mean.
-" set infercase
-
-" Interprete all files like binary and disable many features.
-" set binary
 
 "--------------------------------------------------
 " Display options
@@ -539,14 +522,6 @@ set showcmd
 
 " Indicate that last window have a statusline too
 set laststatus=2
-
-" Add a line / column display in the bottom right-hand section of the screen.
-" Not needed with airline plugin
-"set ruler
-
-" Setting up right-hand section(ruller) format
-" Not needed with airline plugin
-"set rulerformat=%30(%=\:%y%m%r%w\ %l,%c%V\ %P%)
 
 " The cursor should stay where you leave it, instead of moving to the first non
 " blank of the line
