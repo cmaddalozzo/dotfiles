@@ -161,6 +161,26 @@ Plug 'neomake/neomake'
 let g:neomake_error_sign = {'text': '✗', 'texthl': 'NeomakeErrorSign'}
 
 "-------------------------
+" Neoformat
+"
+Plug 'sbdchd/neoformat'
+
+let g:neoformat_enabled_python = ['autopep8']
+let g:neoformat_enabled_typescript = ['prettier']
+let g:neoformat_enabled_javascript = ['prettier']
+
+let prettier_formatter = {
+    \ 'exe': 'prettier',
+    \ 'args': ['--config', '~/.prettierrc', '--stdin', '--stdin-filepath', '%:p'],
+    \ 'stdin': 1,
+    \ }
+
+let g:neoformat_javascript_prettier = prettier_formatter
+let g:neoformat_typescript_prettier = prettier_formatter
+
+nmap <Leader>f :Neoformat<CR>
+
+"-------------------------
 " YouCompleteMe
 "
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
