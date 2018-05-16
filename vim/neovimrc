@@ -309,9 +309,9 @@ Plug 'tpope/vim-surround'
 "-------------------------
 " ack.vim
 "
-Plug 'mileszs/ack.vim'
+" Plug 'mileszs/ack.vim'
 
-let g:ackprg = 'ag --vimgrep'
+" let g:ackprg = 'ag --vimgrep'
 
 "-------------------------
 " vim-gitgutter
