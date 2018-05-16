@@ -741,6 +741,10 @@ cmap w!! w !sudo tee % >/dev/null
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
 
+" JSON format
+vnoremap <Leader>jf :'<,'>!jq .<CR>
+vnoremap <Leader>jc :'<,'>!jq -c .<CR>
+
 nnoremap <silent> <Leader>js :silent call Decaffeinate()<CR>
 
 " Toggle quickfix/location lists
