@@ -99,7 +99,8 @@ function git_prompt_info() {
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 function new_tmux_from_dir_name() { 
-  tmux new-session -As `basename $PWD` 
+  tmux new-session -As `basename $PWD | sed 's/\./-/g'` 
+}
 }
 
 alias tnew='new_tmux_from_dir_name'
