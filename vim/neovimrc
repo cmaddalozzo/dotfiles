@@ -76,6 +76,7 @@ function! s:denite_config()
 
   " Change sorters.
   call denite#custom#source('file_rec', 'sorters', ['sorter_rank'])
+  call denite#custom#source('buffer', 'sorters', ['sorter_mru'])
 
   " Always autoresize
   call denite#custom#option('_', 'auto_resize', v:true)
@@ -116,6 +117,8 @@ nmap <Leader>b [denite]b
 " Most recent files source for unite
 "
 Plug 'Shougo/neomru.vim'
+
+" Plug '~/.local/share/nvim/site/denite_buffer_mru'
 
 "-------------------------
 " Tmux plugins
