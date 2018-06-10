@@ -1,8 +1,8 @@
 [alias]
   co = checkout
   ci = commit
-  cm = commit -m
   ca = commit -am
+  cm = commit -m
   st = status
   br = branch
   d = diff
@@ -54,7 +54,10 @@
 	autocrlf = input
 [user]
 	name = Curtis Maddalozzo
-	email = curtis@tractable.io
+	email = cmaddalozzo@gmail.com
+[github]
+	user = cmaddalozzo
+	token = fd53acb078301830f015e9e825efe134
 [filter "media"]
 	required = true
 	clean = git media clean %f

@@ -22,6 +22,7 @@ if has('autocmd')
       " Set filetypes
       autocmd BufRead,BufNewFile *.js set filetype=javascript
       autocmd BufRead,BufNewFile *.json set filetype=json
+      autocmd BufRead,BufNewFile *.json.template set filetype=json
 
       " Eww
       autocmd BufRead,BufNewFile *.coffee set filetype=coffeescript syntax=coffee
@@ -44,6 +45,8 @@ if has('autocmd')
       autocmd BufRead,BufNewFile *.md set filetype=markdown syntax=markdown
 
       autocmd BufRead,BufNewFile Dockerfile* set filetype=dockerfile
+
+      autocmd BufRead,BufNewFile *.config set filetype=yaml syntax=yaml
 
       " Format JSON with jq
       autocmd FileType json set equalprg=jq\ .
@@ -108,6 +111,7 @@ function! s:javascript_local_config()
   nmap <buffer> <LocalLeader>tr  :TernRefs<return>
   nmap <buffer> <LocalLeader>tR  :TernRename<return>
   nmap <buffer> <Leader>t :te npm run test %<return>
+  let g:neomake_javascript_enabled_makers = ['eslint']
   let l:eslint_exe = NpmWhich('eslint')
   let b:neomake_javascript_eslint_exe = l:eslint_exe
   setlocal formatprg=prettier\ --stdin

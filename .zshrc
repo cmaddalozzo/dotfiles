@@ -145,6 +145,9 @@ alias nis='npm i --save'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="/usr/local/sbin:$PATH"
 
+# Python path
+export PATH="${HOME}/Library/Python/3.6/bin:$PATH"
+
 # touch ID sudo!
 export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
 
@@ -158,6 +161,9 @@ export PATH="/Users/cmadd/tractable/cli-tools/bin:$PATH"
 export VIRTUALENVWRAPPER_PYTHON='/usr/local/bin/python3'
 export WORKON_HOME=~/.virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh
+
+export PATH="$PATH:/Users/cmadd/Code/depot_tools"
+
 
 export NVM_DIR="/Users/cmadd/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

@@ -334,6 +334,8 @@ nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gc :Gcommit<CR>
 nnoremap <Leader>gps :Gpush<CR>
 nnoremap <Leader>gpl :Gpull<CR>
+nnoremap <Leader>gpp :Gpush<CR>
+nnoremap <Leader>gpo :Gpull<CR>
 
 "-------------------------
 " vim-signature
@@ -398,7 +400,12 @@ let personal.path = '/Users/cmadd/Dropbox/Documents/vimwiki/personal/'
 let personal.syntax = 'markdown'
 let personal.ext = '.md'
 
-let g:vimwiki_list = [tractable, personal]
+let leisure = {}
+let leisure.path = '~/vimwiki/leisure/'
+let leisure.syntax = 'markdown'
+let leisure.ext = '.md'
+
+let g:vimwiki_list = [tractable, leisure, personal]
 
 "-------------------------
 " Colour Schemes
