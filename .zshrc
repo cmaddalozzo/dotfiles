@@ -163,9 +163,11 @@ export PATH=$PATH:/Users/cmadd/.kafka/current/bin
 export PATH="/Users/cmadd/tractable/cli-tools/bin:$PATH"
 
 # Virtualenvwrapper init
-export VIRTUALENVWRAPPER_PYTHON='/usr/local/bin/python3'
-export WORKON_HOME=~/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+  export VIRTUALENVWRAPPER_PYTHON='/usr/local/bin/python3'
+  export WORKON_HOME=~/.virtualenvs
+  source /usr/local/bin/virtualenvwrapper.sh
+fi
 
 export PATH="$PATH:/Users/cmadd/Code/depot_tools"
 
