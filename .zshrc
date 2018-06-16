@@ -49,6 +49,8 @@ plugins=(brew npm osx tmuxinator wd)
 
 source $ZSH/oh-my-zsh.sh
 
+source $HOME/Code/dotfiles/functions.zsh
+
 # User configuration
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -58,7 +60,9 @@ GOPATH="/usr/local/go"
 [ -f ~/.env ] && source ~/.env
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
@@ -99,6 +103,7 @@ function git_prompt_info() {
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 function new_tmux_from_dir_name() { 
+  set-tab-color
   tmux new-session -As `basename $PWD | sed 's/\./-/g'` 
 }
 
