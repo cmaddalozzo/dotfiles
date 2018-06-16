@@ -91,7 +91,8 @@ function! s:typescript_local_config()
   nmap <buffer> <LocalLeader>tr <Plug>(TsuquyomiRenameSymbol)
   nmap <buffer> <LocalLeader>tR <Plug>(TsuquyomiRenameSymbolC)
   nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
-  nmap <buffer> <LocalLeader>td <Plug>(TsuTypeDefinition)
+  nmap <buffer> <LocalLeader>td <Plug>(TsuquyomiTypeDefinition)
+  nmap <buffer> <C-[> <Plug>(TsuquyomiGoBack)
   setlocal suffixesadd=.js,.json
   " let b:neomake_typescript_tsc_exe = NpmWhich('tsc')
   let b:neomake_typescript_tslint_args = ['-p', '.', '%:p']
