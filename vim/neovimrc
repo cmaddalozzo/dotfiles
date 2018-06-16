@@ -80,7 +80,7 @@ function! s:denite_config()
   " Always autoresize
   call denite#custom#option('_', 'auto_resize', v:true)
   call denite#custom#option('_', 'cursor_wrap', v:true)
-  " call denite#custom#option('_', 'highlight_mode_insert', 'DiffText')
+  call denite#custom#option('_', 'highlight_mode_insert', 'IncSearch')
   " call denite#custom#option('_', 'highlight_mode_normal', 'SpellCap')
   " call denite#custom#option('_', 'highlight_matched_range', 'Title')
   " call denite#custom#option('_', 'highlight_matched_char', 'SpellCap')
@@ -201,6 +201,8 @@ let g:tsuquyomi_shortest_import_path = 1
 call NpmExecSet('tsserver', 'tsuquyomi_tsserver_path')
 call NpmExecSet('tsc', 'neomake_typescript_tsc_exe')
 call NpmExecSet('tslint', 'neomake_typescript_tslint_exe')
+
+let g:neomake_coffee_enabled_makers = []
 
 "-------------------------
 " Tern for Vim
@@ -332,7 +334,7 @@ nnoremap <Leader>gb :Gblame<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>gps :Gpush<CR>
+nnoremap <silent> <Leader>gg :Gpush<CR>
 nnoremap <Leader>gpl :Gpull<CR>
 nnoremap <Leader>gpp :Gpush<CR>
 nnoremap <Leader>gpo :Gpull<CR>
