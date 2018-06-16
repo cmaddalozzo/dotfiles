@@ -1,6 +1,9 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+# Path to my dotfiles dir
+export DOTFILES_DIR=$HOME/Code/dotfiles
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -49,14 +52,35 @@ plugins=(brew npm osx tmuxinator wd)
 
 source $ZSH/oh-my-zsh.sh
 
-source $HOME/Code/dotfiles/functions.zsh
+# Load custom functions
+source $DOTFILES_DIR/zsh/functions.zsh
 
-# User configuration
+# Configure PATH
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# Python path
+export PATH="${HOME}/Library/Python/3.6/bin:$PATH"
 
-GOPATH="/usr/local/go"
+# touch ID sudo!
+export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
 
+#Kafka
+export PATH=$PATH:/Users/cmadd/.kafka/current/bin
+
+#Tractable tools
+export PATH="/Users/cmadd/tractable/cli-tools/bin:$PATH"
+
+# Depot tools
+export PATH="$PATH:/Users/cmadd/Code/depot_tools"
+
+# JPEG Turbo
+export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
+
+#Colors
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
+
+# Load global .env file if it exists
 [ -f ~/.env ] && source ~/.env
 
 # You may need to manually set your language environment
@@ -71,6 +95,9 @@ else
   export EDITOR='nvim'
 fi
 
+# Load aliases
+source $DOTFILES_DIR/zsh/aliases.zsh
+
 #bindkey -v
 
 bindkey '^P' up-history
@@ -81,86 +108,9 @@ bindkey '^w' backward-kill-word
 bindkey '^r' history-incremental-search-backward
 export KEYTIMEOUT=1
 
-#Colors
-export CLICOLOR=1
-export LSCOLORS=ExFxCxDxBxegedabagacad
-alias ls='ls -lFAh'
-
-alias cat='ccat --bg=dark'
-alias tarx='tar -xzf'
-alias tarc='tar -czf'
-
-alias tm='tmux'
-alias tml='tmux ls'
-alias tma='tmux a -t'
-
-alias mux='tmuxinator'
-
-alias greph='history | grep'
-
-function git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
-}
-function new_tmux_from_dir_name() { 
-  set-tab-color
-  tmux new-session -As `basename $PWD | sed 's/\./-/g'` 
-}
-
-function wiki() {
-  tmux new-session -As wiki -n main "nvim -c VimwikiMakeDiaryNote"
-}
-
-alias tnew='new_tmux_from_dir_name'
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-alias zshconfig="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
-
-alias fuck='$(thefuck $(fc -ln -1))'
-
-alias mocha='$(npm bin)/mocha'
-alias tsc='$(npm bin)/tsc'
-alias tslint='$(npm bin)/tslint'
-alias babel-node='$(npm bin)/babel-node'
-alias ts-node='$(npm bin)/ts-node'
-
-alias pbp='pbpaste'
-alias pbc='pbcopy'
-
-alias vimm='mvim'
-alias vim='nvim'
-alias composer='php -dmemory_limit=4G /usr/local/bin/composer'
-
-# NPM aliases
-alias nisd='npm i --save-dev'
-alias nis='npm i --save'
-
+# Fuzzy finder
+# https://github.com/junegunn/fzf#fuzzy-completion-for-bash-and-zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export PATH="/usr/local/sbin:$PATH"
-
-# Python path
-export PATH="${HOME}/Library/Python/3.6/bin:$PATH"
-
-# touch ID sudo!
-export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
-
-#Kafka
-export PATH=$PATH:/Users/cmadd/.kafka/current/bin
-
-#Tractable tools
-export PATH="/Users/cmadd/tractable/cli-tools/bin:$PATH"
 
 # Virtualenvwrapper init
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
@@ -169,20 +119,8 @@ if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
   source /usr/local/bin/virtualenvwrapper.sh
 fi
 
-export PATH="$PATH:/Users/cmadd/Code/depot_tools"
-
-
+# Load NVM
 export NVM_DIR="/Users/cmadd/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# BASE16_SHELL=$HOME/.config/base16-shell/
-# [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-
-# tabtab source for yarn package
-# uninstall by removing these lines or running `tabtab uninstall yarn`
-[[ -f /Users/cmadd/.config/yarn/global/node_modules/tabtab/.completions/yarn.zsh ]] && . /Users/cmadd/.config/yarn/global/node_modules/tabtab/.completions/yarn.zsh
-export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
-
-export LC_CTYPE="UTF-8"
