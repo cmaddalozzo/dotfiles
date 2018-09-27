@@ -78,6 +78,12 @@ if has('autocmd')
       autocmd!
       autocmd FileType unite call s:unite_config()
     augroup END
+
+    augroup ycm_config
+      autocmd!
+      autocmd FileType c,cpp,objc,objcpp,cs,go,java,javascript,python,rust,typescript call s:ycm_enabled()
+    augroup END
+
 endif
 
 function! s:unite_config()
@@ -95,7 +101,6 @@ function! s:typescript_local_config()
   nmap <buffer> <LocalLeader>tR <Plug>(TsuquyomiRenameSymbolC)
   nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
   nmap <buffer> <LocalLeader>td <Plug>(TsuquyomiTypeDefinition)
-  nmap <buffer> <C-[> <Plug>(TsuquyomiGoBack)
   setlocal suffixesadd=.js,.json
   " let b:neomake_typescript_tsc_exe = NpmWhich('tsc')
   let b:neomake_typescript_tslint_args = ['-p', '.', '%:p']
@@ -133,3 +138,6 @@ function! s:neomake_config()
   hi NeomakeErrorSign ctermfg=red
 endfunction
 
+function! s:ycm_enabled()
+  nmap <silent><buffer> <C-]> :YcmCompleter GoTo<return>
+endfunction
