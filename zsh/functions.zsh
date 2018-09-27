@@ -26,6 +26,14 @@ function new_tmux_from_dir_name() {
   tmux new-session -As `basename $PWD | sed 's/\./-/g'` 
 }
 
+function random-rgb {
+  echo `jot -r 1  0 255`,`jot -r 1  0 255`,`jot -r 1  0 255`
+}
+
 function wiki() {
   tmux new-session -As wiki -n main "nvim -c VimwikiMakeDiaryNote"
+}
+
+function generate-random-config {
+  echo "tab_color="`random-rgb` > .itermconfig && set-tab-color
 }
