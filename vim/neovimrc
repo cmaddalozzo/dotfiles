@@ -371,6 +371,12 @@ Plug 'dln/avro-vim'
 Plug 'kburdett/vim-nuuid'
 
 "-------------------------
+" Colorizer
+" color hex codes and color names
+"
+Plug 'chrisbra/Colorizer'
+
+"-------------------------
 " Markdown preview
 "
 " Personal Wiki for Vim
