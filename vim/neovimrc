@@ -760,3 +760,6 @@ inoremap \fn <C-R>=substitute(expand("%:p"), getcwd(), '', '')<CR>
 
 "" Somebody is turning on gdefault. We don't want that.
 set nogdefault
+
+" Commands
+command! EditFtPlugin execute ':e ~/.config/nvim/ftplugin/' . &filetype . '.vim'
