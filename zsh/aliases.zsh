@@ -1,4 +1,4 @@
-alias ls='ls -lFAh'
+alias ls='ls -lFA'
 
 alias cat='ccat --bg=dark'
 alias tarx='tar -xzf'
