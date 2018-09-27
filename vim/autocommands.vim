@@ -60,6 +60,9 @@ if has('autocmd')
       " Javascript
       autocmd FileType javascript call s:javascript_local_config()
 
+      " Python
+      autocmd FileType python setlocal textwidth=80
+
       au BufRead,BufNewFile *.avdl setlocal filetype=avro-idl
 
     augroup END
