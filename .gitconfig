@@ -8,6 +8,7 @@
   d = diff
   ds = diff --stat
   dc = diff --cached
+  df = diff
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
   type = cat-file -t
   dump = cat-file -p
