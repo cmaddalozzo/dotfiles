@@ -126,6 +126,11 @@ Plug 'Shougo/neomru.vim'
 " Add proper support for focus events
 " Plug 'tmux-plugins/vim-tmux-focus-events'
 " Allow seemless navigation between tmux splits
+" <C-H>       * :TmuxNavigateLeft<CR>
+" <C-J>       * :TmuxNavigateDown<CR>
+" <C-K>       * :TmuxNavigateUp<CR>
+" <C-L>       * :TmuxNavigateRight<CR>
+" <C-\>       * :TmuxNavigatePrevious<CR>
 Plug 'christoomey/vim-tmux-navigator'
 
 "-------------------------
