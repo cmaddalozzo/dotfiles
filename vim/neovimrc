@@ -413,7 +413,7 @@ let personal.syntax = 'markdown'
 let personal.ext = '.md'
 
 let leisure = {}
-let leisure.path = '~/vimwiki/leisure/'
+let leisure.path = '/Users/cmadd/Dropbox/Documents/vimwiki/leisure/'
 let leisure.syntax = 'markdown'
 let leisure.ext = '.md'
 
