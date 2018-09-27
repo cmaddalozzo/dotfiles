@@ -20,7 +20,7 @@ if has('autocmd')
     augroup detect_filetypes
       autocmd!
       " Set filetypes
-      autocmd BufRead,BufNewFile *.js set filetype=javascript
+      autocmd BufRead,BufNewFile *.js,*.mjs set filetype=javascript
       autocmd BufRead,BufNewFile *.json set filetype=json
       autocmd BufRead,BufNewFile *.json.template set filetype=json
 
@@ -124,10 +124,10 @@ function! s:javascript_local_config()
   let l:eslint_exe = NpmWhich('eslint')
   let b:neomake_javascript_eslint_exe = l:eslint_exe
   setlocal formatprg=prettier\ --stdin
-  setlocal suffixesadd=.js,.json,.coffee
+  setlocal suffixesadd=.mjs,.js,.json,.coffee
   let g:neomake_eslint_maker ={
   \ 'exe' : l:eslint_exe,
-  \ 'args': ['-f', 'compact', '.'],
+  \ 'args': ['-f', 'compact', '--ext', '.js,.mjs', '.'],
   \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
   \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#'
   \ }
