@@ -76,6 +76,9 @@ export PATH="$PATH:/Users/cmadd/Code/depot_tools"
 # JPEG Turbo
 export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
 
+# Bazel
+export PATH="${HOME}/bin:$PATH"
+
 #Colors
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
