@@ -71,7 +71,7 @@ function! s:denite_config()
   call denite#custom#source('buffer', 'matchers', ['matcher_substring'])
   call denite#custom#source('file_mru', 'matchers', ['matcher_substring', 'matcher_project_files'])
 	call denite#custom#source('file_mru', 'converters',
-	      \ ['converter_relative_word'])
+	      \ ['converter/relative_abbr'])
 
   " Change sorters.
   call denite#custom#source('file_rec', 'sorters', ['sorter_rank'])
@@ -100,6 +100,7 @@ nnoremap <silent> [denite]b :<C-u>Denite -buffer-name=buffers buffer<cr>
 nnoremap <silent> [denite]m :<C-u>Denite -buffer-name=mru file_mru<cr>
 nnoremap <silent> [denite]p :<C-u>Denite -buffer-name=registers register<cr>
 nnoremap <silent> [denite]/ :<C-u>Denite -buffer-name=search grep<cr>
+nnoremap <silent> [denite]f :<C-u>DeniteCursorWord file_rec<cr>
 nnoremap <silent> [denite]* :<C-u>DeniteCursorWord -buffer-name=searchword grep<cr>
 
 nmap <silent> [denite]c [denite]g<cr>
