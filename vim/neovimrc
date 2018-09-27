@@ -200,6 +200,7 @@ let g:tsuquyomi_use_dev_node_module=2
 let g:tsuquyomi_disable_quickfix = 1
 " let g:syntastic_typescript_checkers = ['tslint', 'tsuquyomi']
 let g:tsuquyomi_shortest_import_path = 1
+let g:tsuquyomi_disable_default_mappings = 1
 
 call NpmExecSet('tsserver', 'tsuquyomi_tsserver_path')
 call NpmExecSet('tsc', 'neomake_typescript_tsc_exe')
