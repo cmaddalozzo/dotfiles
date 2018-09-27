@@ -19,7 +19,10 @@ endfunction
 
 function! s:NpmExecSetHandler(job_id, data, event) dict
   if a:event == 'stdout'
-    let self.result = StrTrim(join(a:data))
+    let l:path = StrTrim(join(a:data))
+    if l:path != ''
+      let self.result = l:path
+    endif
   elseif a:event == 'stderr'
     " Lol don't care
   else
