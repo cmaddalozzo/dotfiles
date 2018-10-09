@@ -5,6 +5,7 @@ alias tarx='tar -xzf'
 alias tarc='tar -czf'
 
 alias tm='tmux'
+alias tn='tmux new -s'
 alias tml='tmux ls'
 alias tma='tmux a -t'
 
