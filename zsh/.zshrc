@@ -114,6 +114,7 @@ export KEYTIMEOUT=1
 # Fuzzy finder
 # https://github.com/junegunn/fzf#fuzzy-completion-for-bash-and-zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 
 # Virtualenvwrapper init
 if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
