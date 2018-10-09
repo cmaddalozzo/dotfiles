@@ -40,74 +40,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
-" Denite.vim
-"
-" plugin for fuzzy file search, most recent files list
-" and much more
-" Plug 'Shougo/denite.nvim'
-
-" function! s:denite_config()
-"   " If ag exists use it instead of grep
-"   if executable('ag')
-"     " Use ag (the silver searcher)
-"     " https://github.com/ggreer/the_silver_searcher
-"     "
-"     " Change file_rec command.
-"     call denite#custom#var('file_rec', 'command',
-"     \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
-" 
-"    " Change grep source
-"     call denite#custom#var('grep', 'command', ['ag'])
-"     call denite#custom#var('grep', 'default_opts',
-"         \ ['-i', '--vimgrep'])
-"     call denite#custom#var('grep', 'recursive_opts', [])
-"     call denite#custom#var('grep', 'pattern_opt', [])
-"     call denite#custom#var('grep', 'separator', ['--'])
-"     call denite#custom#var('grep', 'final_opts', [])
-"   endif
-" 
-"   " Change matchers.
-"   call denite#custom#source('file_rec', 'matchers', ['matcher_substring'])
-"   call denite#custom#source('buffer', 'matchers', ['matcher_substring'])
-"   call denite#custom#source('file_mru', 'matchers', ['matcher_substring', 'matcher_project_files'])
-" 	call denite#custom#source('file_mru', 'converters',
-" 	      \ ['converter/relative_abbr'])
-" 
-"   " Change sorters.
-"   call denite#custom#source('file_rec', 'sorters', ['sorter_rank'])
-"   call denite#custom#source('buffer', 'sorters', ['sorter_mru'])
-" 
-"   " Always autoresize
-"   call denite#custom#option('_', 'auto_resize', v:true)
-"   call denite#custom#option('_', 'cursor_wrap', v:true)
-"   call denite#custom#option('_', 'highlight_mode_insert', 'IncSearch')
-"   " call denite#custom#option('_', 'highlight_mode_normal', 'SpellCap')
-"   " call denite#custom#option('_', 'highlight_matched_range', 'Title')
-"   " call denite#custom#option('_', 'highlight_matched_char', 'SpellCap')
-" 
-"   " kk switches to 'normal' mode
-"   call denite#custom#map('insert', 'kk', '<C-o>')
-"   call denite#custom#map('insert', 'jj', '<C-o>')
-"   " a performs default action
-"   call denite#custom#map('normal', 'a', '<CR>')
-" endfunction
-
-" nnoremap [denite] <Nop>
-" nmap <space> [denite]
-" nnoremap <silent> [denite]<space> :<C-u>Denite file_rec<CR>
-" nnoremap <silent> [denite]g :<C-u>Denite -buffer-name=changes change<cr>
-" nnoremap <silent> [denite]b :<C-u>Denite -buffer-name=buffers buffer<cr>
-" nnoremap <silent> [denite]m :<C-u>Denite -buffer-name=mru file_mru<cr>
-" nnoremap <silent> [denite]p :<C-u>Denite -buffer-name=registers register<cr>
-" nnoremap <silent> [denite]/ :<C-u>Denite -buffer-name=search grep<cr>
-" nnoremap <silent> [denite]f :<C-u>DeniteCursorWord file_rec<cr>
-" nnoremap <silent> [denite]* :<C-u>DeniteCursorWord -buffer-name=searchword grep<cr>
-" 
-" nmap <silent> [denite]c [denite]g<cr>
-" 
-" nmap <Leader>b [denite]b
-
-
 " FZF
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -118,12 +50,9 @@ nmap <space> [fzf]
 nnoremap <silent> [fzf]<space> :<C-u>Files<CR>
 nnoremap <silent> [fzf]g :<C-u>Gfiles?<cr>
 nnoremap <silent> [fzf]b :<C-u>Buffer<cr>
-"nnoremap <silent> [fzf]m :<C-u>Denite -buffer-name=mru file_mru<cr>
-"nnoremap <silent> [fzf]p :<C-u>Denite -buffer-name=registers register<cr>
+nnoremap <silent> [fzf]m :<C-u>History<cr>
 nnoremap <silent> [fzf]/ :<C-u>Ag<cr>
-"nnoremap <silent> [fzf]f :<C-u>DeniteCursorWord file_rec<cr>
-"nnoremap <silent> [fzf]* :<C-u>DeniteCursorWord -buffer-name=searchword grep<cr>
-"nmap <silent> [denite]c [denite]g<cr>
+nnoremap <silent> [fzf]* :call fzf#vim#ag(expand('<cword>'))<cr>
 
 nmap <Leader>b [fzf]b
 
@@ -180,35 +109,14 @@ let g:netrw_localrmdir='rm -r'
 " Asynchronous Lint Engine
 "
 Plug 'w0rp/ale'
-let g:ale_sign_error = '✠'
+let g:ale_sign_error = '✗'
+let g:ale_sign_warning = '⚠'
 
-"-------------------------
-" Neomake
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace']
+\}
 
-" /Neomake
-"
-" Plug 'neomake/neomake'
-" let g:neomake_error_sign = {'text': '✗', 'texthl': 'NeomakeErrorSign'}
-
-"-------------------------
-" Neoformat
-"
-Plug 'sbdchd/neoformat'
-
-let g:neoformat_enabled_python = ['autopep8']
-let g:neoformat_enabled_typescript = ['prettier']
-let g:neoformat_enabled_javascript = ['prettier']
-
-let prettier_formatter = {
-    \ 'exe': 'prettier',
-    \ 'args': ['--config', '~/.prettierrc', '--stdin', '--stdin-filepath', '%:p'],
-    \ 'stdin': 1,
-    \ }
-
-let g:neoformat_javascript_prettier = prettier_formatter
-let g:neoformat_typescript_prettier = prettier_formatter
-
-nmap <Leader>f :Neoformat<CR>
+nmap <Leader>f <Plug>(ale_fix)
 
 "-------------------------
 " YouCompleteMe
@@ -235,18 +143,6 @@ let g:tsuquyomi_shortest_import_path = 1
 let g:tsuquyomi_disable_default_mappings = 1
 
 call NpmExecSet('tsserver', 'tsuquyomi_tsserver_path')
-call NpmExecSet('tsc', 'neomake_typescript_tsc_exe')
-call NpmExecSet('tslint', 'neomake_typescript_tslint_exe')
-
-let g:neomake_coffee_enabled_makers = []
-"let g:neomake_typescript_enabled_makers = ['tslint']
-
-"-------------------------
-" Tern for Vim
-"
-" Tern-based JavaScript editing support
-"Plug 'ternjs/tern_for_vim'
-"let g:tern_map_keys=0
 
 "-------------------------
 " UltiSnips with snippets
@@ -261,11 +157,6 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsListSnippets="<c-e>"
 
 nmap <Leader>es :UltiSnipsEdit<return>
-
-"-------------------------
-" YankRing.vim
-"
-"slow-Plug 'vim-scripts/YankRing.vim'
 
 "-------------------------
 " Airline
@@ -798,3 +689,5 @@ set nogdefault
 
 " Edit filetype plugin
 command! EditFtPlugin execute ':e ~/.config/nvim/ftplugin/' . split(&filetype, '\.')[0] . '.vim'
+
+command! -nargs=1 RelMove execute ":!mv % %:p:h" . "/" . string(<q-args>)
