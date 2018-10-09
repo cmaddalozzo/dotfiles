@@ -44,68 +44,89 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 "
 " plugin for fuzzy file search, most recent files list
 " and much more
-Plug 'Shougo/denite.nvim'
+" Plug 'Shougo/denite.nvim'
 
-function! s:denite_config()
-  " If ag exists use it instead of grep
-  if executable('ag')
-    " Use ag (the silver searcher)
-    " https://github.com/ggreer/the_silver_searcher
-    "
-    " Change file_rec command.
-    call denite#custom#var('file_rec', 'command',
-    \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+" function! s:denite_config()
+"   " If ag exists use it instead of grep
+"   if executable('ag')
+"     " Use ag (the silver searcher)
+"     " https://github.com/ggreer/the_silver_searcher
+"     "
+"     " Change file_rec command.
+"     call denite#custom#var('file_rec', 'command',
+"     \ ['ag', '--follow', '--nocolor', '--nogroup', '-g', ''])
+" 
+"    " Change grep source
+"     call denite#custom#var('grep', 'command', ['ag'])
+"     call denite#custom#var('grep', 'default_opts',
+"         \ ['-i', '--vimgrep'])
+"     call denite#custom#var('grep', 'recursive_opts', [])
+"     call denite#custom#var('grep', 'pattern_opt', [])
+"     call denite#custom#var('grep', 'separator', ['--'])
+"     call denite#custom#var('grep', 'final_opts', [])
+"   endif
+" 
+"   " Change matchers.
+"   call denite#custom#source('file_rec', 'matchers', ['matcher_substring'])
+"   call denite#custom#source('buffer', 'matchers', ['matcher_substring'])
+"   call denite#custom#source('file_mru', 'matchers', ['matcher_substring', 'matcher_project_files'])
+" 	call denite#custom#source('file_mru', 'converters',
+" 	      \ ['converter/relative_abbr'])
+" 
+"   " Change sorters.
+"   call denite#custom#source('file_rec', 'sorters', ['sorter_rank'])
+"   call denite#custom#source('buffer', 'sorters', ['sorter_mru'])
+" 
+"   " Always autoresize
+"   call denite#custom#option('_', 'auto_resize', v:true)
+"   call denite#custom#option('_', 'cursor_wrap', v:true)
+"   call denite#custom#option('_', 'highlight_mode_insert', 'IncSearch')
+"   " call denite#custom#option('_', 'highlight_mode_normal', 'SpellCap')
+"   " call denite#custom#option('_', 'highlight_matched_range', 'Title')
+"   " call denite#custom#option('_', 'highlight_matched_char', 'SpellCap')
+" 
+"   " kk switches to 'normal' mode
+"   call denite#custom#map('insert', 'kk', '<C-o>')
+"   call denite#custom#map('insert', 'jj', '<C-o>')
+"   " a performs default action
+"   call denite#custom#map('normal', 'a', '<CR>')
+" endfunction
 
-   " Change grep source
-    call denite#custom#var('grep', 'command', ['ag'])
-    call denite#custom#var('grep', 'default_opts',
-        \ ['-i', '--vimgrep'])
-    call denite#custom#var('grep', 'recursive_opts', [])
-    call denite#custom#var('grep', 'pattern_opt', [])
-    call denite#custom#var('grep', 'separator', ['--'])
-    call denite#custom#var('grep', 'final_opts', [])
-  endif
+" nnoremap [denite] <Nop>
+" nmap <space> [denite]
+" nnoremap <silent> [denite]<space> :<C-u>Denite file_rec<CR>
+" nnoremap <silent> [denite]g :<C-u>Denite -buffer-name=changes change<cr>
+" nnoremap <silent> [denite]b :<C-u>Denite -buffer-name=buffers buffer<cr>
+" nnoremap <silent> [denite]m :<C-u>Denite -buffer-name=mru file_mru<cr>
+" nnoremap <silent> [denite]p :<C-u>Denite -buffer-name=registers register<cr>
+" nnoremap <silent> [denite]/ :<C-u>Denite -buffer-name=search grep<cr>
+" nnoremap <silent> [denite]f :<C-u>DeniteCursorWord file_rec<cr>
+" nnoremap <silent> [denite]* :<C-u>DeniteCursorWord -buffer-name=searchword grep<cr>
+" 
+" nmap <silent> [denite]c [denite]g<cr>
+" 
+" nmap <Leader>b [denite]b
 
-  " Change matchers.
-  call denite#custom#source('file_rec', 'matchers', ['matcher_substring'])
-  call denite#custom#source('buffer', 'matchers', ['matcher_substring'])
-  call denite#custom#source('file_mru', 'matchers', ['matcher_substring', 'matcher_project_files'])
-	call denite#custom#source('file_mru', 'converters',
-	      \ ['converter/relative_abbr'])
 
-  " Change sorters.
-  call denite#custom#source('file_rec', 'sorters', ['sorter_rank'])
-  call denite#custom#source('buffer', 'sorters', ['sorter_mru'])
+" FZF
+" Fuzzy finder
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 
-  " Always autoresize
-  call denite#custom#option('_', 'auto_resize', v:true)
-  call denite#custom#option('_', 'cursor_wrap', v:true)
-  call denite#custom#option('_', 'highlight_mode_insert', 'IncSearch')
-  " call denite#custom#option('_', 'highlight_mode_normal', 'SpellCap')
-  " call denite#custom#option('_', 'highlight_matched_range', 'Title')
-  " call denite#custom#option('_', 'highlight_matched_char', 'SpellCap')
+nnoremap [fzf] <Nop>
+nmap <space> [fzf]
+nnoremap <silent> [fzf]<space> :<C-u>Files<CR>
+nnoremap <silent> [fzf]g :<C-u>Gfiles?<cr>
+nnoremap <silent> [fzf]b :<C-u>Buffer<cr>
+"nnoremap <silent> [fzf]m :<C-u>Denite -buffer-name=mru file_mru<cr>
+"nnoremap <silent> [fzf]p :<C-u>Denite -buffer-name=registers register<cr>
+nnoremap <silent> [fzf]/ :<C-u>Ag<cr>
+"nnoremap <silent> [fzf]f :<C-u>DeniteCursorWord file_rec<cr>
+"nnoremap <silent> [fzf]* :<C-u>DeniteCursorWord -buffer-name=searchword grep<cr>
+"nmap <silent> [denite]c [denite]g<cr>
 
-  " kk switches to 'normal' mode
-  call denite#custom#map('insert', 'kk', '<C-o>')
-  call denite#custom#map('insert', 'jj', '<C-o>')
-  " a performs default action
-  call denite#custom#map('normal', 'a', '<CR>')
-endfunction
+nmap <Leader>b [fzf]b
 
-nnoremap [denite] <Nop>
-nmap <space> [denite]
-nnoremap <silent> [denite]<space> :<C-u>Denite file_rec<CR>
-nnoremap <silent> [denite]g :<C-u>Denite -buffer-name=changes change<cr>
-nnoremap <silent> [denite]b :<C-u>Denite -buffer-name=buffers buffer<cr>
-nnoremap <silent> [denite]m :<C-u>Denite -buffer-name=mru file_mru<cr>
-nnoremap <silent> [denite]p :<C-u>Denite -buffer-name=registers register<cr>
-nnoremap <silent> [denite]/ :<C-u>Denite -buffer-name=search grep<cr>
-nnoremap <silent> [denite]f :<C-u>DeniteCursorWord file_rec<cr>
-nnoremap <silent> [denite]* :<C-u>DeniteCursorWord -buffer-name=searchword grep<cr>
-
-nmap <silent> [denite]c [denite]g<cr>
-
-nmap <Leader>b [denite]b
 
 " cpsm
 "
@@ -116,7 +137,7 @@ nmap <Leader>b [denite]b
 "
 " Most recent files source for unite
 "
-Plug 'Shougo/neomru.vim'
+"Plug 'Shougo/neomru.vim'
 
 " Plug '~/.local/share/nvim/site/denite_buffer_mru'
 
@@ -155,12 +176,19 @@ let g:netrw_preview=1           " open previews vertically
 let g:netrw_localrmdir='rm -r'
 
 "-------------------------
+" ALE
+" Asynchronous Lint Engine
+"
+Plug 'w0rp/ale'
+let g:ale_sign_error = '✠'
+
+"-------------------------
 " Neomake
 
 " /Neomake
 "
-Plug 'neomake/neomake'
-let g:neomake_error_sign = {'text': '✗', 'texthl': 'NeomakeErrorSign'}
+" Plug 'neomake/neomake'
+" let g:neomake_error_sign = {'text': '✗', 'texthl': 'NeomakeErrorSign'}
 
 "-------------------------
 " Neoformat
@@ -187,18 +215,22 @@ nmap <Leader>f :Neoformat<CR>
 "
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 set shortmess+=c
-" This was a bastard
 let g:ycm_show_diagnostics_ui=0
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_error_symbol = '✗'
+let g:ycm_warning_symbol = '⚠'
+highlight link YcmErrorSign SpellBad
+highlight link YcmWarningSign SpellCap
 
 "-------------------------
 " Tsuquyomi
 "
 " Make your Vim a TypeScript IDE.
 "
-Plug 'Quramy/tsuquyomi'
+" Plug 'Quramy/tsuquyomi'
 let g:tsuquyomi_use_dev_node_module=2
 let g:tsuquyomi_disable_quickfix = 1
-" let g:syntastic_typescript_checkers = ['tslint', 'tsuquyomi']
+"let g:syntastic_typescript_checkers = ['tslint']
 let g:tsuquyomi_shortest_import_path = 1
 let g:tsuquyomi_disable_default_mappings = 1
 
@@ -207,6 +239,7 @@ call NpmExecSet('tsc', 'neomake_typescript_tsc_exe')
 call NpmExecSet('tslint', 'neomake_typescript_tslint_exe')
 
 let g:neomake_coffee_enabled_makers = []
+"let g:neomake_typescript_enabled_makers = ['tslint']
 
 "-------------------------
 " Tern for Vim
@@ -477,7 +510,7 @@ Plug 'bluz71/vim-moonfly-colors'
 " Automatically executes filetype plugin indent on and syntax enable
 call plug#end()
 
-call s:denite_config()
+" call s:denite_config()
 
 "######################################
 "   Vim settings
@@ -762,4 +795,6 @@ inoremap \fn <C-R>=substitute(expand("%:p"), getcwd(), '', '')<CR>
 set nogdefault
 
 " Commands
-command! EditFtPlugin execute ':e ~/.config/nvim/ftplugin/' . &filetype . '.vim'
+
+" Edit filetype plugin
+command! EditFtPlugin execute ':e ~/.config/nvim/ftplugin/' . split(&filetype, '\.')[0] . '.vim'

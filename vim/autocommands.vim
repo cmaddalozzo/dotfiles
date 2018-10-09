@@ -17,6 +17,12 @@ if has('autocmd')
         \| exe "normal g'\"" | endif
     augroup END
 
+    augroup show_sign_column
+      autocmd!
+      " Always show sign column
+      autocmd BufRead,BufNewFile * setlocal signcolumn=yes
+    augroup END
+
     augroup detect_filetypes
       autocmd!
       " Set filetypes
@@ -48,35 +54,11 @@ if has('autocmd')
 
       autocmd BufRead,BufNewFile *.config set filetype=yaml syntax=yaml
 
-      " Format JSON with jq
-      autocmd FileType json set equalprg=jq\ .
-
       " Fold coffee files
       autocmd FileType coffee setlocal foldmethod=indent nofoldenable suffixesadd=.js,.json,.ts
 
-      " Typescript
-      autocmd FileType typescript call s:typescript_local_config()
-
-      " Javascript
-      autocmd FileType javascript call s:javascript_local_config()
-
-      " Python
-      autocmd FileType python setlocal textwidth=80
-
       au BufRead,BufNewFile *.avdl setlocal filetype=avro-idl
 
-    augroup END
-
-    augroup neomake_config
-      autocmd!
-      " Neomake on save
-      autocmd! BufReadPost,BufWritePost * Neomake
-      autocmd ColorScheme * call s:neomake_config()
-    augroup END
-
-    augroup unite_config
-      autocmd!
-      autocmd FileType unite call s:unite_config()
     augroup END
 
     augroup ycm_config
@@ -85,58 +67,6 @@ if has('autocmd')
     augroup END
 
 endif
-
-function! s:unite_config()
-  imap <buffer> jj      <Plug>(unite_quick_match_default_action)
-  imap <buffer> kk      <Plug>(unite_quick_match_default_action)
-  imap <buffer> jk      <Plug>(unite_quick_match_choose_action)
-  nmap <buffer> Q <plug>(unite_exit)
-  nmap <buffer> <esc> <plug>(unite_exit)
-  imap <expr><silent><buffer> <C-s> unite#do_action('split')
-  imap <expr><silent><buffer> <C-v> unite#do_action('vsplit')
-endfunction
-
-function! s:typescript_local_config()
-  nmap <buffer> <LocalLeader>tr <Plug>(TsuquyomiRenameSymbol)
-  nmap <buffer> <LocalLeader>tR <Plug>(TsuquyomiRenameSymbolC)
-  nmap <buffer> <LocalLeader>ti <Plug>(TsuquyomiImport)
-  nmap <buffer> <LocalLeader>td <Plug>(TsuquyomiTypeDefinition)
-  setlocal suffixesadd=.js,.json
-  " let b:neomake_typescript_tsc_exe = NpmWhich('tsc')
-  let b:neomake_typescript_tslint_args = ['-p', '.', '%:p']
-  let b:neomake_typescript_tslint_errorformat ='%E%t%s %f[%l\, %c]: %m'
-
-endfunction
-
-function! s:javascript_local_config()
-  nmap <buffer> <LocalLeader>tD  :TernDoc<return>
-  nmap <buffer> <LocalLeader>tb  :TernDocBrowse<return>
-  nmap <buffer> <LocalLeader>tt  :TernType<return>
-  nmap <buffer> <LocalLeader>td  :TernDef<return>
-  nmap <buffer> <LocalLeader>tg  :TernDef<return>
-  nmap <buffer> <LocalLeader>tpd :TernDefPreview<return>
-  nmap <buffer> <LocalLeader>tsd :TernDefSplit<return>
-  nmap <buffer> <LocalLeader>ttd :TernDefTab<return>
-  nmap <buffer> <LocalLeader>tr  :TernRefs<return>
-  nmap <buffer> <LocalLeader>tR  :TernRename<return>
-  nmap <buffer> <Leader>t :te npm run test %<return>
-  let g:neomake_javascript_enabled_makers = ['eslint']
-  let l:eslint_exe = NpmWhich('eslint')
-  let b:neomake_javascript_eslint_exe = l:eslint_exe
-  setlocal formatprg=prettier\ --stdin
-  setlocal suffixesadd=.js,.json,.coffee
-  let g:neomake_eslint_maker ={
-  \ 'exe' : l:eslint_exe,
-  \ 'args': ['-f', 'compact', '.'],
-  \ 'errorformat': '%E%f: line %l\, col %c\, Error - %m,' .
-  \   '%W%f: line %l\, col %c\, Warning - %m,%-G,%-G%*\d problems%#'
-  \ }
-endfunction
-
-function! s:neomake_config()
-  hi NeomakeError ctermfg=red
-  hi NeomakeErrorSign ctermfg=red
-endfunction
 
 function! s:ycm_enabled()
   nmap <silent><buffer> <C-]> :YcmCompleter GoTo<return>
