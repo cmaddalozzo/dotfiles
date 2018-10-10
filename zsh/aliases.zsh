@@ -9,16 +9,12 @@ alias tn='tmux new -s'
 alias tml='tmux ls'
 alias tma='tmux a -t'
 
-alias mux='tmuxinator'
-
 alias greph='history | grep'
 
 alias tnew='new_tmux_from_dir_name'
 
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
-
-alias fuck='$(thefuck $(fc -ln -1))'
 
 alias mocha='$(npm bin)/mocha'
 alias tsc='$(npm bin)/tsc'
