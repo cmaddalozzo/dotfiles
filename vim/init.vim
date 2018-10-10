@@ -57,6 +57,15 @@ nnoremap <silent> [fzf]* :call fzf#vim#ag(expand('<cword>'))<cr>
 nmap <Leader>b [fzf]b
 
 
+"-------------------------
+"
+"FZF File MRU
+"
+" Tracks most recently and frequently used files
+
+Plug 'tweekmonster/fzf-filemru'
+
+
 " cpsm
 "
 " A CtrlP matcher, specialized for paths.
