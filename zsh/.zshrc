@@ -59,7 +59,7 @@ source $DOTFILES_DIR/zsh/functions.zsh
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
 
 # Python path
-export PATH="${HOME}/Library/Python/3.6/bin:$PATH"
+export PATH="${HOME}/Library/Python/3.7/bin:$PATH"
 
 # touch ID sudo!
 export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
