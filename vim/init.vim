@@ -56,29 +56,6 @@ nnoremap <silent> [fzf]* :call fzf#vim#ag(expand('<cword>'))<cr>
 
 nmap <Leader>b [fzf]b
 
-
-"-------------------------
-"
-"FZF File MRU
-"
-" Tracks most recently and frequently used files
-
-Plug 'tweekmonster/fzf-filemru'
-
-
-" cpsm
-"
-" A CtrlP matcher, specialized for paths.
-"
-" Plug 'nixprime/cpsm'
-
-"
-" Most recent files source for unite
-"
-"Plug 'Shougo/neomru.vim'
-
-" Plug '~/.local/share/nvim/site/denite_buffer_mru'
-
 "-------------------------
 " Tmux plugins
 "
@@ -138,20 +115,6 @@ let g:ycm_error_symbol = '✗'
 let g:ycm_warning_symbol = '⚠'
 highlight link YcmErrorSign SpellBad
 highlight link YcmWarningSign SpellCap
-
-"-------------------------
-" Tsuquyomi
-"
-" Make your Vim a TypeScript IDE.
-"
-" Plug 'Quramy/tsuquyomi'
-let g:tsuquyomi_use_dev_node_module=2
-let g:tsuquyomi_disable_quickfix = 1
-"let g:syntastic_typescript_checkers = ['tslint']
-let g:tsuquyomi_shortest_import_path = 1
-let g:tsuquyomi_disable_default_mappings = 1
-
-call NpmExecSet('tsserver', 'tsuquyomi_tsserver_path')
 
 "-------------------------
 " UltiSnips with snippets
@@ -318,12 +281,12 @@ Plug 'chrisbra/Colorizer'
 "     open preview window in markdown buffer
 "   MarkdownPreviewStop
 "     close the preview window and server
-Plug 'iamcco/markdown-preview.vim'
+Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown'}
 
 "-------------------------
 " Markdown TOC generator
 let g:vmt_link_prefix = 'markdown-header-'
-Plug '~/Code/vim-markdown-toc'
+Plug '~/Code/vim-markdown-toc', { 'for': 'markdown'}
 
 "-------------------------
 " Vimwiki
@@ -364,6 +327,7 @@ let g:vimwiki_list = [tractable, leisure, personal]
 
 "-------------------------
 " iceberg.vim
+" ❄️
 "
 Plug 'cocopon/iceberg.vim'
 
@@ -396,10 +360,6 @@ Plug 'joshdick/onedark.vim'
 "
 " Plug 'NLKNguyen/papercolor-theme'
 "
-"-------------------------
-" Moonfly
-"
-Plug 'bluz71/vim-moonfly-colors'
 
 " /Colour Schemes
 "-------------------------
