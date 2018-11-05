@@ -7,5 +7,6 @@ nmap <buffer><silent> <LocalLeader>r :YcmCompleter GoToReferences<return>
 nmap <buffer><silent> <LocalLeader>d :YcmCompleter GetDoc<return>
 nmap <buffer> <LocalLeader>n :YcmCompleter RefactorRename 
 setlocal suffixesadd=.js,.json
+setlocal foldmethod=syntax
 let b:ale_linters = ['tslint', 'tsserver']
 let b:ale_fixers = ['prettier', 'tslint']
