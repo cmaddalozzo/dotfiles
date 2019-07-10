@@ -19,6 +19,7 @@ alias ohmyzsh="vim ~/.oh-my-zsh"
 alias mocha='$(npm bin)/mocha'
 alias tsc='$(npm bin)/tsc'
 alias tslint='$(npm bin)/tslint'
+alias eslint='$(npm bin)/eslint'
 alias babel-node='$(npm bin)/babel-node'
 alias ts-node='$(npm bin)/ts-node'
 
