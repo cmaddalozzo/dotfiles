@@ -1,10 +1,10 @@
 # .prettierrc
 printWidth: 80
 singleQuote: true
+arrowParens: always
 overrides:
 - files: 
     - "*.ts"
     - "*.tsx"
   options:
     parser: typescript
-    arrowParens: always
