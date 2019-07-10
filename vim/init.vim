@@ -98,6 +98,9 @@ Plug 'w0rp/ale'
 let g:ale_sign_error = '✗'
 let g:ale_sign_warning = '⚠'
 
+let g:ale_c_parse_compile_commands=1
+let g:ale_linters = { 'cpp': ['clang', 'clangtidy'] }
+
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace']
 \}
@@ -107,12 +110,13 @@ nmap <Leader>f <Plug>(ale_fix)
 "-------------------------
 " YouCompleteMe
 "
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
 set shortmess+=c
 let g:ycm_show_diagnostics_ui=0
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_error_symbol = '✗'
 let g:ycm_warning_symbol = '⚠'
+let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
 highlight link YcmErrorSign SpellBad
 highlight link YcmWarningSign SpellCap
 
