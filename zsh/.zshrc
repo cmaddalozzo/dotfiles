@@ -59,7 +59,7 @@ source $DOTFILES_DIR/zsh/functions.zsh
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
 
 # Python path
-export PATH="${HOME}/Library/Python/3.7/bin:$PATH"
+export PATH="${HOME}/Library/Python/3.6/bin:$PATH"
 
 # touch ID sudo!
 export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
@@ -130,6 +130,8 @@ export NVM_DIR="/Users/cmadd/.nvm"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 fpath[1,0]=~/.zsh/completion/
+
+export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
