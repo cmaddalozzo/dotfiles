@@ -59,6 +59,8 @@ if has('autocmd')
 
       au BufRead,BufNewFile *.avdl setlocal filetype=avro-idl
 
+      autocmd BufRead,BufNewFile *.html set filetype=html.jinja2
+
     augroup END
 
     augroup ycm_config
