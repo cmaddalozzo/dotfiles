@@ -446,6 +446,12 @@ set nostartofline
 set nowrap
 set formatoptions-=t
 
+" r -> Automatically insert the current comment leader after hitting
+" <Enter> in Insert mode.
+" o -> Automatically insert the current comment leader after hitting 'o' or
+" 'O' in Normal mode.
+set formatoptions+=ro
+
 " Display Line numbers
 set number
 
