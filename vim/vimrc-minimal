@@ -1,221 +1,48 @@
 " Change that leader.
 let mapleader=","
 
-set shell=/bin/bash
+" vim mode
+set nocompatible
 
-if &compatible
-  set nocompatible
+filetype plugin indent on  " Load plugins according to detected filetype.
+syntax on                  " Enable syntax highlighting.
+
+set autoindent             " Indent according to previous line.
+set expandtab              " Use spaces instead of tabs.
+set softtabstop =2         " Tab key indents by 2 spaces.
+set shiftwidth  =2         " >> indents by 2 spaces.
+set shiftround             " >> indents to next multiple of 'shiftwidth'.
+
+set backspace   =indent,eol,start  " Make backspace work as you would expect.
+set hidden                 " Switch between buffers without having to save first.
+set laststatus  =2         " Always show statusline.
+set display     =lastline  " Show as much as possible of the last line.
+
+set showmode               " Show current mode in command-line.
+set showcmd                " Show already typed keys when more are expected.
+
+set incsearch              " Highlight while searching with / or ?.
+set hlsearch               " Keep matches highlighted.
+
+set ttyfast                " Faster redrawing.
+set lazyredraw             " Only redraw when necessary.
+
+set visualbell             " Use visual bell instead of beeping.
+
+set splitbelow             " Open new windows below the current window.
+set splitright             " Open new windows right of the current window.
+
+set cursorline             " Find the current line quickly.
+set wrapscan               " Searches wrap around end-of-file.
+set report      =0         " Always report changed lines.
+set synmaxcol   =200       " Only highlight the first 200 columns.
+
+set list                   " Show non-printable characters.
+if has('multi_byte') && &encoding ==# 'utf-8'
+  let &listchars = 'tab:▸ ,extends:❯,precedes:❮,nbsp:±'
+else
+  let &listchars = 'tab:> ,extends:>,precedes:<,nbsp:.'
 endif
-
-filetype plugin indent on
-
-"######################################
-"   Vim settings
-"######################################
-
-set background=light
-
-" Auto reload changed files
-set autoread
-
-" Indicates fast terminal connection
-set ttyfast
-
-" Set character encoding to use in vim
-set encoding=utf-8
-
-" Let vim know what encoding we use in our terminal
-set termencoding=utf-8
-
-" Enable syntax highlighting
-syntax on
-
-" Which EOl used. For us it's unix
-" Not works with modifiable=no
-if &modifiable
-    set fileformat=unix
-endif
-
-" Use 256 colors in vim
-" vim-airline not work without it
-set t_Co=256
-
-" Enable Tcl interface. Not shure what is exactly mean.
-" set infercase
-
-" Interprete all files like binary and disable many features.
-" set binary
-
-"--------------------------------------------------
-" Display options
-
-" Hide showmode
-" Showmode is useless with airline
-set noshowmode
-
-" Show file name in window title
-set title
-
-" Mute error bell
-set novisualbell
-
-" Remove all useless messages like intro screen and use abbreviation like RO
-" instead readonly and + instead modified
-set shortmess=atI
-
-" Enable display whitespace characters
-set list
-
-" Setting up how to display whitespace characters
-set listchars=tab:⇥\ ,trail:·,extends:⋯,precedes:⋯,nbsp:~
-
-" Numbers of rows to keep to the left and to the right off the screen
-set scrolloff=10
-
-" Numbers of columns to keep to the left and to the right off the screen
-set sidescrolloff=10
-
-" Vim will move to the previous/next line after reaching first/last char in
-" the line with this commnad (you can add 'h' or 'l' here as well)
-" <,> stand for arrows in command mode and [,] arrows in visual mode
-set whichwrap=b,s,<,>,[,],
-
-" Display command which you typing and other command related stuff
-set showcmd
-
-" Indicate that last window have a statusline too
-set laststatus=2
-
-" Add a line / column display in the bottom right-hand section of the screen.
-" Not needed with airline plugin
-"set ruler
-
-" Setting up right-hand section(ruller) format
-" Not needed with airline plugin
-"set rulerformat=%30(%=\:%y%m%r%w\ %l,%c%V\ %P%)
-
-" The cursor should stay where you leave it, instead of moving to the first non
-" blank of the line
-set nostartofline
-
-" Disable wrapping long string
-set nowrap
-set formatoptions-=t
-
-" Display Line numbers
-set number
-
-" Highlight line with cursor
-set cursorline
-
-" maximum text length at 80 symbols, dictates where colour column shows.
-set textwidth=80
-
-" highlight column right after max textwidth
-set colorcolumn=+1
-
-" Use OS X clipboard
-" set clipboard=unnamed
-
-
-"--------------------------------------------------
-" Tab options
-
-" Copy indent from previous line
-set autoindent
-
-" Enable smart indent. it add additional indents whe necessary
-set smartindent
-
-" Replace tabs with spaces
-set expandtab
-
-" Whe you hit tab at start of line, indent added according to shiftwidth value
-set smarttab
-
-
-" Show line numbers
-set number
-
-" Set tabsize
-set tabstop=2
-set shiftwidth=2
-
-" Indentation always be multiple of shiftwidth
-" Applies to  < and > command
-set shiftround
-
-"--------------------------------------------------
-" Search options
-
-" Add the g flag to search/replace by default
-set gdefault
-
-" Highlight search results
-set hlsearch
-
-" Ignore case in search patterns
-set ignorecase
-
-" Override the 'ignorecase' option if the search patter ncontains upper case characters
-set smartcase
-
-" Live search. While typing a search command, show where the pattern
-set incsearch
-
-"" Splits
-set splitright
-
-set splitbelow
-
-"" Escape gets rid of highlighting
-nnoremap <silent> <esc> :noh<return><esc>
-
-" Disable higlighting search result on Enter key
-nnoremap <silent> <cr> :nohlsearch<cr><cr>
-
-" Show matching brackets
-set showmatch
-
-" Make < and > match as well
-set matchpairs+=<:>
-
-" Don't highlight line with cursor
-set nocursorline
-
-"--------------------------------------------------
-" Wildmenu
-
-" Extended autocmpletion for commands
-set wildmenu
-
-" Autocmpletion hotkey
-set wildcharm=<TAB>
-
-"--------------------------------------------------
-" Folding
-
-" Enable syntax folding in javascript
-let javaScript_fold=1
-
-" No fold closed at open file
-set foldlevelstart=99
-set nofoldenable
-
-" Keymap to toggle folds with space
-"nmap <space> za
-
-"--------------------------------------------------
-" Edit
-
-" Allow backspace to remove indents, newlines and old text
-set backspace=indent,eol,start
-
-" toggle paste mode on \p
-set pastetoggle=<leader>p
-
-" Add '-' as recognized word symbol. e.g dw delete all 'foo-bar' instead just 'foo'
-set iskeyword+=-
 
 " Disable backups file
 set nobackup
@@ -228,165 +55,5 @@ set nowritebackup
 " Disable swp files
 set noswapfile
 
-" Do not add eol at the end of file.
-set noeol
-
-" Visual bell
-set vb
-
-"Nice typeface
-set guifont=Source\ Code\ Pro:h11
-
-" Allow switching buffers without saving.
-set hidden
-
-" Grep options
-set grepprg=ag
-
-let g:grep_cmd_opts = '--line-numbers --noheading'
-
-"--------------------------------------------------
-" Diff Options
-
-" Display filler
-set diffopt=filler
-
-" Open diff in horizontal buffer
-set diffopt+=horizontal
-
-" Ignore changes in whitespaces characters
-set diffopt+=iwhite
-
-" Navigate between splits with Control+<Direction>
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
-
-" H goes to beginnning of line
-nnoremap H ^
-" L goes to end of line
-nnoremap L $
-
-" Delete current file with Ctrl-Delete
-nnoremap <C-Del> :call delete(expand('%'))<CR>
-
-" map jk in insert mode to escape 
-inoremap jk <esc>
-
-" map escape to no-op to burn the jk mapping into my brain
-" inoremap <esc> <nop>
-
-" Buffer write commands
-nmap <Leader>w :w<CR>
-nmap <Leader>x :x<CR>
-
-"" Q plays back q macro.
-nnoremap Q @q
-
-"" Reselect on Option-v
-nnoremap √ gv
-
-"" Close buffer.
-nnoremap <Leader>d :bd<CR>
-
-"" Easy switching to last used buffer.
+"" Switch to last used buffer.
 nnoremap <Leader>l :e#<CR>
-
-"" Easy open this.
-nnoremap <Leader>vrc :tabe ~/.vimrc<CR>
-
-" w!! sudo opens file and saves it
-cmap w!! w !sudo tee % >/dev/null
-
-
-" Golang syntax highlighting
-filetype off
-filetype plugin indent off
-set runtimepath+=/usr/local/go/misc/vim
-filetype plugin indent on
-syntax on
-
-
-function! StrTrim(txt)
-  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
-endfunction
-
-function! NpmWhich(cmd)
-  let npm_bin = system('npm bin')
-  let local_cmd = StrTrim(npm_bin) . '/' . a:cmd
-  return executable(local_cmd) ? local_cmd : StrTrim(system('which ' . a:cmd))
-endfunction
-
-"--------------------------------------------------
-" Autocmd
-
-" It executes specific command when specific events occured
-" like reading or writing file, or open or close buffer
-if has("autocmd")
-    " Define group of commands,
-    " Commands defined in .vimrc don't bind twice if .vimrc will reload
-    augroup vimrc
-    " Delete any previosly defined autocommands
-    au!
-        " Set filetypes aliases
-        au FileType htmldjango set ft=html.htmldjango
-        au FileType scss set ft=scss.css
-        au FileType less set ft=less.css
-        au BufRead,BufNewFile *.js set ft=javascript.javascript-jquery
-        au BufRead,BufNewFile *.json set ft=javascript
-        " Execute python \ -mjson.tool for autoformatting *.json
-        au BufRead,BufNewFile *.json set equalprg=python\ -mjson.tool
-        au BufRead,BufNewFile *.bemhtml set ft=javascript
-        au BufRead,BufNewFile *.xjst set ft=javascript
-        au BufRead,BufNewFile *.tt2 set ft=tt2
-        au BufRead,BufNewFile *.plaintex set ft=plaintex.tex
-
-        " Syntax definitions
-        au BufRead,BufNewFile *.css set ft=css syntax=css3
-        au BufRead,BufNewFile *.less set ft=less syntax=less
-        au BufRead,BufNewFile *.scss set ft=sass syntax=sass
-        au BufRead,BufNewFile *.go set ft=go syntax=go
-        " au BufNewFile,BufRead *.ini, *.info, */.hgrc,*/.hg/hgrc setf ini
-
-        " Omnicomplete definitions
-        autocmd FileType python set omnifunc=pythoncomplete#Complete
-        autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-        autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-        autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-        autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-        autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-        autocmd FileType c set omnifunc=ccomplete#Complete
-
-        " Enable omni completion.
-        autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-        autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-        autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-
-
-        " Enable Folding, uses plugin vim-javascript-syntax
-        "" au FileType javascript* call JavaScriptFold()
-
-    " Group end
-    augroup END
-
-endif
-
-" Visual star
-xnoremap * :<C-u>call <SID>VSetSearch()<CR>/<C-R>=@/<CR><CR>
-xnoremap # :<C-u>call <SID>VSetSearch()<CR>?<C-R>=@/<CR><CR>
-
-function! s:VSetSearch()
-  let temp = @s
-  norm! gv"sy
-  let @/ = '\V' . substitute(escape(@s, '/\'), '\n', '\\n', 'g')
-  let @s = temp
-endfunction
-
-inoremap \fn <C-R>=substitute(expand("%:p"), getcwd(), '', '')<CR>
-
-"hi ColorColumn guibg=grey7
-hi MatchParen      guifg=#000000 guibg=#FD971F gui=bold
-
-"" Somebody is turning on gdefault. We don't want that.
-set nogdefault
