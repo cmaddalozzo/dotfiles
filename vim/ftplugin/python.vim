@@ -4,5 +4,6 @@ if exists("b:did_ftplugin")
 endif
 let b:did_ftplugin = 1
 set shiftwidth=4
+let b:ale_linters = ['flake8']
 
 setlocal textwidth=80
