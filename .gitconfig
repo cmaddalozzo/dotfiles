@@ -6,6 +6,8 @@
   st = status
   br = branch
   d = diff
+  ps = push
+  pl = pull
   ds = diff --stat
   dc = diff --cached
   df = diff
