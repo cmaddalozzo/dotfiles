@@ -117,6 +117,7 @@ let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_error_symbol = '✗'
 let g:ycm_warning_symbol = '⚠'
 let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
+let g:ycm_server_python_interpreter = 'python3'
 highlight link YcmErrorSign SpellBad
 highlight link YcmWarningSign SpellCap
 
