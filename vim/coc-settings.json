@@ -1,0 +1,19 @@
+{
+  "codeLens.enable": true,
+  "diagnostic.errorSign": "✘",
+  "diagnostic.warningSign": "⚠",
+  "diagnostic.infoSign": "ⓘ",
+  "diagnostic-languageserver.filetypes": {
+    "sh": "shellcheck"
+  },
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "list.source.files.command": "fd",
+  "list.source.files.args": ["--type", "f"],
+  "rust.clippy_preference": "on",
+  "tsserver.enableJavascript": true
+}

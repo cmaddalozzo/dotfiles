@@ -8,6 +8,9 @@ let g:maplocalleader='\'
 
 set shell=/bin/zsh
 
+" Point to location of python binary
+let g:python3_host_prog = '/usr/local/bin/python3'
+
 let $MYVIMFUNCTIONS = fnamemodify($MYVIMRC, ':h') . '/functions.vim'
 let $MYVIMAUTOCOMMANDS   = fnamemodify($MYVIMRC, ':h') . '/autocommands.vim'
 
@@ -45,6 +48,8 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
+
 nnoremap [fzf] <Nop>
 nmap <space> [fzf]
 nnoremap <silent> [fzf]<space> :<C-u>Files<CR>
@@ -53,6 +58,10 @@ nnoremap <silent> [fzf]b :<C-u>Buffer<cr>
 nnoremap <silent> [fzf]m :<C-u>History<cr>
 nnoremap <silent> [fzf]/ :<C-u>Ag<cr>
 nnoremap <silent> [fzf]* :call fzf#vim#ag(expand('<cword>'))<cr>
+nnoremap <silent> [fzf]s :call fzf#vim#ag_raw(expand('<cword>'))<cr>
+
+command!      -bang -nargs=* AgSrc                        call fzf#vim#ag_raw(fzf#shellescape(<q-args>) . 'src', <bang>0)
+nnoremap <silent> [fzf]s :<C-u>AgSrc<cr>
 
 nmap <Leader>b [fzf]b
 
@@ -90,50 +99,41 @@ let g:netrw_altv=1              " open files on right
 let g:netrw_preview=1           " open previews vertically
 let g:netrw_localrmdir='rm -r'
 
-"-------------------------
-" ALE
-" Asynchronous Lint Engine
-"
-Plug 'w0rp/ale'
-let g:ale_sign_error = '✗'
-let g:ale_sign_warning = '⚠'
+" CoC
+" Use release branch (recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Install language servers:
+" :CocInstall coc-tsserver coc-json coc-python coc-rust-analyzer
 
-let g:ale_c_parse_compile_commands=1
-let g:ale_linters = { 'cpp': ['clang', 'clangtidy'] }
+" Use tab for trigger completion with characters ahead and navigate.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace']
-\}
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-nmap <Leader>f <Plug>(ale_fix)
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
 
-"-------------------------
-" YouCompleteMe
-"
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
-set shortmess+=c
-let g:ycm_show_diagnostics_ui=0
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_error_symbol = '✗'
-let g:ycm_warning_symbol = '⚠'
-let g:ycm_global_ycm_extra_conf = '~/.vim/plugged/YouCompleteMe/third_party/ycmd/.ycm_extra_conf.py'
-let g:ycm_server_python_interpreter = 'python3'
-highlight link YcmErrorSign SpellBad
-highlight link YcmWarningSign SpellCap
-
-"-------------------------
-" UltiSnips with snippets
-"
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
-let g:UltiSnipsSnippetsDir = fnamemodify($MYVIMRC, ':h') . '/snippets'
-
-let g:UltiSnipsExpandTrigger="<f2>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsListSnippets="<c-e>"
-
-nmap <Leader>es :UltiSnipsEdit<return>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+" /CoC
 
 "-------------------------
 " Airline
@@ -381,7 +381,7 @@ call plug#end()
 "   Vim settings
 "######################################
 
-set background=light
+set background=dark
 colorscheme iceberg
 let g:airline_theme='onedark'
 

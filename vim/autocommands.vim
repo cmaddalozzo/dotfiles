@@ -71,5 +71,5 @@ if has('autocmd')
 endif
 
 function! s:ycm_enabled()
-  nmap <silent><buffer> <C-]> :YcmCompleter GoTo<return>
+  nmap <silent><buffer> <C-]> <Plug>(coc-definition)
 endfunction
