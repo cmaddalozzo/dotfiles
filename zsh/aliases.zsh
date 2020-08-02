@@ -4,6 +4,8 @@ alias cat='ccat --bg=dark'
 alias tarx='tar -xzf'
 alias tarc='tar -czf'
 
+alias diff='colordiff'
+
 alias tm='tmux'
 alias tn='tmux new -s'
 alias tml='tmux ls'
@@ -33,3 +35,5 @@ alias composer='php -dmemory_limit=4G /usr/local/bin/composer'
 # NPM aliases
 alias nisd='npm i --save-dev'
 alias nis='npm i --save'
+
+alias venv='python3 -m venv'
