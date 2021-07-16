@@ -15,5 +15,7 @@
   "list.source.files.command": "fd",
   "list.source.files.args": ["--type", "f"],
   "rust.clippy_preference": "on",
-  "tsserver.enableJavascript": true
+  "tsserver.enableJavascript": true,
+  "coc.preferences.formatOnSaveFiletypes": ["typescript"],
+  "python.pythonPath": "/Users/cmadd/.pyenv/versions/3.8.6/envs/gravedigger/bin/python"
 }

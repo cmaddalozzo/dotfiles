@@ -2,12 +2,14 @@
 " Autocmd
 "
 if has('autocmd')
+    augroup completion
+      autocmd BufEnter * lua require'completion'.on_attach()
+    augroup END
 
     augroup vimrc
       autocmd!
         " Auto reload vim after your change it
-      autocmd BufWritePost *.vim source $MYVIMRC | AirlineRefresh
-      autocmd BufWritePost .vimrc source $MYVIMRC | AirlineRefresh
+      autocmd BufWritePost *.vim source $MYVIMRC
     augroup END
 
     augroup cursor_restore
@@ -63,13 +65,4 @@ if has('autocmd')
 
     augroup END
 
-    augroup ycm_config
-      autocmd!
-      autocmd FileType c,cpp,objc,objcpp,cs,go,java,javascript,python,rust,typescript call s:ycm_enabled()
-    augroup END
-
 endif
-
-function! s:ycm_enabled()
-  nmap <silent><buffer> <C-]> <Plug>(coc-definition)
-endfunction

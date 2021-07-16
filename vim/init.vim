@@ -31,42 +31,72 @@ source $MYVIMAUTOCOMMANDS
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
-"######################################
-"#   Bundles
-"######################################
-"
+"-------------------------
+" LSP config
+" Language servers: https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md
+" Example: https://github.com/neovim/nvim-lspconfig#keybindings-and-completion
+"-------------------------
+Plug 'neovim/nvim-lspconfig'
+
+nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<cr>
+nnoremap <silent> <C-]> <cmd>lua vim.lsp.buf.definition()<cr>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<cr>
+nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+
+sign define LspDiagnosticsSignError text=❌ texthl=LspDiagnosticsError linehl= numhl=
+sign define LspDiagnosticsSignWarning text=⚠️ texthl=LspDiagnosticsWarning linehl= numhl=
+sign define LspDiagnosticsSignInformation text=ℹ️ texthl=LspDiagnosticsInformation linehl= numhl=
+sign define LspDiagnosticsSignHint text=💡 texthl=LspDiagnosticsHint linehl= numhl=
 
 "-------------------------
-" vimproc
-"
-" Interactive command execution in Vim.
+" completion
+" https://github.com/nvim-lua/completion-nvim
+"-------------------------
+Plug 'nvim-lua/completion-nvim'
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
 
-" FZF
-" Fuzzy finder
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Avoid showing message extra message when using completion
+set shortmess+=c
 
-command! -bang -nargs=* Ag call fzf#vim#ag(<q-args>, {'options': '--delimiter : --nth 4..'}, <bang>0)
-
-nnoremap [fzf] <Nop>
-nmap <space> [fzf]
-nnoremap <silent> [fzf]<space> :<C-u>Files<CR>
-nnoremap <silent> [fzf]g :<C-u>Gfiles?<cr>
-nnoremap <silent> [fzf]b :<C-u>Buffer<cr>
-nnoremap <silent> [fzf]m :<C-u>History<cr>
-nnoremap <silent> [fzf]/ :<C-u>Ag<cr>
-nnoremap <silent> [fzf]* :call fzf#vim#ag(expand('<cword>'))<cr>
-nnoremap <silent> [fzf]s :call fzf#vim#ag_raw(expand('<cword>'))<cr>
-
-command!      -bang -nargs=* AgSrc                        call fzf#vim#ag_raw(fzf#shellescape(<q-args>) . 'src', <bang>0)
-nnoremap <silent> [fzf]s :<C-u>AgSrc<cr>
-
-nmap <Leader>b [fzf]b
+let g:completion_chain_complete_list = [
+    \{'complete_items': ['lsp']},
+    \{'mode': '<c-p>'},
+    \{'mode': '<c-n>'}
+\]
 
 "-------------------------
-" Tmux plugins
+" lsp-status.nvim
+" 
+"-------------------------
+Plug 'nvim-lua/lsp-status.nvim'
+
+"-------------------------
+" Telescope
+"-------------------------
+Plug 'nvim-telescope/telescope.nvim'
+" Base plugins
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+nnoremap [telescope] <Nop>
+nmap <space> [telescope]
+nnoremap <silent> [telescope]<space> :<C-u>Telescope find_files<cr>
+nnoremap <silent> [telescope]m :<C-u>Telescope oldfiles<cr>
+nnoremap <silent> [telescope]b :<C-u>Telescope buffers<cr>
+nnoremap <silent> [telescope]/ :<C-u>Telescope live_grep<cr>
+nnoremap <silent> [telescope]* :<C-u>Telescope grep_string<cr>
+nnoremap <silent> [telescope]f :<C-u>Telescope file_browser<cr>
+nnoremap <silent> [telescope]s :<C-u>Telescope lsp_document_symbols<cr>
+nnoremap <silent> [telescope]h :<C-u>Telescope help_tags<cr>
+nnoremap <silent> [telescope]c
+      \ <cmd>lua require('telescope.builtin').find_files({search_dirs={'~/.config/nvim'}})<CR>
+
+"-------------------------
+" Tmux plugin
 "
 " Add proper support for focus events
 " Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -77,6 +107,11 @@ nmap <Leader>b [fzf]b
 " <C-L>       * :TmuxNavigateRight<CR>
 " <C-\>       * :TmuxNavigatePrevious<CR>
 Plug 'christoomey/vim-tmux-navigator'
+
+"-------------------------
+" Neoformat
+"
+Plug 'sbdchd/neoformat'
 
 "-------------------------
 " vinegar.vim
@@ -90,84 +125,58 @@ Plug 'christoomey/vim-tmux-navigator'
 " /vinegar.vim
 "-------------------------
 
-"-------------------------
-" Netrw bindings
-"
-let g:netrw_liststyle=3         " tree
-let g:netrw_banner=0            " no banner
-let g:netrw_altv=1              " open files on right
-let g:netrw_preview=1           " open previews vertically
-let g:netrw_localrmdir='rm -r'
-
 " CoC
 " Use release branch (recommend)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Install language servers:
-" :CocInstall coc-tsserver coc-json coc-python coc-rust-analyzer
+" :CocInstall coc-tsserver coc-json coc-python coc-rust-analyzer coc-git coc-prettier coc-pairs
 
 " Use tab for trigger completion with characters ahead and navigate.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"inoremap <silent><expr> <TAB>
+"      \ pumvisible() ? "\<C-n>" :
+"      \ <SID>check_back_space() ? "\<TAB>" :
+"      \ coc#refresh()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"
+"function! s:check_back_space() abort
+"  let col = col('.') - 1
+"  return !col || getline('.')[col - 1]  =~# '\s'
+"endfunction
+"
+"" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+"" position. Coc only does snippet and additional edit on confirm.
+"if exists('*complete_info')
+"  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+"else
+"  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"endif
+"
+"nnoremap <silent> K :call <SID>show_documentation()<CR>
+"function! s:show_documentation()
+"  if (index(['vim','help'], &filetype) >= 0)
+"    execute 'h '.expand('<cword>')
+"  else
+"    call CocAction('doHover')
+"  endif
+"endfunction
+"
+"" mappings
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+"nmap <silent> gd <Plug>(coc-definition)
+"nmap <silent> gy <Plug>(coc-type-definition)
+"nmap <silent> gi <Plug>(coc-implementation)
+"nmap <silent> gr <Plug>(coc-references)
+"nmap <leader>rn <Plug>(coc-rename)
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+"command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " /CoC
 
 "-------------------------
-" Airline
+" galaxyline.nvim
 "
-" Nice statusline/ruler for vim
-"
-Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-
-" unicode symbols
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-" Set custom left separator
-let g:airline_left_sep = '▶'
-" Set custom right separator
-let g:airline_right_sep = '◀'
-let g:airline_symbols.linenr = '¶'
-let g:airline_symbols.branch = '⎇'
-let g:airline_symbols.paste = 'ρ'
-let g:airline_symbols.whitespace = 'Ξ'
-
-" Use MacVim's tabs
-let g:airline#extensions#tabline#enabled = 0
-
-" Don't display encoding
-let g:airline_section_y = ''
-
-" Don't display filetype
-let g:airline_section_x = ''
-
-" /Airline
-"-------------------------
-
+Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+" for devicons
+Plug 'kyazdani42/nvim-web-devicons' " lua
 
 "-------------------------
 " smartpairs.vim
@@ -181,26 +190,14 @@ Plug 'gorkunov/smartpairs.vim'
 Plug 'tmhedberg/matchit'
 
 "-------------------------
-" delimitMate
+" Auto Pairs
 "
-" Allow autoclose paired characters like [,] or (,),
-" and add smart cursor positioning inside it,
-"
-Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
 
 "-------------------------
-" surround.vim
-"
 " Enable repeating supported plugin maps with '.'
 "
 Plug 'tpope/vim-repeat'
-
-"-------------------------
-" abolish.vim
-"
-" Easily search for, substitute, and abbreviate multiple variants of a word
-"
-Plug 'tpope/vim-abolish'
 
 "-------------------------
 " surround.vim
@@ -211,22 +208,6 @@ Plug 'tpope/vim-abolish'
 " and ds{what} - remove them
 "
 Plug 'tpope/vim-surround'
-
-"-------------------------
-" ack.vim
-"
-" Plug 'mileszs/ack.vim'
-
-" let g:ackprg = 'ag --vimgrep'
-
-"-------------------------
-" vim-gitgutter
-"
-" A Vim plugin which shows a git diff in the 'gutter' (sign column).
-"
-Plug 'airblade/vim-gitgutter'
-
-nmap <silent> <leader>gg :GitGutterToggle<cr>
 
 "-------------------------
 " vim-fugitive
@@ -245,14 +226,6 @@ nnoremap <Leader>gpp :Gpush<CR>
 nnoremap <Leader>gpo :Gpull<CR>
 
 "-------------------------
-" vim-signature
-" smartpairs.vim
-"
-" Plugin to toggle, display and navigate marks
-Plug 'kshenoy/vim-signature'
-nmap <Leader>m :SignatureToggle<CR>
-
-"-------------------------
 " Polyglot
 "
 " A collection of language packs
@@ -260,22 +233,11 @@ nmap <Leader>m :SignatureToggle<CR>
 Plug 'sheerun/vim-polyglot'
 
 "-------------------------
-" Avro syntax
-"
-Plug 'dln/avro-vim'
-
-"-------------------------
 " nuuid.vim
 " <Plug>Nuuid mapping to insert a new UUID at your current cursor location. 
 " <Leader>u in normal and visual modes.
 "
-Plug 'kburdett/vim-nuuid'
-
-"-------------------------
-" Colorizer
-" color hex codes and color names
-"
-Plug 'chrisbra/Colorizer'
+"Plug 'kburdett/vim-nuuid'
 
 "-------------------------
 " Markdown preview
@@ -289,11 +251,6 @@ Plug 'chrisbra/Colorizer'
 Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown'}
 
 "-------------------------
-" Markdown TOC generator
-let g:vmt_link_prefix = 'markdown-header-'
-Plug '~/Code/vim-markdown-toc', { 'for': 'markdown'}
-
-"-------------------------
 " Vimwiki
 "
 " Personal Wiki for Vim
@@ -304,7 +261,7 @@ let tractable = {}
 let tractable.path = '/Users/cmadd/Dropbox/Documents/vimwiki/tractable/'
 let tractable.syntax = 'markdown'
 let tractable.ext = '.md'
-let tractable.nested_syntaxes = {'js': 'javascript', 'ts': 'typescript', 'cql' : 'cql', 'json': 'json', 'sh' : 'sh'}
+let tractable.nested_syntaxes = {'js': 'javascript', 'ts': 'typescript', 'json': 'json', 'sh' : 'sh'}
 let tractable.automatic_nested_syntaxes = 1
 let tractable.auto_tags = 1
 
@@ -313,12 +270,7 @@ let personal.path = '/Users/cmadd/Dropbox/Documents/vimwiki/personal/'
 let personal.syntax = 'markdown'
 let personal.ext = '.md'
 
-let leisure = {}
-let leisure.path = '/Users/cmadd/Dropbox/Documents/vimwiki/leisure/'
-let leisure.syntax = 'markdown'
-let leisure.ext = '.md'
-
-let g:vimwiki_list = [tractable, leisure, personal]
+let g:vimwiki_list = [tractable, personal]
 
 "-------------------------
 " Colour Schemes
@@ -329,12 +281,6 @@ let g:vimwiki_list = [tractable, leisure, personal]
 " Solarized
 "
 "Plug 'altercation/vim-colors-solarized'
-
-"-------------------------
-" iceberg.vim
-" ❄️
-"
-Plug 'cocopon/iceberg.vim'
 
 "
 "-------------------------
@@ -369,26 +315,31 @@ Plug 'joshdick/onedark.vim'
 " /Colour Schemes
 "-------------------------
 
-" /Bundles
-"
 " Initialize plugin system
 " Automatically executes filetype plugin indent on and syntax enable
 call plug#end()
 
-" call s:denite_config()
+" END plugins
+
+lua require('config')
+
+lua require('evilline')
 
 "######################################
 "   Vim settings
 "######################################
 
 set background=dark
-colorscheme iceberg
-let g:airline_theme='onedark'
+
+highlight CocInfoHighlight ctermbg=Yellow ctermfg=Black
+highlight CocErrorHighlight ctermbg=DarkRed ctermfg=Black
+highlight CocWarningHighlight cterm=underline
 
 "colorscheme solarized
 " colorscheme molokai
 " colorscheme gotham
 " colorscheme badwolf
+colorscheme onedark
 
 " Auto reload changed files
 set autoread
@@ -399,6 +350,8 @@ set ttyfast
 " Let vim know what encoding we use in our terminal
 set termencoding=utf-8
 
+" Enable colors
+set termguicolors
 "--------------------------------------------------
 " Display options
 
@@ -578,7 +531,7 @@ set noendofline
 set visualbell
 
 "Nice typeface
-set guifont=Source\ Code\ Pro:h11
+set guifont=SauceCodePro\ Nerd\ Font:h11
 
 " Allow switching buffers without saving.
 set hidden
@@ -606,6 +559,15 @@ set diffopt+=iwhite
 " nnoremap <C-L> <C-W><C-L>
 " nnoremap <C-H> <C-W><C-H>
 
+"-------------------------
+" Netrw bindings
+"
+let g:netrw_liststyle=3         " tree
+let g:netrw_banner=0            " no banner
+let g:netrw_altv=1              " open files on right
+let g:netrw_preview=1           " open previews vertically
+let g:netrw_localrmdir='rm -r'
+
 " H goes to beginnning of line
 nnoremap H ^
 " L goes to end of line
@@ -630,7 +592,7 @@ nnoremap <Leader>d :bd<CR>
 nnoremap <Leader>l :e#<CR>
 
 "" Easy open this.
-nnoremap <Leader>vrc :tabe $MYVIMRC<CR>
+nnoremap <Leader>vrc :e $MYVIMRC<CR>
 
 " w!! sudo opens file and saves it
 cmap w!! w !sudo tee % >/dev/null
@@ -641,6 +603,10 @@ nnoremap <Leader>q :q<CR>
 " JSON format
 vnoremap <Leader>jf :'<,'>!jq .<CR>
 vnoremap <Leader>jc :'<,'>!jq -c .<CR>
+
+" Insert a UUID at the cursor
+nnoremap <leader>u i<C-R>=luaeval('require("functions").uuid()')<CR><Esc>
+vnoremap <leader>u c<C-R>=luaeval('require("functions").uuid()')<CR><Esc>
 
 nnoremap <silent> <Leader>js :silent call Decaffeinate()<CR>
 
@@ -666,8 +632,11 @@ inoremap \fn <C-R>=substitute(expand("%:p"), getcwd(), '', '')<CR>
 set nogdefault
 
 " Commands
-
 " Edit filetype plugin
 command! EditFtPlugin execute ':e ~/.config/nvim/ftplugin/' . split(&filetype, '\.')[0] . '.vim'
 
 command! -nargs=1 RelMove execute ":!mv % %:p:h" . "/" . string(<q-args>)
+
+if isdirectory($PWD .'/node_modules')
+    let $PATH = $PWD . '/node_modules/.bin' . ':' . $PATH
+endif
