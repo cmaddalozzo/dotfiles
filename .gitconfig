@@ -11,6 +11,7 @@
   ds = diff --stat
   dc = diff --cached
   df = diff
+  oops = reset HEAD^
   hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
   type = cat-file -t
   dump = cat-file -p
@@ -73,3 +74,7 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[pull]
+	ff = only
+[init]
+	defaultBranch = main
