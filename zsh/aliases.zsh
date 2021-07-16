@@ -1,5 +1,7 @@
 alias ls='ls -lFA'
 
+alias sum='awk '\''{s+=$1} END {print s}'\'
+
 alias cat='ccat --bg=dark'
 alias tarx='tar -xzf'
 alias tarc='tar -czf'
@@ -28,6 +30,8 @@ alias ts-node='$(npm bin)/ts-node'
 alias pbp='pbpaste'
 alias pbc='pbcopy'
 
+alias pbj='pbpaste | jq'
+
 alias vimm='mvim'
 alias vim='nvim'
 alias composer='php -dmemory_limit=4G /usr/local/bin/composer'
@@ -37,3 +41,6 @@ alias nisd='npm i --save-dev'
 alias nis='npm i --save'
 
 alias venv='python3 -m venv'
+
+# Kubernetes
+alias k=kubectl

@@ -1,4 +1,4 @@
-# Path to your oh-my-zsh installation.
+
 export ZSH=$HOME/.oh-my-zsh
 
 # Path to my dotfiles dir
@@ -48,12 +48,16 @@ ZSH_THEME="theunraveler"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew npm osx tmuxinator wd)
-
+plugins=(brew npm osx tmuxinator wd docker docker-compose aws history npm)
 source $ZSH/oh-my-zsh.sh
+
+setopt SHARE_HISTORY
 
 # Load custom functions
 source $DOTFILES_DIR/zsh/functions.zsh
+
+#Load tractable functions
+source $HOME/tractable/cli-tools/shell/functions.zsh
 
 # Configure PATH
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
@@ -79,12 +83,28 @@ export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
 # Bazel
 export PATH="${HOME}/bin:$PATH"
 
+# EB cli
+export PATH="/Users/cmadd/.ebcli-virtual-env/executables:$PATH"
+
+# Rust
+source ~/.cargo/env
+
+# Go
+export PATH="/usr/local/go/bin:/Users/cmadd/go/bin:$PATH"
+
+# nvim
+export PATH="/usr/local/nvim/bin:$PATH"
+
+export PATH="$PATH:/usr/local/opt/llvm/bin"
+
 #Colors
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
 # Load global .env file if it exists
 [ -f ~/.env ] && source ~/.env
+
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -117,11 +137,11 @@ export KEYTIMEOUT=1
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 
 # Virtualenvwrapper init
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-  export VIRTUALENVWRAPPER_PYTHON='/usr/local/bin/python3'
-  export WORKON_HOME=~/.virtualenvs
-  source /usr/local/bin/virtualenvwrapper.sh
-fi
+#if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+#  export VIRTUALENVWRAPPER_PYTHON='/usr/local/bin/python3'
+#  export WORKON_HOME=~/.virtualenvs
+#  source /usr/local/bin/virtualenvwrapper.sh
+#fi
 
 # Load NVM
 export NVM_DIR="/Users/cmadd/.nvm"
@@ -131,11 +151,44 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 fpath[1,0]=~/.zsh/completion/
 
-export PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+# Setup direnv
+eval "$(direnv hook zsh)"
 
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /Users/cmadd/.nvm/versions/node/v8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/cmadd/.nvm/versions/node/v8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /Users/cmadd/.nvm/versions/node/v8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/cmadd/.nvm/versions/node/v8.11.2/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+# show_virtual_env() {
+#   if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+#     echo "($(basename $VIRTUAL_ENV))"
+#   fi
+# }
+# PS1='$(show_virtual_env)'$PS1
+
+# tabtab source for yarn package
+# uninstall by removing these lines or running `tabtab uninstall yarn`
+[[ -f /Users/cmadd/.config/yarn/global/node_modules/tabtab/.completions/yarn.zsh ]] && . /Users/cmadd/.config/yarn/global/node_modules/tabtab/.completions/yarn.zsh
+
+# kubectl autocompletion
+[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+export KUBECTL_EXTERNAL_DIFF="colordiff"
+
+export ARGOCD_OPTS='--grpc-web'
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
+if which pyenv-virtualenv-init > /dev/null; then
+    eval "$(pyenv virtualenv-init -)"
+fi
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/mc mc
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/local/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/completion.zsh.inc'; fi
