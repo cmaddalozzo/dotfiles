@@ -8,7 +8,6 @@ alias tarc='tar -czf'
 
 alias diff='colordiff'
 
-alias tm='tmux'
 alias tn='tmux new -s'
 alias tml='tmux ls'
 alias tma='tmux a -t'
@@ -16,6 +15,7 @@ alias tma='tmux a -t'
 alias greph='history | grep'
 
 alias tnew='new_tmux_from_dir_name'
+alias tm='tnew'
 
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
@@ -34,13 +34,20 @@ alias pbj='pbpaste | jq'
 
 alias vimm='mvim'
 alias vim='nvim'
-alias composer='php -dmemory_limit=4G /usr/local/bin/composer'
 
-# NPM aliases
-alias nisd='npm i --save-dev'
-alias nis='npm i --save'
+alias vimrc='vim ~/.config/nvim/init.vim'
 
 alias venv='python3 -m venv'
 
+alias activate='source venv/bin/activate'
+
 # Kubernetes
 alias k=kubectl
+
+alias kafkacat=kcat
+
+# Bat highlighting
+alias cyaml='bat -l yaml'
+alias cjson='bat -l json'
+alias cjson='bat -l json'
+alias ccsv='bat -l csv'

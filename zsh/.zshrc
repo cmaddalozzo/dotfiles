@@ -91,6 +91,7 @@ source ~/.cargo/env
 
 # Go
 export PATH="/usr/local/go/bin:/Users/cmadd/go/bin:$PATH"
+export GOPATH="${HOME}/go"
 
 # nvim
 export PATH="/usr/local/nvim/bin:$PATH"
@@ -100,6 +101,9 @@ export PATH="$PATH:/usr/local/opt/llvm/bin"
 #Colors
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
+
+# Bat
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # Load global .env file if it exists
 [ -f ~/.env ] && source ~/.env
@@ -177,7 +181,7 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+  eval "$(pyenv init --path)"
 fi
 
 if which pyenv-virtualenv-init > /dev/null; then

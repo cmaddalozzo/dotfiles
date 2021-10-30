@@ -12,6 +12,11 @@ if has('autocmd')
       autocmd BufWritePost *.vim source $MYVIMRC
     augroup END
 
+    augroup cursor_hold
+      autocmd!
+      autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+    augroup END
+
     augroup cursor_restore
       autocmd!
       " Restore cursor position :help last-position-jump
@@ -38,7 +43,7 @@ if has('autocmd')
       " use `set filetype` to override default filetype=xml for *.ts files
       autocmd BufNewFile,BufRead *.ts  set filetype=typescript
       " use `setfiletype` to not override any other plugins like ianks/vim-tsx
-      autocmd BufNewFile,BufRead *.tsx set filetype=typescript
+      autocmd BufNewFile,BufRead *.tsx set filetype=typescriptreact
 
       " Syntax definitions
       autocmd BufRead,BufNewFile *.css set filetype=css syntax=css3

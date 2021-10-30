@@ -48,6 +48,34 @@ sign define LspDiagnosticsSignWarning text=⚠️ texthl=LspDiagnosticsWarning l
 sign define LspDiagnosticsSignInformation text=ℹ️ texthl=LspDiagnosticsInformation linehl= numhl=
 sign define LspDiagnosticsSignHint text=💡 texthl=LspDiagnosticsHint linehl= numhl=
 
+lua <<EOF
+    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics,
+      {
+        virtual_text = false,
+        signs = true,
+        update_in_insert = false,
+        underline = true,
+      }
+    )
+EOF
+"-------------------------
+" Treesitter
+"-------------------------
+
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+"-------------------------
+" Treesitter context
+"-------------------------
+Plug 'romgrk/nvim-treesitter-context'
+
+"-------------------------
+" Trouble
+"
+" A pretty list for showing diagnostics, references, telescope results etc.
+"-------------------------
+Plug 'folke/trouble.nvim'
 "-------------------------
 " completion
 " https://github.com/nvim-lua/completion-nvim
@@ -69,6 +97,8 @@ let g:completion_chain_complete_list = [
     \{'mode': '<c-n>'}
 \]
 
+imap <silent> <c-p> <Plug>(completion_trigger)
+
 "-------------------------
 " lsp-status.nvim
 " 
@@ -87,6 +117,11 @@ nmap <space> [telescope]
 nnoremap <silent> [telescope]<space> :<C-u>Telescope find_files<cr>
 nnoremap <silent> [telescope]m :<C-u>Telescope oldfiles<cr>
 nnoremap <silent> [telescope]b :<C-u>Telescope buffers<cr>
+nnoremap <silent> [telescope]r
+      \ <cmd>lua require('telescope.builtin').file_browser({
+      \ cwd=vim.api.nvim_exec("echo expand('%:p:h')", true),
+      \ hidden=true
+      \ })<CR>
 nnoremap <silent> [telescope]/ :<C-u>Telescope live_grep<cr>
 nnoremap <silent> [telescope]* :<C-u>Telescope grep_string<cr>
 nnoremap <silent> [telescope]f :<C-u>Telescope file_browser<cr>
@@ -109,10 +144,14 @@ nnoremap <silent> [telescope]c
 Plug 'christoomey/vim-tmux-navigator'
 
 "-------------------------
-" Neoformat
+" neoformat
 "
 Plug 'sbdchd/neoformat'
 
+"-------------------------
+" Peekup
+"
+Plug 'gennaro-tedesco/nvim-peekup'
 "-------------------------
 " vinegar.vim
 "
@@ -215,27 +254,27 @@ Plug 'tpope/vim-surround'
 " git wrapper
 "
 Plug 'tpope/vim-fugitive'
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gw :Gwrite<CR>
-nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <silent> <Leader>gg :Gpush<CR>
-nnoremap <Leader>gpl :Gpull<CR>
-nnoremap <Leader>gpp :Gpush<CR>
-nnoremap <Leader>gpo :Gpull<CR>
+nnoremap <leader>gs :Git status<CR>
+nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gd :Git diff<CR>
+nnoremap <leader>gw :Git write<CR>
+nnoremap <leader>gc :Git commit<CR>
+nnoremap <silent> <leader>gg :Git push<CR>
+nnoremap <leader>gpl :Git pull<CR>
+nnoremap <leader>gpp :Git push<CR>
+nnoremap <leader>gpo :Git pull<CR>
 
 "-------------------------
 " Polyglot
 "
 " A collection of language packs
 "
-Plug 'sheerun/vim-polyglot'
+"Plug 'sheerun/vim-polyglot'
 
 "-------------------------
 " nuuid.vim
 " <Plug>Nuuid mapping to insert a new UUID at your current cursor location. 
-" <Leader>u in normal and visual modes.
+" <leader>u in normal and visual modes.
 "
 "Plug 'kburdett/vim-nuuid'
 
@@ -304,7 +343,13 @@ let g:vimwiki_list = [tractable, personal]
 "-------------------------
 " Onedark
 "
-Plug 'joshdick/onedark.vim'
+"Plug 'joshdick/onedark.vim'
+
+"-------------------------
+" Neon
+"
+Plug 'rafamadriz/neon'
+let g:neon_style='default'
 
 "-------------------------
 " Paper Color (sic)
@@ -319,6 +364,7 @@ Plug 'joshdick/onedark.vim'
 " Automatically executes filetype plugin indent on and syntax enable
 call plug#end()
 
+
 " END plugins
 
 lua require('config')
@@ -331,15 +377,12 @@ lua require('evilline')
 
 set background=dark
 
-highlight CocInfoHighlight ctermbg=Yellow ctermfg=Black
-highlight CocErrorHighlight ctermbg=DarkRed ctermfg=Black
-highlight CocWarningHighlight cterm=underline
-
 "colorscheme solarized
 " colorscheme molokai
 " colorscheme gotham
 " colorscheme badwolf
-colorscheme onedark
+"colorscheme onedark
+colorscheme neon
 
 " Auto reload changed files
 set autoread
@@ -467,8 +510,8 @@ set splitright
 " New horizontal splits go below
 set splitbelow
 
-" <Leader>n gets rid of highlighting
-nnoremap <Leader>n :noh<return><esc>
+" <leader>n gets rid of highlighting
+nnoremap <leader>n :noh<return><esc>
 
 " Disable higlighting search result on Enter key
 nnoremap <silent> <cr> :nohlsearch<cr><cr>
@@ -586,32 +629,40 @@ nnoremap Q @q
 nnoremap √ gv
 
 "" Close buffer.
-nnoremap <Leader>d :bd<CR>
+nnoremap <leader>d :bd<CR>
 
 "" Easy switching to last used buffer.
-nnoremap <Leader>l :e#<CR>
+nnoremap <leader>l :e#<CR>
 
 "" Easy open this.
-nnoremap <Leader>vrc :e $MYVIMRC<CR>
+nnoremap <leader>vrc :e $MYVIMRC<CR>
 
 " w!! sudo opens file and saves it
 cmap w!! w !sudo tee % >/dev/null
 
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :q<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
 
 " JSON format
-vnoremap <Leader>jf :'<,'>!jq .<CR>
-vnoremap <Leader>jc :'<,'>!jq -c .<CR>
+vnoremap <leader>jf :'<,'>!jq .<CR>
+vnoremap <leader>jc :'<,'>!jq -c .<CR>
 
 " Insert a UUID at the cursor
 nnoremap <leader>u i<C-R>=luaeval('require("functions").uuid()')<CR><Esc>
 vnoremap <leader>u c<C-R>=luaeval('require("functions").uuid()')<CR><Esc>
 
-nnoremap <silent> <Leader>js :silent call Decaffeinate()<CR>
+nnoremap <silent> <leader>js :silent call Decaffeinate()<CR>
+
+nnoremap <silent> <leader>tf <cmd>Trouble lsp_document_diagnostics <CR>
+nnoremap <silent> <leader>ta <cmd>Trouble lsp_workspace_diagnostics <CR>
+nnoremap <silent> <leader>tr <cmd>Trouble lsp_references <CR>
+nnoremap <silent> <leader>td <cmd>Trouble lsp_definitions <CR>
+
+nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<CR>
 
 " Toggle quickfix/location lists
-nmap <silent> <leader>e :call ToggleList("Location List", 'l')<CR>
+"nmap <silent> <leader>e :call ToggleList("Location List", 'l')<CR>
+nnoremap <silent> <leader>e <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 nmap <silent> <leader>c :call ToggleList("Quickfix List", 'c')<CR>
 
 

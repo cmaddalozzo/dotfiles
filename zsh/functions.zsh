@@ -23,7 +23,14 @@ function git_prompt_info() {
 }
 function new_tmux_from_dir_name() { 
   set-tab-color
-  tmux new-session -As `basename $PWD | sed 's/\./-/g'` 
+  sess=$(basename $PWD | sed 's/\./-/g')
+  tmux has-session -t $sess 2>/dev/null
+  if [ $? != 0 ]; then
+    # Set up our session
+    tmux new-session -dAs $sess \; split-window -h \; split-window -v \; attach
+  else
+    tmux attach -t $sess
+  fi
 }
 
 function random-rgb {
