@@ -2,10 +2,6 @@
 " Autocmd
 "
 if has('autocmd')
-    augroup completion
-      autocmd BufEnter * lua require'completion'.on_attach()
-    augroup END
-
     augroup vimrc
       autocmd!
         " Auto reload vim after your change it
@@ -14,7 +10,7 @@ if has('autocmd')
 
     augroup cursor_hold
       autocmd!
-      autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+      autocmd CursorHold * :lua vim.diagnostic.open_float()
     augroup END
 
     augroup cursor_restore
@@ -67,6 +63,8 @@ if has('autocmd')
       au BufRead,BufNewFile *.avdl setlocal filetype=avro-idl
 
       autocmd BufRead,BufNewFile *.html set filetype=html.jinja2
+
+      autocmd BufRead,BufNewFile *.conf set filetype=dosini
 
     augroup END
 

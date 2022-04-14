@@ -97,3 +97,16 @@ function get_aws_creds_k8s() {
   echo "- name: AWS_SESSION_TOKEN"
   echo "  value: '${AWS_SESSION_TOKEN}'"
 }
+
+function rename {
+    if [ "$#" -ne 2 ]; then
+        echo "Usage: $0 source name" >&2
+        return
+    fi
+    if [ ! -f "$1" ]; then
+        echo "First argument must be a file"
+        return
+    fi
+    dir=$(dirname $1)
+    mv $1 $dir/$2
+}

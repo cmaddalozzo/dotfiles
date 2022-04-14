@@ -68,7 +68,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "-------------------------
 " Treesitter context
 "-------------------------
-Plug 'romgrk/nvim-treesitter-context'
+"Plug 'romgrk/nvim-treesitter-context'
 
 "-------------------------
 " Trouble
@@ -80,24 +80,14 @@ Plug 'folke/trouble.nvim'
 " completion
 " https://github.com/nvim-lua/completion-nvim
 "-------------------------
-Plug 'nvim-lua/completion-nvim'
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
 
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-
-" Avoid showing message extra message when using completion
-set shortmess+=c
-
-let g:completion_chain_complete_list = [
-    \{'complete_items': ['lsp']},
-    \{'mode': '<c-p>'},
-    \{'mode': '<c-n>'}
-\]
-
-imap <silent> <c-p> <Plug>(completion_trigger)
 
 "-------------------------
 " lsp-status.nvim
@@ -112,14 +102,16 @@ Plug 'nvim-telescope/telescope.nvim'
 " Base plugins
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
+" File browser
+Plug 'nvim-telescope/telescope-file-browser.nvim'
 nnoremap [telescope] <Nop>
 nmap <space> [telescope]
 nnoremap <silent> [telescope]<space> :<C-u>Telescope find_files<cr>
 nnoremap <silent> [telescope]m :<C-u>Telescope oldfiles<cr>
 nnoremap <silent> [telescope]b :<C-u>Telescope buffers<cr>
 nnoremap <silent> [telescope]r
-      \ <cmd>lua require('telescope.builtin').file_browser({
-      \ cwd=vim.api.nvim_exec("echo expand('%:p:h')", true),
+      \ <cmd>lua require('telescope').extensions.file_browser.file_browser({
+      \ path=vim.api.nvim_exec("echo expand('%:p:h')", true),
       \ hidden=true
       \ })<CR>
 nnoremap <silent> [telescope]/ :<C-u>Telescope live_grep<cr>
@@ -129,6 +121,8 @@ nnoremap <silent> [telescope]s :<C-u>Telescope lsp_document_symbols<cr>
 nnoremap <silent> [telescope]h :<C-u>Telescope help_tags<cr>
 nnoremap <silent> [telescope]c
       \ <cmd>lua require('telescope.builtin').find_files({search_dirs={'~/.config/nvim'}})<CR>
+
+nnoremap <silent> [telescope]z <cmd>lua require'neuron/telescope'.find_zettels()<CR>
 
 "-------------------------
 " Tmux plugin
@@ -147,6 +141,8 @@ Plug 'christoomey/vim-tmux-navigator'
 " neoformat
 "
 Plug 'sbdchd/neoformat'
+
+let g:neoformat_only_msg_on_error = 1
 
 "-------------------------
 " Peekup
@@ -213,7 +209,7 @@ Plug 'gennaro-tedesco/nvim-peekup'
 "-------------------------
 " galaxyline.nvim
 "
-Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'NTBBloodbath/galaxyline.nvim' , {'branch': 'main'}
 " for devicons
 Plug 'kyazdani42/nvim-web-devicons' " lua
 
@@ -265,6 +261,18 @@ nnoremap <leader>gpp :Git push<CR>
 nnoremap <leader>gpo :Git pull<CR>
 
 "-------------------------
+" nvim-comment
+"
+Plug 'terrortylor/nvim-comment'
+
+"-------------------------
+" Markdown Preview
+"
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+
+
+"-------------------------
 " Polyglot
 "
 " A collection of language packs
@@ -277,17 +285,6 @@ nnoremap <leader>gpo :Git pull<CR>
 " <leader>u in normal and visual modes.
 "
 "Plug 'kburdett/vim-nuuid'
-
-"-------------------------
-" Markdown preview
-"
-" Personal Wiki for Vim
-"
-"   MarkdownPreview
-"     open preview window in markdown buffer
-"   MarkdownPreviewStop
-"     close the preview window and server
-Plug 'iamcco/markdown-preview.vim', { 'for': 'markdown'}
 
 "-------------------------
 " Vimwiki
@@ -310,6 +307,18 @@ let personal.syntax = 'markdown'
 let personal.ext = '.md'
 
 let g:vimwiki_list = [tractable, personal]
+
+"-------------------------
+" Neuron
+"
+Plug 'oberblastmeister/neuron.nvim', { 'branch': 'unstable' }
+
+
+"-------------------------
+" S3Edit
+"
+Plug '~/.vim/plugins/s3edit'
+
 
 "-------------------------
 " Colour Schemes
@@ -370,6 +379,11 @@ call plug#end()
 lua require('config')
 
 lua require('evilline')
+
+set completeopt=menu,menuone,noselect
+
+lua require('completion')
+lua require('lsp')
 
 "######################################
 "   Vim settings
@@ -584,6 +598,9 @@ set grepprg=ag
 
 let g:grep_cmd_opts = '--line-numbers --noheading'
 
+" Use GNU Tar
+let g:tar_cmd="/usr/local/bin/gtar"
+
 "--------------------------------------------------
 " Diff Options
 
@@ -662,7 +679,7 @@ nnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<CR>
 
 " Toggle quickfix/location lists
 "nmap <silent> <leader>e :call ToggleList("Location List", 'l')<CR>
-nnoremap <silent> <leader>e <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+nnoremap <silent> <leader>e <cmd>lua vim.diagnostic.open_float()<CR>
 nmap <silent> <leader>c :call ToggleList("Quickfix List", 'c')<CR>
 
 

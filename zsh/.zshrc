@@ -48,7 +48,7 @@ ZSH_THEME="theunraveler"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew npm osx tmuxinator wd docker docker-compose aws history npm)
+plugins=(brew npm macos wd docker docker-compose aws history npm fzf-tab)
 source $ZSH/oh-my-zsh.sh
 
 setopt SHARE_HISTORY
@@ -64,6 +64,10 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
 
 # Python path
 export PATH="${HOME}/Library/Python/3.6/bin:$PATH"
+
+# Python user path
+export PATH="${HOME}/.local/bin:$PATH"
+export PIPENV_VENV_IN_PROJECT=1
 
 # touch ID sudo!
 export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
@@ -94,7 +98,7 @@ export PATH="/usr/local/go/bin:/Users/cmadd/go/bin:$PATH"
 export GOPATH="${HOME}/go"
 
 # nvim
-export PATH="/usr/local/nvim/bin:$PATH"
+export PATH="/usr/local/nvim/0.6.1/bin:$PATH"
 
 export PATH="$PATH:/usr/local/opt/llvm/bin"
 
@@ -178,15 +182,30 @@ export ARGOCD_OPTS='--grpc-web'
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init --path)"
-fi
+#export PYENV_ROOT="$HOME/.pyenv"
+#export PATH="$PYENV_ROOT/bin:$PATH"
+#if command -v pyenv 1>/dev/null 2>&1; then
+#  eval "$(pyenv init --path)"
+#fi
+#
+#if which pyenv-virtualenv-init > /dev/null; then
+#    eval "$(pyenv virtualenv-init -)"
+#fi
 
-if which pyenv-virtualenv-init > /dev/null; then
-    eval "$(pyenv virtualenv-init -)"
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/local/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/local/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/usr/local/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/usr/local/miniconda3/bin:$PATH"
+    fi
 fi
+unset __conda_setup
+# <<< conda initialize <<<
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc

@@ -47,7 +47,8 @@ alias k=kubectl
 alias kafkacat=kcat
 
 # Bat highlighting
-alias cyaml='bat -l yaml'
-alias cjson='bat -l json'
-alias cjson='bat -l json'
-alias ccsv='bat -l csv'
+alias yaml='bat -l yaml'
+alias json='bat -l json'
+alias csv='bat -l csv'
+
+alias s3edit='s3-edit edit'
