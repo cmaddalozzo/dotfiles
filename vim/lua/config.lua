@@ -28,7 +28,7 @@ require("telescope").load_extension "file_browser"
 require("trouble").setup {}
 
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ensure_installed = {"python"}, -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   highlight = {
     enable = true,              -- false will disable the whole extension
     additional_vim_regex_highlighting = false,
@@ -41,6 +41,7 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
+if vim.g['has_neuron'] ~= 0 then
 require'neuron'.setup {
     virtual_titles = true,
     mappings = true,
@@ -48,3 +49,4 @@ require'neuron'.setup {
     neuron_dir = "~/Documents/Notes",
     leader = "gz", -- the leader key to for all mappings, remember with 'go zettel'
 }
+end
