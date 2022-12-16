@@ -87,7 +87,10 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets'
 
+inoremap <silent> <C-n> <cmd>lua require'luasnip'.jump(1)<Cr>
+inoremap <silent> <C-p> <cmd>lua require'luasnip'.jump(-1)<Cr>
 
 "-------------------------
 " lsp-status.nvim
@@ -704,6 +707,8 @@ set nogdefault
 command! EditFtPlugin execute ':e ~/.config/nvim/ftplugin/' . split(&filetype, '\.')[0] . '.vim'
 
 command! -nargs=1 RelMove execute ":!mv % %:p:h" . "/" . string(<q-args>)
+
+command! W :w
 
 if isdirectory($PWD .'/node_modules')
     let $PATH = $PWD . '/node_modules/.bin' . ':' . $PATH

@@ -1,7 +1,22 @@
 local nvim_lsp = require('lspconfig')
 local cmp_nvim_lsp = require('cmp_nvim_lsp')
 
-local capabilities = cmp_nvim_lsp.update_capabilities(
+require'cmp'.setup {
+  snippet = {
+    expand = function(args)
+      require'luasnip'.lsp_expand(args.body)
+    end
+  },
+
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+}
+
+require("luasnip.loaders.from_vscode").lazy_load()
+
+local capabilities = cmp_nvim_lsp.default_capabilities(
     vim.lsp.protocol.make_client_capabilities()
 )
 
