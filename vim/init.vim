@@ -98,6 +98,15 @@ inoremap <silent> <C-p> <cmd>lua require'luasnip'.jump(-1)<Cr>
 "-------------------------
 Plug 'nvim-lua/lsp-status.nvim'
 
+let g:has_neuron = executable('neuron')
+"-------------------------
+" Neuron
+"
+if (g:has_neuron)
+  echo "HAS NEURON"
+  Plug 'oberblastmeister/neuron.nvim', { 'branch': 'unstable' }
+endif
+
 "-------------------------
 " Telescope
 "-------------------------
@@ -310,12 +319,6 @@ let personal.syntax = 'markdown'
 let personal.ext = '.md'
 
 let g:vimwiki_list = [tractable, personal]
-
-"-------------------------
-" Neuron
-"
-Plug 'oberblastmeister/neuron.nvim', { 'branch': 'unstable' }
-
 
 "-------------------------
 " S3Edit
