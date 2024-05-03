@@ -8,6 +8,8 @@ let g:maplocalleader='\'
 
 set shell=/bin/zsh
 
+set exrc
+
 " Point to location of python binary
 let g:python3_host_prog = '/usr/local/bin/python3'
 
