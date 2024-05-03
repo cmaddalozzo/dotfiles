@@ -110,3 +110,11 @@ function rename {
     dir=$(dirname $1)
     mv $1 $dir/$2
 }
+
+function no_proxy {
+  unset HTTP_PROXY;
+  unset http_proxy;
+  unset https_proxy;
+  unset HTTPS_PROXY;
+  unset ALL_PROXY;
+}
