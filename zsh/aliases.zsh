@@ -43,8 +43,14 @@ alias activate='source venv/bin/activate'
 
 # Kubernetes
 alias k=kubectl
+alias kgy='kubectl get -o yaml'
+alias klf='kubectl log -f'
+alias kx='kubectl exec -it'
 
 alias kafkacat=kcat
+
+alias kns=kubens
+alias kctx=kubectx
 
 # Bat highlighting
 alias yaml='bat -l yaml'
@@ -52,3 +58,12 @@ alias json='bat -l json'
 alias csv='bat -l csv'
 
 alias s3edit='s3-edit edit'
+
+alias python=python3
+
+alias numfmt=gnumfmt
+alias nfmt=gnumfmt
+alias bfmt='gnumfmt --to=iec'
+alias hfmt=bfmt
+
+alias lg=lazygit
