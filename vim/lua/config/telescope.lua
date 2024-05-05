@@ -48,7 +48,7 @@ function M.setup()
     })
   end, { desc = '[/] Fuzzily search in current buffer' })
   vim.keymap.set('n', telescope_leader .. 'c', function()
-    require('telescope.builtin').find_files({ search_dirs = { vim.fn.stdpath('config') } })
+    require('telescope.builtin').find_files({ follow = true, search_dirs = { vim.fn.stdpath('config') } })
   end, { desc = 'Search [c]onfig' })
 end
 
