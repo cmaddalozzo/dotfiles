@@ -14,7 +14,6 @@ return {
   'tmhedberg/matchit',
   'jiangmiao/auto-pairs',
   'christoomey/vim-tmux-navigator',
-  'vimwiki/vimwiki',
   {
     -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
