@@ -115,8 +115,21 @@ return {
     keys = {
       { "<leader>f", "<cmd>NvimTreeToggle<cr>", "nvim-tree" }
     },
+    opts = {
+      on_attach = function(bufnr)
+        local api = require "nvim-tree.api"
+
+        local function opts(desc)
+          return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        end
+        -- default mappings
+        api.config.mappings.default_on_attach(bufnr)
+        -- custom mappings
+        vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
+      end
+    },
     config = true,
-    dependencies = { 'kyazdani42/nvim-web-devicons' }
+    dependencies = { 'kyazdani42/nvim-web-devicons' },
   },
   -- Fuzzy Finder (files, lsp, etc)
   {
