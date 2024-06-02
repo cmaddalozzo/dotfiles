@@ -48,11 +48,19 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  jdtls = {},
+  jdtls = {
+    disabled = true
+  },
   clangd = {},
   gopls = {},
+  helm_ls = {
+    yamlls = {
+      path = "yaml-language-server"
+    }
+  },
   pyright = {},
   rust_analyzer = {},
+  terraformls = {},
   tsserver = {},
   jsonls = {},
   yamlls = {},
@@ -123,11 +131,13 @@ function M.setup()
 
   mason_lspconfig.setup_handlers {
     function(server_name)
-      require('lspconfig')[server_name].setup {
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = servers[server_name],
-      }
+      if not servers[server_name]['disabled'] then
+        require('lspconfig')[server_name].setup {
+          capabilities = capabilities,
+          on_attach = on_attach,
+          settings = servers[server_name],
+        }
+      end
     end,
   }
 

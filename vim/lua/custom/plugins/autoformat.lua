@@ -1,12 +1,12 @@
 -- autoformat.lua
 --
--- Use your language server to automatically format your code on save.
+-- Use language server to automatically format code on save.
 -- Adds additional commands as well to manage the behavior
 
 return {
   'neovim/nvim-lspconfig',
   config = function()
-    -- Switch for controlling whether you want autoformatting.
+    -- Switch for controlling whether we want autoformatting.
     --  Use :DazzlerFormatToggle to toggle autoformatting on or off
     local format_is_enabled = true
     vim.api.nvim_create_user_command('DazzlerFormatToggle', function()
@@ -43,14 +43,8 @@ return {
           return
         end
 
-        -- Use black if it's present
+        -- Use black if it's present (i.e. don't attach ruff)
         if client.name == "ruff_lsp" and vim.g.dazzler_has_black then
-          return
-        end
-
-        -- Tsserver usually works poorly. Sorry you work with bad languages
-        -- You can remove this line if you know what you're doing :)
-        if client.name == 'tsserver' then
           return
         end
 
@@ -70,6 +64,7 @@ return {
                 return c.id == client.id
               end,
             }
+            -- If ruff, run the organizeImports code action
             if client.name == "ruff_lsp" then
               vim.lsp.buf.code_action {
                 apply = true,

@@ -1,7 +1,10 @@
 return {
   -- NOTE: First, some plugins that don't require any configuration
   -- Git related plugins
-  'tpope/vim-fugitive',
+  {
+    'tpope/vim-fugitive',
+    cmd = { 'G', 'Git' }
+  },
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
   -- Add useful hotkey for operation with surroundings
@@ -30,19 +33,21 @@ return {
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
       'RRethy/vim-illuminate',
-      'nvimtools/none-ls.nvim'
+      'nvimtools/none-ls.nvim',
+      'towolf/vim-helm',
+      'mfussenegger/nvim-jdtls',
     }
   },
-
   {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     init = function()
       require('config.completion').setup()
     end,
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets' },
   },
-
+  -- collection of snippets
   -- Useful plugin to show you pending keybinds.
   {
     'folke/which-key.nvim',
@@ -173,6 +178,18 @@ return {
     end,
   },
   {
+    "NeogitOrg/neogit",
+    dependencies = {
+      cmd = 'Neogit',
+      "nvim-lua/plenary.nvim",         -- required
+      "sindrets/diffview.nvim",        -- optional - Diff integration
+      -- Only one of these is needed, not both.
+      "nvim-telescope/telescope.nvim", -- optional
+      "ibhagwan/fzf-lua",              -- optional
+    },
+    config = true
+  },
+  {
     'iamcco/markdown-preview.nvim',
     build = 'cd app && npm install',
     ft = 'markdown'
@@ -183,15 +200,4 @@ return {
   {
     import = 'custom.plugins.autoformat'
   },
-  {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim",         -- required
-      "sindrets/diffview.nvim",        -- optional - Diff integration
-      -- Only one of these is needed, not both.
-      "nvim-telescope/telescope.nvim", -- optional
-      "ibhagwan/fzf-lua",              -- optional
-    },
-    config = true
-  }
 }

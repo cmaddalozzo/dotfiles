@@ -1,12 +1,12 @@
 local M = {}
--- [[ Configure Telescope ]]
+-- [[ Configure Treesitter ]]
 function M.setup()
-  -- See `:help telescope` and `:help telescope.setup()`
   -- [[ configure treesitter ]]
   -- see `:help nvim-treesitter`
   require('nvim-treesitter.configs').setup {
     -- add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'java' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'java',
+      'terraform' },
 
     -- autoinstall languages that are not installed. defaults to false (but you can change for yourself!)
     auto_install = false,

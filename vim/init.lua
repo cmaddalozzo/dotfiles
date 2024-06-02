@@ -25,6 +25,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup('plugins')
 
+require('config.filetypes').setup()
+
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
