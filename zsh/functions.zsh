@@ -22,6 +22,9 @@ function git_prompt_info() {
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
 function new_tmux_from_dir_name() { 
+  if [ ! -f  $CONFIG_FILE ]; then
+    generate-random-config
+  fi
   set-tab-color
   sess=$(basename $PWD | sed 's/\./-/g')
   tmux has-session -t $sess 2>/dev/null
