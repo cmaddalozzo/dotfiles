@@ -57,28 +57,12 @@ function unset_aws_creds(){
   unset ASSUMED_ROLE
 }
 
-function get_mfa_token() {
-  mfa_key="HGNDIOQVYJ7FYXMI5JZVMJ5GWWWJ5GZXHHHOI3BVFIFUWGGY4MKDH2HP2PBOQWI3"
-  oathtool --totp -b -d 6 $mfa_key
-}
-
-function get_google_mfa_token() {
-  mfa_key="dcy7 loxk npfw efnm ctq4 57td a2sp wlnh"
-  oathtool --totp -b -d 6 $mfa_key
-}
-
 function export_aws_mfa_temp_creds() {
   profile=${1:-dev}
   export AWS_ACCESS_KEY_ID=$(aws --profile $profile configure get aws_access_key_id)
   export AWS_SECRET_ACCESS_KEY=$(aws --profile $profile configure get aws_secret_access_key)
   export AWS_SESSION_TOKEN=$(aws --profile $profile configure get aws_session_token)
 }
-
-# get_aws_mfa_temp_creds() {
-#   echo 'export AWS_ACCESS_KEY_ID='$(jq -r '.Credentials.AccessKeyId' $cred_file)
-#   echo 'export AWS_SECRET_ACCESS_KEY='$(jq -r '.Credentials.SecretAccessKey' $cred_file)
-#   echo 'export AWS_SESSION_TOKEN='$(jq -r '.Credentials.SessionToken' $cred_file)
-# }
 
 function get_aws_creds_python() {
   echo "os.environ['AWS_ACCESS_KEY_ID'] = '${AWS_ACCESS_KEY_ID}'"
