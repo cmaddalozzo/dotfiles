@@ -1,11 +1,5 @@
 return {
   -- NOTE: First, some plugins that don't require any configuration
-  -- Git related plugins
-  {
-    'tpope/vim-fugitive',
-    cmd = { 'G', 'Git' }
-  },
-  -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
   -- Add useful hotkey for operation with surroundings
   -- cs{what}{towhat} - inside '' or [] or something like this allow
@@ -127,7 +121,7 @@ return {
         local function opts(desc)
           return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
         end
-        -- default mappings
+        -- default mapping
         api.config.mappings.default_on_attach(bufnr)
         -- custom mappings
         vim.keymap.set('n', '?', api.tree.toggle_help, opts('Help'))
@@ -188,6 +182,16 @@ return {
       "ibhagwan/fzf-lua",              -- optional
     },
     config = true
+  },
+  {
+    "FabijanZulj/blame.nvim",
+    cmd = 'BlameToggle',
+    keys = {
+      { "<leader>b", "<cmd>BlameToggle virtual<cr>", "Git Blame" }
+    },
+    init = function()
+      require('blame').setup()
+    end,
   },
   {
     'iamcco/markdown-preview.nvim',

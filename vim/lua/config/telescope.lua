@@ -46,7 +46,7 @@ function M.setup()
       winblend = 10,
       previewer = false,
     })
-  end, { desc = '[/] Fuzzily search in current buffer' })
+  end, { desc = 'Fuzzily [s]earch in current buffer' })
   vim.keymap.set('n', telescope_leader .. 'c', function()
     require('telescope.builtin').find_files({ follow = true, search_dirs = { vim.fn.stdpath('config') } })
   end, { desc = 'Search [c]onfig' })
