@@ -52,7 +52,9 @@ local servers = {
     disabled = true
   },
   clangd = {},
-  gopls = {},
+  gopls = {
+    disabled = vim.fn.executable('go') == 0
+  },
   helm_ls = {
     yamlls = {
       path = "yaml-language-server"
@@ -61,7 +63,7 @@ local servers = {
   pyright = {},
   rust_analyzer = {},
   terraformls = {},
-  ts_ls = {},
+  -- ts_ls = {},
   jsonls = {},
   yamlls = {},
   ruff_lsp = {},
@@ -75,12 +77,6 @@ local servers = {
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
-
-local with_diagnostics_code = function(builtin)
-  return builtin.with {
-    diagnostics_format = "#{m} [#{c}]",
-  }
-end
 
 local with_root_file = function(builtin, file)
   return builtin.with {
@@ -121,8 +117,15 @@ function M.setup()
   -- Setup mason so it can manage external tooling
   require('mason').setup()
 
+  local ensure_installed = {}
+  for name, config in pairs(servers) do
+    if not config['disabled'] then
+      table.insert(ensure_installed, name)
+    end
+  end
+
   mason_lspconfig.setup {
-    ensure_installed = vim.tbl_keys(servers),
+    ensure_installed = ensure_installed,
   }
 
   -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -131,11 +134,11 @@ function M.setup()
 
   mason_lspconfig.setup_handlers {
     function(server_name)
-      if not servers[server_name]['disabled'] then
+      if servers[server_name] and not servers[server_name]['disabled'] then
         require('lspconfig')[server_name].setup {
           capabilities = capabilities,
           on_attach = on_attach,
-          settings = servers[server_name],
+          settings = servers[server_name] or {},
         }
       end
     end,
