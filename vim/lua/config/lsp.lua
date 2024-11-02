@@ -61,7 +61,7 @@ local servers = {
   pyright = {},
   rust_analyzer = {},
   terraformls = {},
-  tsserver = {},
+  ts_ls = {},
   jsonls = {},
   yamlls = {},
   ruff_lsp = {},
@@ -97,7 +97,7 @@ local nls_sources = {
   -- b.formatting.isort,
   with_root_file(b.formatting.stylua, "stylua.toml"),
   -- diagnostics
-  b.diagnostics.write_good,
+  -- b.diagnostics.write_good,
   -- b.diagnostics.markdownlint,
   -- b.diagnostics.eslint_d,
   -- code actions

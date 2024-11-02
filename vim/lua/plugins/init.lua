@@ -114,6 +114,7 @@ return {
     keys = {
       { "<leader>f", "<cmd>NvimTreeToggle<cr>", "nvim-tree" }
     },
+    enabled = false,
     opts = {
       on_attach = function(bufnr)
         local api = require "nvim-tree.api"
@@ -129,6 +130,12 @@ return {
     },
     config = true,
     dependencies = { 'kyazdani42/nvim-web-devicons' },
+  },
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    config = true,
+    dependencies = { 'echasnovski/mini.icons' },
   },
   -- Fuzzy Finder (files, lsp, etc)
   {
@@ -180,6 +187,9 @@ return {
       -- Only one of these is needed, not both.
       "nvim-telescope/telescope.nvim", -- optional
       "ibhagwan/fzf-lua",              -- optional
+    },
+    keys = {
+      { "<leader>g", "<cmd>Neogit<cr>", "neogit" }
     },
     config = true
   },
