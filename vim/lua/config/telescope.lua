@@ -37,6 +37,9 @@ function M.setup()
   vim.keymap.set('n', telescope_leader .. '*', telescope_builtin.grep_string,
     { desc = 'Grep string' }
   )
+  vim.keymap.set('n', telescope_leader .. 'k', telescope_builtin.keymaps,
+    { desc = 'Search [k]eymaps' }
+  )
   vim.keymap.set('n', telescope_leader .. 'f', require('telescope').extensions.file_browser.file_browser,
     { desc = 'Browse [f]iles' }
   )
