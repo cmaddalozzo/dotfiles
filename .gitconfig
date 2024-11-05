@@ -24,6 +24,7 @@
 [merge]
     summary = true
     tool = "vimdiff3" 
+    conflictstyle = zdiff3
 [mergetool]
     keepBackup = false
 
@@ -48,11 +49,17 @@
 [color "diff"]
     whitespace = red reverse
 [core]
+    pager = delta
     whitespace=fix,-indent-with-non-tab,trailing-space,cr-at-eol
 	excludesfile = /Users/cmadd/.gitignore_global
 	quotepath = false
 	editor = nvim
 	autocrlf = input
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    side-by-side = true
+    line-numbers = true
 [user]
 	name = Curtis Maddalozzo
 	email = curtis@tractable.ai
