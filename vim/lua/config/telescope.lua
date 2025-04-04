@@ -37,8 +37,23 @@ function M.setup()
   vim.keymap.set('n', telescope_leader .. '*', telescope_builtin.grep_string,
     { desc = 'Grep string' }
   )
+  vim.keymap.set('n', telescope_leader .. 'g', telescope_builtin.git_status,
+    { desc = 'Browse [g]it status' }
+  )
   vim.keymap.set('n', telescope_leader .. 'k', telescope_builtin.keymaps,
     { desc = 'Search [k]eymaps' }
+  )
+  vim.keymap.set('n', telescope_leader .. 's', telescope_builtin.lsp_document_symbols,
+    { desc = 'Search document [s]ymbols' }
+  )
+  vim.keymap.set('n', telescope_leader .. 'S', telescope_builtin.lsp_dynamic_workspace_symbols,
+    { desc = 'Search workspace [S]ymbols' }
+  )
+  vim.keymap.set('n', telescope_leader .. 't', telescope_builtin.builtin,
+    { desc = 'Search [t]elescope builtins' }
+  )
+  vim.keymap.set('n', telescope_leader .. 'h', telescope_builtin.help_tags,
+    { desc = 'Get [h]elp' }
   )
   vim.keymap.set('n', telescope_leader .. 'f', require('telescope').extensions.file_browser.file_browser,
     { desc = 'Browse [f]iles' }
