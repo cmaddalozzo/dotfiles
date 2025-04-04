@@ -1,4 +1,3 @@
-
 export ZSH=$HOME/.oh-my-zsh
 
 # Path to my dotfiles dir
@@ -56,63 +55,49 @@ setopt SHARE_HISTORY
 # Load custom functions
 source $DOTFILES_DIR/zsh/functions.zsh
 
-#Load tractable functions
-source $HOME/tractable/cli-tools/shell/functions.zsh
-
 # Configure PATH
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:$HOME/.local/bin"
+
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
 
 # Python path
-export PATH="${HOME}/Library/Python/3.6/bin:$PATH"
-
-# Python user path
-export PATH="${HOME}/.local/bin:$PATH"
-export PIPENV_VENV_IN_PROJECT=1
+export PATH="${HOME}/Library/Python/3.11/bin:$PATH"
 
 # touch ID sudo!
 export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
 
-#Kafka
-export PATH=$PATH:/Users/cmadd/.kafka/current/bin
-
-#Tractable tools
-export PATH="/Users/cmadd/tractable/cli-tools/bin:$PATH"
-
-# Depot tools
-export PATH="$PATH:/Users/cmadd/Code/depot_tools"
-
-# JPEG Turbo
-export PATH="/usr/local/opt/jpeg-turbo/bin:$PATH"
-
-# Bazel
-export PATH="${HOME}/bin:$PATH"
-
-# EB cli
-export PATH="/Users/cmadd/.ebcli-virtual-env/executables:$PATH"
-
-# Rust
-source ~/.cargo/env
-
 # Go
-export PATH="/usr/local/go/bin:/Users/cmadd/go/bin:$PATH"
-export GOPATH="${HOME}/go"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
+export PATH=/opt/homebrew/opt/go@1.23/bin:$PATH
 
 # nvim
-export PATH="/usr/local/nvim/0.6.1/bin:$PATH"
+NVIM_VERSION="0.11.0"
+export PATH="/usr/local/nvim/$NVIM_VERSION/bin:$PATH"
 
-export PATH="$PATH:/usr/local/opt/llvm/bin"
+# flink
+FLINK_VERSION="1.18.1"
+export FLINK_PATH=/usr/local/flink/$FLINK_VERSION
+export PATH="${FLINK_PATH}/bin:$PATH"
 
 #Colors
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
 # Bat
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANPAGER='nvim +Man!'
 
 # Load global .env file if it exists
 [ -f ~/.env ] && source ~/.env
-
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
@@ -144,42 +129,38 @@ export KEYTIMEOUT=1
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 
-# Virtualenvwrapper init
-#if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
-#  export VIRTUALENVWRAPPER_PYTHON='/usr/local/bin/python3'
-#  export WORKON_HOME=~/.virtualenvs
-#  source /usr/local/bin/virtualenvwrapper.sh
-#fi
-
-# Load NVM
-export NVM_DIR="/Users/cmadd/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 fpath[1,0]=~/.zsh/completion/
 
+# GPG
+export GPG_TTY=$(tty)
+gpgconf --launch gpg-agent
+
 # Setup direnv
 eval "$(direnv hook zsh)"
-
-# show_virtual_env() {
-#   if [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
-#     echo "($(basename $VIRTUAL_ENV))"
-#   fi
-# }
-# PS1='$(show_virtual_env)'$PS1
-
-# tabtab source for yarn package
-# uninstall by removing these lines or running `tabtab uninstall yarn`
-[[ -f /Users/cmadd/.config/yarn/global/node_modules/tabtab/.completions/yarn.zsh ]] && . /Users/cmadd/.config/yarn/global/node_modules/tabtab/.completions/yarn.zsh
 
 # kubectl autocompletion
 [[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
 export KUBECTL_EXTERNAL_DIFF="colordiff"
 
-export ARGOCD_OPTS='--grpc-web'
+# stern autocompletion
+[[ $HOME/.local/bin/stern ]] && source <(stern --completion zsh)
+
+# stern autocompletion
+[[ $HOME/.local/bin/argo ]] && source <(argo completion zsh)
+
+# helm autocompletion
+[[ $HOME/.local/bin/helm ]] && source <(helm completion zsh)
+
+# istioctl autocompletion
+[[ $HOME/.local/bin/istioctl ]] && source <(istioctl completion zsh)
+
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# Krew
+export PATH="${PATH}:${HOME}/.krew/bin"
 
 # pyenv
 #export PYENV_ROOT="$HOME/.pyenv"
@@ -207,11 +188,34 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+autoload -U colors; colors
+
+# kubectl context prompt
+#source /opt/homebrew/etc/zsh-kubectl-prompt/kubectl.zsh
+#RPROMPT="$RPROMPT%{$fg[magenta]%}- $ZSH_KUBECTL_CONTEXT%{$reset_color%}"
+#RPROMPT='%{$fg[blue]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
+
+function iterm2_print_user_vars() {
+  iterm2_set_user_var kubecontext $(kubectl config current-context):$(kubectl config view --minify --output 'jsonpath={..namespace}')
+}
+test -e $HOME/.iterm2_shell_integration.zsh && \
+    source $HOME/.iterm2_shell_integration.zsh || true
+export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
+
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/usr/local/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/path.zsh.inc'; fi
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/usr/local/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google-cloud-sdk/completion.zsh.inc'; fi
+export CODE=$HOME/Code
+
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+
+complete -o nospace -C /Users/cmaddalozzo/.local/bin/terraform terraform
+
+# Source work specific configs
+for conf in $DOTFILES_DIR/zsh/work/*.zsh(N); do
+    source $conf
+done
