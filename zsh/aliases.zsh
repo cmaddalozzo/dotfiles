@@ -32,6 +32,8 @@ alias pbc='pbcopy'
 
 alias pbj='pbpaste | jq'
 
+alias bsd='base64 -d'
+
 alias vimm='mvim'
 alias vim='nvim'
 

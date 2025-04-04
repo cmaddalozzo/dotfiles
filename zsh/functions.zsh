@@ -98,10 +98,15 @@ function rename {
     mv $1 $dir/$2
 }
 
-function no_proxy {
-  unset HTTP_PROXY;
-  unset http_proxy;
-  unset https_proxy;
-  unset HTTPS_PROXY;
-  unset ALL_PROXY;
+function install-local {
+    if [ "$#" -ne 1 ]; then
+        echo "Usage: $0 <binary>" >&2
+        return
+    fi
+    if [ ! -f "$1" ]; then
+        echo "First argument must be a file"
+        return
+    fi
+    cp $1 $HOME/.local/bin/
+    sudo xattr -r -d com.apple.quarantine ~/.local/bin/$(basename $1)
 }
