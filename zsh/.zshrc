@@ -47,7 +47,7 @@ ZSH_THEME="theunraveler"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew npm macos wd docker docker-compose aws history npm fzf-tab)
+plugins=(brew macos wd docker docker-compose aws history fzf-tab)
 source $ZSH/oh-my-zsh.sh
 
 setopt SHARE_HISTORY
@@ -129,7 +129,7 @@ export KEYTIMEOUT=1
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+[[ ${HOME}/.iterm2_shell_integration.zsh ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 
 fpath[1,0]=~/.zsh/completion/
 
@@ -140,24 +140,35 @@ gpgconf --launch gpg-agent
 # Setup direnv
 eval "$(direnv hook zsh)"
 
+# Setup completion
+autoload -U +X bashcompinit && bashcompinit
+
 # kubectl autocompletion
-[[ /usr/local/bin/kubectl ]] && source <(kubectl completion zsh)
+whence kubectl &>/dev/null && source <(kubectl completion zsh)
 export KUBECTL_EXTERNAL_DIFF="colordiff"
 
 # stern autocompletion
-[[ $HOME/.local/bin/stern ]] && source <(stern --completion zsh)
+whence stern &>/dev/null && source <(stern --completion zsh)
 
 # stern autocompletion
-[[ $HOME/.local/bin/argo ]] && source <(argo completion zsh)
+whence argo &>/dev/null && source <(argo completion zsh)
 
-# helm autocompletion
-[[ $HOME/.local/bin/helm ]] && source <(helm completion zsh)
+#helm autocompletion
+whence helm &>/dev/null && source <(helm completion zsh)
 
-# istioctl autocompletion
-[[ $HOME/.local/bin/istioctl ]] && source <(istioctl completion zsh)
+#istioctl autocompletion
+whence istioctl &>/dev/null && source <(istioctl completion zsh)
 
+#terraform autocompletion
+whence terraform &>/dev/null && complete -o nospace -C $(whence terraform) terraform
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+#minio client autocompletion
+whence mc &>/dev/null && complete -o nospace -C $(whence mc) mc
+
+local gcloud_path="$(brew --prefix)/share/google-cloud-sdk"
+[[ $gcloud_path/path.zsh.inc ]] && source $gcloud_path/path.zsh.inc
+[[ $gcloud_path/completion.zsh.inc ]] && source $gcloud_path/completion.zsh.inc
+
 
 # Krew
 export PATH="${PATH}:${HOME}/.krew/bin"
@@ -202,18 +213,11 @@ test -e $HOME/.iterm2_shell_integration.zsh && \
     source $HOME/.iterm2_shell_integration.zsh || true
 export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
 
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/mc mc
 
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 export CODE=$HOME/Code
-
-source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
-source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
-
-complete -o nospace -C /Users/cmaddalozzo/.local/bin/terraform terraform
 
 # Source work specific configs
 for conf in $DOTFILES_DIR/zsh/work/*.zsh(N); do
