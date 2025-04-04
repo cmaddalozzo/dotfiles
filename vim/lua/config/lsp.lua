@@ -3,6 +3,56 @@ local nls = require "null-ls"
 local nls_utils = require "null-ls.utils"
 local b = nls.builtins
 
+local function prettyLspReferences(options)
+  local utils = require('telescope.utils')
+  local devIcons = require('nvim-web-devicons')
+  local strings = require('plenary.strings')
+  local originalEntryMaker = require('telescope.make_entry').gen_from_quickfix(options)
+  local fileTypeIconWidth = strings.strdisplaywidth(devIcons.get_icon('fname', { default = true }))
+  options = options or {}
+
+  local get_path_and_tail = function(filename)
+    local bufname_tail = utils.path_tail(filename)
+    local path_without_tail = require('plenary.strings').truncate(filename, #filename - #bufname_tail, '')
+    local path_to_display = utils.transform_path({
+      path_display = { 'truncate' },
+    }, path_without_tail)
+
+    return bufname_tail, path_to_display
+  end
+
+  options.entry_maker = function(line)
+    local originalEntryTable = originalEntryMaker(line)
+
+    local displayer = require('telescope.pickers.entry_display').create({
+      separator = " ", -- Telescope will use this separator between each entry item
+      items = {
+        { width = fileTypeIconWidth },
+        { width = nil },
+        { remaining = true },
+      },
+    })
+
+    originalEntryTable.display = function(entry)
+      local tail, pathToDisplay = get_path_and_tail(entry.filename)
+      local tailForDisplay = tail .. " "
+      local icon, iconHighlight = utils.get_devicons(tail)
+      local coordinates = string.format("  %s:%s ", entry.lnum, entry.col)
+
+      return displayer({
+        { icon,          iconHighlight },
+        tailForDisplay .. coordinates,
+        { pathToDisplay, "TelescopeResultsComment" },
+      })
+    end
+
+    return originalEntryTable
+  end
+  return function()
+    require("telescope.builtin").lsp_references(options)
+  end
+end
+
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -18,7 +68,7 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+  nmap('gr', prettyLspReferences(), '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('gt', vim.lsp.buf.type_definition, '[G]oto [T]ype definition')
 
@@ -49,11 +99,14 @@ end
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
   jdtls = {
-    disabled = true
+    disabled = false
   },
   clangd = {},
   gopls = {
-    disabled = vim.fn.executable('go') == 0
+    disabled = vim.fn.executable('go') == 0,
+    gopls = {
+      buildFlags = { '-tags=integration' },
+    },
   },
   helm_ls = {
     yamlls = {
@@ -66,11 +119,14 @@ local servers = {
   -- ts_ls = {},
   jsonls = {},
   yamlls = {},
-  ruff_lsp = {},
+  -- ruff_lsp = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
+      diagnostics = {
+        globals = { "vim" }
+      }
     },
   },
 }
@@ -99,7 +155,7 @@ local nls_sources = {
   -- code actions
   b.code_actions.gitsigns,
   b.code_actions.gitrebase,
-
+  --b.diagnostics.golangci_lint,
   -- hover
   b.hover.dictionary,
 }

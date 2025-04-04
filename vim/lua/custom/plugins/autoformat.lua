@@ -57,6 +57,7 @@ return {
             if not format_is_enabled then
               return
             end
+            require('lint').try_lint()
 
             vim.lsp.buf.format {
               async = false,

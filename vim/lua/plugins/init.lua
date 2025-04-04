@@ -9,7 +9,23 @@ return {
   -- Smart matching of pairs e.g vv
   'gorkunov/smartpairs.vim',
   'tmhedberg/matchit',
-  'jiangmiao/auto-pairs',
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true
+    -- use opts = {} for passing setup options
+    -- this is equivalent to setup({}) function
+  },
+  'RRethy/vim-illuminate',
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+  },
+  {
+    'leoluz/nvim-dap-go',
+    ft = "go",
+  },
   'christoomey/vim-tmux-navigator',
   {
     -- LSP Configuration & Plugins
@@ -33,6 +49,19 @@ return {
     }
   },
   {
+    'mfussenegger/nvim-lint',
+    init = function()
+      require('config.lint').setup()
+    end,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = {
+      "mfussenegger/nvim-dap",
+      "nvim-neotest/nvim-nio"
+    }
+  },
+  {
     -- Autocompletion
     'hrsh7th/nvim-cmp',
     init = function()
@@ -40,6 +69,18 @@ return {
     end,
     dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip',
       'rafamadriz/friendly-snippets' },
+  },
+  {
+    "github/copilot.vim",
+    init = function()
+      vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+        expr = true,
+        replace_keycodes = false
+      })
+      vim.keymap.set('i', '<C-n>', '<Plug>(copilot-next)')
+      vim.keymap.set('i', '<C-p>', '<Plug>(copilot-previous)')
+      vim.g.copilot_no_tab_map = true
+    end
   },
   -- collection of snippets
   -- Useful plugin to show you pending keybinds.
@@ -65,11 +106,23 @@ return {
   {
     -- Theme inspired by Atom
     'navarasu/onedark.nvim',
+    lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      require("onedark").setup({
+        style = "warmer"
+      })
+      require("onedark").load()
     end,
   },
+  -- {
+  --   -- Theme inspired by Atom
+  --   'EdenEast/nightfox.nvim',
+  --   priority = 1000,
+  --   config = function()
+  --     -- vim.cmd.colorscheme 'nightfox'
+  --   end,
+  -- },
 
   {
     -- Set lualine as statusline

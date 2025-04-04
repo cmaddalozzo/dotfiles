@@ -13,4 +13,12 @@ fn.insert_uuid = function()
   vim.api.nvim_set_current_line(nline)
 end
 
+fn.git_root = function()
+  local git_root = vim.fn.system("git rev-parse --show-toplevel")
+  if vim.v.shell_error ~= 0 then
+    return nil
+  end
+  return string.gsub(git_root, "%s+", "")
+end
+
 return fn
