@@ -4,12 +4,33 @@ function M.setup()
   -- nvim-cmp setup
   local cmp = require 'cmp'
   local luasnip = require 'luasnip'
+  local lspkind = require 'lspkind'
+  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+
+  require('lazydev').setup()
 
   luasnip.config.setup {}
 
   require("luasnip.loaders.from_vscode").lazy_load()
 
+  local source_to_menu = {
+    nvim_lsp = '',
+    luasnip = '',
+    path = '󰱼',
+    buffer = '󰦨',
+  }
+
+  local lsp_kind_format = lspkind.cmp_format({
+    mode = 'symbol',
+  })
   cmp.setup {
+    formatting = {
+      format = function(entry, vim_item)
+        vim_item.menu = (source_to_menu[entry.source.name] ~= nil and source_to_menu[entry.source.name]
+          or entry.source.name)
+        return lsp_kind_format(entry, vim_item)
+      end,
+    },
     snippet = {
       expand = function(args)
         luasnip.lsp_expand(args.body)
@@ -57,9 +78,16 @@ function M.setup()
     sources = {
       { name = 'nvim_lsp' },
       { name = 'luasnip' },
-      { name = 'path' }
+      { name = 'path' },
+      { name = 'buffer' },
+      { name = 'lazydev', group_index = 0 },
     },
   }
+  -- Add `(` after selecting a function or method
+  cmp.event:on(
+    'confirm_done',
+    cmp_autopairs.on_confirm_done()
+  )
 end
 
 return M

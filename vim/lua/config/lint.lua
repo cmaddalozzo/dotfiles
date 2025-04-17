@@ -12,6 +12,7 @@ function M.setup()
     sh = { 'shellcheck' },
     json = { 'jsonlint' },
     yaml = { 'yamllint' },
+    -- markdown = { 'vale' },
   }
   -- Make args compatible with golangci-lint v2.x
   local args = {

@@ -40,13 +40,14 @@ return {
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
       'RRethy/vim-illuminate',
-      'nvimtools/none-ls.nvim',
       'towolf/vim-helm',
       'mfussenegger/nvim-jdtls',
     }
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
   },
   {
     'mfussenegger/nvim-lint',
@@ -67,16 +68,24 @@ return {
     init = function()
       require('config.completion').setup()
     end,
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip',
-      'rafamadriz/friendly-snippets' },
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-buffer',
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
+      'rafamadriz/friendly-snippets',
+      'onsails/lspkind.nvim',
+    },
   },
   {
     "github/copilot.vim",
     init = function()
-      vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+      vim.keymap.set('i', '<C-j>', 'copilot#Accept("\\<CR>")', {
         expr = true,
         replace_keycodes = false
       })
+      vim.keymap.set('i', '<C-l>', '<Plug>(copilot-accept-word)')
       vim.keymap.set('i', '<C-n>', '<Plug>(copilot-next)')
       vim.keymap.set('i', '<C-p>', '<Plug>(copilot-previous)')
       vim.g.copilot_no_tab_map = true

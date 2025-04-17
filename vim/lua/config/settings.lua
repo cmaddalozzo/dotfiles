@@ -100,6 +100,7 @@ function M.setup()
   vim.o.completeopt = 'menuone,noselect'
 
   vim.o.termguicolors = true
+  vim.o.winborder = 'single'
 end
 
 return M
