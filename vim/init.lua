@@ -1,5 +1,5 @@
 -- set <comma> as the leader key
---  XXX: Must happen before plugins are required (otherwise wrong leader will be used)
+--  XXX: Must happen before plugins are required (otherwise the wrong leader will be used)
 vim.g.mapleader = ','
 vim.g.maplocalleader = '\\'
 
@@ -69,7 +69,7 @@ vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open float
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 -- [[ Diagnostics ]]
-local signs = { Error = "❌", Warn = "⚠️", Hint = "💡", Info = "ℹ️" }
+local signs = { Error = "✘", Warn = "⚠", Hint = "💡", Info = "ℹ️" }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
