@@ -63,10 +63,16 @@ vim.keymap.set('n', '<leader>n', '<cmd>noh<cr>')
 vim.keymap.set('n', '<leader>u', require('functions').insert_uuid)
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set('n', '[d', function()
+  vim.diagnostic.jump({ count = -1 })
+end, { desc = "Go to previous diagnostic message" })
+vim.keymap.set('n', ']d', function()
+  vim.diagnostic.jump({ count = 1 })
+end, { desc = "Go to next diagnostic message" })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics in location list" })
+vim.keymap.set('n', '<localleader>n', '<cmd>lne<cr>', { desc = "Next location list item" })
+vim.keymap.set('n', '<localleader>p', '<cmd>lp<cr>', { desc = "Previous location list item" })
 
 -- [[ Diagnostics ]]
 local signs = { Error = "✘", Warn = "⚠", Hint = "💡", Info = "ℹ️" }
