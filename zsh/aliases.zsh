@@ -2,7 +2,7 @@ alias ls='ls -lFA'
 
 alias sum='awk '\''{s+=$1} END {print s}'\'
 
-alias cat='ccat --bg=dark'
+#alias cat='ccat --bg=dark'
 alias tarx='tar -xzf'
 alias tarc='tar -czf'
 

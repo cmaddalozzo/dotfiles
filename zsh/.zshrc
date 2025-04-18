@@ -8,7 +8,14 @@ export DOTFILES_DIR=$HOME/Code/dotfiles
 # See ~/.oh-my-zsh/themes/
 ZSH_THEME="theunraveler"
 
-plugins=(brew macos wd docker docker-compose aws kubectx history fzf-tab)
+local OS=$(uname)
+local IS_MACOS=false
+plugins=(brew macos wd docker docker-compose aws history fzf-tab)
+if [[ "$OS" == "Darwin" ]]; then
+    IS_MACOS=true
+    plugins+="brew"
+    plugins+="macos"
+fi
 source $ZSH/oh-my-zsh.sh
 
 # Share history across all sessions
@@ -20,8 +27,8 @@ source $DOTFILES_DIR/zsh/functions.zsh
 # Configure PATH
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:$HOME/.local/bin"
 
-# Setup Homebrew
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# Homebrew
+[[ -e /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 if type brew &>/dev/null
 then
@@ -66,11 +73,11 @@ export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# Set preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
+# Preferred editor for local and remote sessions
+if whence nvim &>/dev/null; then
   export EDITOR='nvim'
+else
+  export EDITOR='vim'
 fi
 
 # Load aliases
@@ -89,7 +96,9 @@ export KEYTIMEOUT=1
 # https://github.com/junegunn/fzf#fuzzy-completion-for-bash-and-zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
-[[ ${HOME}/.iterm2_shell_integration.zsh ]] && source "${HOME}/.iterm2_shell_integration.zsh"
+
+[[ -e ${HOME}/.iterm2_shell_integration.zsh ]] && source "${HOME}/.iterm2_shell_integration.zsh"
+
 fpath[1,0]=~/.zsh/completion/
 
 # GPG
@@ -124,20 +133,17 @@ whence terraform &>/dev/null && complete -o nospace -C $(whence terraform) terra
 #minio client autocompletion
 whence mc &>/dev/null && complete -o nospace -C $(whence mc) mc
 
-local gcloud_path="$(brew --prefix)/share/google-cloud-sdk"
-[[ $gcloud_path/path.zsh.inc ]] && source $gcloud_path/path.zsh.inc
-[[ $gcloud_path/completion.zsh.inc ]] && source $gcloud_path/completion.zsh.inc
-
+if whence brew; then
+    local gcloud_path="$(brew --prefix)/share/google-cloud-sdk"
+    [[ $gcloud_path/path.zsh.inc ]] && source $gcloud_path/path.zsh.inc
+    [[ $gcloud_path/completion.zsh.inc ]] && source $gcloud_path/completion.zsh.inc
+fi
 
 autoload -U colors; colors
 
 function iterm2_print_user_vars() {
   iterm2_set_user_var kubecontext $(kubectl config current-context):$(kubectl config view --minify --output 'jsonpath={..namespace}')
 }
-
-[[ $HOME/.iterm2_shell_integration.zsh ]] \
-  && source $HOME/.iterm2_shell_integration.zsh \
-  && export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
 
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
