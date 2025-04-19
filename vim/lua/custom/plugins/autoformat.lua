@@ -17,7 +17,9 @@ return {
     -- Create an augroup that is used for managing our formatting autocmds.
     --      We need one augroup per client to make sure that multiple clients
     --      can attach to the same buffer without interfering with each other.
-    local _augroups = {}
+    local _augroups = {} --- @type table<integer, integer>
+    --- @param client (vim.lsp.Client) client rpc object
+    --- @return integer # Integer id of the created group.
     local get_augroup = function(client)
       if not _augroups[client.id] then
         local group_name = 'dazzler-lsp-format-' .. client.name
@@ -26,6 +28,24 @@ return {
       end
 
       return _augroups[client.id]
+    end
+
+    --- @param client (vim.lsp.Client) client rpc object
+    --- @param action (lsp.CodeActionKind) client rpc object
+    --- @return boolean # Integer id of the created group.
+    local has_code_action = function(client, action)
+      if not client.server_capabilities.codeActionProvider then
+        return false
+      end
+      if type(client.server_capabilities.codeActionProvider) ~= "table" then
+        return false
+      end
+      for _, v in pairs(client.server_capabilities.codeActionProvider.codeActionKinds) do
+        if v == action then
+          return true
+        end
+      end
+      return false
     end
 
     -- Whenever an LSP attaches to a buffer, we will run this function.
@@ -39,12 +59,7 @@ return {
         local client = vim.lsp.get_client_by_id(client_id)
         local bufnr = args.buf
         -- Only attach to clients that support document formatting
-        if not client.server_capabilities.documentFormattingProvider then
-          return
-        end
-
-        -- Use black if it's present (i.e. don't attach ruff)
-        if client.name == "ruff_lsp" and vim.g.dazzler_has_black then
+        if client == nil or not client.server_capabilities.documentFormattingProvider then
           return
         end
 
@@ -65,8 +80,8 @@ return {
                 return c.id == client.id
               end,
             }
-            -- If ruff, run the organizeImports code action
-            if client.name == "ruff_lsp" then
+
+            if has_code_action(client, "source.organizeImports") then
               vim.lsp.buf.code_action {
                 apply = true,
                 context = { only = { 'source.organizeImports' } },
