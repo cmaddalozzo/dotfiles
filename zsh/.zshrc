@@ -45,9 +45,14 @@ export PATH="${HOME}/Library/Python/3.11/bin:$PATH"
 export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
 
 # Go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
-export PATH=/opt/homebrew/opt/go@1.23/bin:$PATH
+if [[ -d /usr/local/go ]]; then
+  export GOPATH=/usr/local/go
+elif [[ -d $HOME/go ]]; then
+  export GOPATH=$HOME/go
+fi
+if [[ -n "$GOPATH" ]]; then
+  export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
+fi
 
 # nvim
 NVIM_VERSION="0.11.0"
