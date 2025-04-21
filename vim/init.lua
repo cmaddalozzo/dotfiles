@@ -10,7 +10,7 @@ vim.g.loaded_netrwPlugin = 1
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system {
     'git',
     'clone',
@@ -28,7 +28,9 @@ require('config.filetypes').setup()
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', {
+  clear = true,
+})
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank()
