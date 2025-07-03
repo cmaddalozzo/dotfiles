@@ -1,7 +1,7 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # Path to my dotfiles dir
-export DOTFILES_DIR=$HOME/Code/dotfiles
+export DOTFILES_DIR=$(dirname $(readlink -f ${0}))
 
 # zsh settings: https://github.com/ohmyzsh/ohmyzsh/wiki/Settings
 
@@ -22,7 +22,7 @@ source $ZSH/oh-my-zsh.sh
 setopt SHARE_HISTORY
 
 # Load custom functions
-source $DOTFILES_DIR/zsh/functions.zsh
+source $DOTFILES_DIR/functions.zsh
 
 # Configure PATH
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:$HOME/.local/bin"
@@ -86,7 +86,7 @@ else
 fi
 
 # Load aliases
-source $DOTFILES_DIR/zsh/aliases.zsh
+source $DOTFILES_DIR/aliases.zsh
 
 # Set key bindings
 bindkey '^P' up-history
@@ -156,6 +156,6 @@ export SDKMAN_DIR="$HOME/.sdkman"
 export CODE=$HOME/Code
 
 # Source work specific configs
-for conf in $DOTFILES_DIR/zsh/work/*.zsh(N); do
+for conf in $DOTFILES_DIR/work/*.zsh(N); do
     source $conf
 done
