@@ -23,6 +23,17 @@ return {
     opts = {},
   },
   {
+    "kevinhwang91/nvim-ufo",
+    dependencies = { "kevinhwang91/promise-async" },
+    opts = {},
+    init = function()
+      vim.o.foldcolumn = '1' -- '0' is not bad
+      vim.o.foldlevel = 99
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+    end,
+  },
+  {
     'leoluz/nvim-dap-go',
     ft = "go",
   },
@@ -44,6 +55,9 @@ return {
       'towolf/vim-helm',
       'mfussenegger/nvim-jdtls',
     }
+  },
+  {
+    'mfussenegger/nvim-dap',
   },
   {
     "folke/lazydev.nvim",

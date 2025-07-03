@@ -69,3 +69,5 @@ alias bfmt='gnumfmt --to=iec'
 alias hfmt=bfmt
 
 alias lg=lazygit
+
+alias killbg='kill ${${(v)jobstates##*:*:}%=*}'

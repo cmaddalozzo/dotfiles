@@ -102,7 +102,7 @@ local servers = {
   gopls = {
     disabled = vim.fn.executable('go') == 0,
     gopls = {
-      buildFlags = { '-tags=integration' },
+      buildFlags = { '-tags=integration test_extproc' },
     },
   },
   helm_ls = {
@@ -137,31 +137,29 @@ function M.setup()
   -- Setup mason so it can manage external tooling
   require('mason').setup()
 
+  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+  -- Add fold support
+  capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true,
+  }
+
   local ensure_installed = {}
   for name, config in pairs(servers) do
     if not config['disabled'] then
       table.insert(ensure_installed, name)
+      vim.lsp.config(name, {
+        settings = config,
+        on_attach = on_attach,
+        capabilities = capabilities
+      })
     end
   end
 
   mason_lspconfig.setup {
     ensure_installed = ensure_installed,
-  }
-
-  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-  mason_lspconfig.setup_handlers {
-    function(server_name)
-      if servers[server_name] and not servers[server_name]['disabled'] then
-        require('lspconfig')[server_name].setup {
-          capabilities = capabilities,
-          on_attach = on_attach,
-          settings = servers[server_name] or {},
-        }
-      end
-    end,
   }
 end
 

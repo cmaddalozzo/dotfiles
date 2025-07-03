@@ -72,7 +72,6 @@ return {
             if not format_is_enabled then
               return
             end
-            require('lint').try_lint()
 
             vim.lsp.buf.format {
               async = false,
@@ -87,6 +86,8 @@ return {
                 context = { only = { 'source.organizeImports' } },
               }
             end
+            require('lint').try_lint()
+            require('lint').try_lint("typos")
           end,
         })
       end,

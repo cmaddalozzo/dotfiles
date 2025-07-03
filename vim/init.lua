@@ -1,5 +1,5 @@
 -- set <comma> as the leader key
---  XXX: Must happen before plugins are required (otherwise the wrong leader will be used)
+-- NOTE: Must happen before plugins are required (otherwise the wrong leader will be used)
 vim.g.mapleader = ','
 vim.g.maplocalleader = '\\'
 
@@ -40,7 +40,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- [[ Setting options ]]
-
 require('config.settings').setup()
 
 -- [[ Basic Keymaps ]]
@@ -77,7 +76,7 @@ vim.keymap.set('n', '<localleader>n', '<cmd>lne<cr>', { desc = "Next location li
 vim.keymap.set('n', '<localleader>p', '<cmd>lp<cr>', { desc = "Previous location list item" })
 
 -- [[ Diagnostics ]]
-local signs = { Error = "✘", Warn = "⚠", Hint = "💡", Info = "ℹ️" }
+local signs = { Error = "✘", Warn = " ", Hint = "💡", Info = "ℹ️" }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })

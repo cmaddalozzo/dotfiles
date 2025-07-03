@@ -52,6 +52,9 @@ function M.setup()
   vim.keymap.set('n', telescope_leader .. 't', telescope_builtin.builtin,
     { desc = 'Search [t]elescope builtins' }
   )
+  vim.keymap.set('n', telescope_leader .. ';', telescope_builtin.commands,
+    { desc = 'Search commands[;]' }
+  )
   vim.keymap.set('n', telescope_leader .. 'h', telescope_builtin.help_tags,
     { desc = 'Get [h]elp' }
   )
