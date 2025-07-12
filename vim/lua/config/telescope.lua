@@ -31,6 +31,17 @@ function M.setup()
       hidden = true
     })
   end, { desc = 'Search [r]elative' })
+  vim.keymap.set('n', telescope_leader .. 'p', function()
+    require('fzf-lua').files({
+      fd_opts = "-t d -d 1",
+      previewer = false,
+      actions = {
+        enter = function(path)
+          telescope_builtin.live_grep({ cwd = require('fzf-lua.path').entry_to_file(path[1]).path })
+        end
+      }
+    })
+  end, { desc = 'Search in [p]ath' })
   vim.keymap.set('n', telescope_leader .. '/', telescope_builtin.live_grep,
     { desc = 'Live grep' }
   )

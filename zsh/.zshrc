@@ -1,16 +1,17 @@
 export ZSH=$HOME/.oh-my-zsh
 
 # Path to my dotfiles dir
-export DOTFILES_DIR=$(dirname $(readlink -f ${0}))
+export DOTFILES_DIR=$(dirname $(readlink -f $HOME/.zshrc))
 
 # zsh settings: https://github.com/ohmyzsh/ohmyzsh/wiki/Settings
 
 # See ~/.oh-my-zsh/themes/
+#ZSH_THEME="gozilla"
 ZSH_THEME="theunraveler"
 
 local OS=$(uname)
 local IS_MACOS=false
-plugins=(brew macos wd docker docker-compose aws history fzf-tab)
+plugins=(brew macos wd docker docker-compose aws history)
 if [[ "$OS" == "Darwin" ]]; then
     IS_MACOS=true
     plugins+="brew"
@@ -22,10 +23,10 @@ source $ZSH/oh-my-zsh.sh
 setopt SHARE_HISTORY
 
 # Load custom functions
-source $DOTFILES_DIR/functions.zsh
+[[ -f $DOTFILES_DIR/functions.zsh ]] && source $DOTFILES_DIR/functions.zsh
 
 # Configure PATH
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:$HOME/.local/bin"
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
 
 # Homebrew
 [[ -e /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -39,10 +40,10 @@ then
 fi
 
 # Python path
-export PATH="${HOME}/Library/Python/3.11/bin:$PATH"
+[[ -d ${HOME}/Library/Python/3.11/bin ]] && export PATH="${HOME}/Library/Python/3.11/bin:$PATH"
 
 # touch ID sudo!
-export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
+[[ -d /usr/local/opt/sudo-touchid/bin ]] && export PATH="$PATH:/usr/local/opt/sudo-touchid/bin"
 
 # Go
 if [[ -d /usr/local/go ]]; then
@@ -50,18 +51,19 @@ if [[ -d /usr/local/go ]]; then
 elif [[ -d $HOME/go ]]; then
   export GOPATH=$HOME/go
 fi
-if [[ -n "$GOPATH" ]]; then
-  export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
-fi
+[[ -n "$GOPATH" ]] && export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
 
 # nvim
-NVIM_VERSION="0.11.0"
-export PATH="/usr/local/nvim/$NVIM_VERSION/bin:$PATH"
+NVIM_VERSION="0.11.2"
+[[ -d /usr/local/nvim/$NVIM_VERSION/bin ]] && export PATH="/usr/local/nvim/$NVIM_VERSION/bin:$PATH"
 
 # flink
 FLINK_VERSION="1.18.1"
-export FLINK_PATH=/usr/local/flink/$FLINK_VERSION
-export PATH="${FLINK_PATH}/bin:$PATH"
+FLINK_PATH=/usr/local/flink/$FLINK_VERSION
+if [[ -d $FLINK_PATH ]]; then
+  export FLINK_PATH=$FLINK_PATH
+  export PATH="${FLINK_PATH}/bin:$PATH"
+fi
 
 #Colors
 export CLICOLOR=1
@@ -71,7 +73,7 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 export MANPAGER='nvim +Man!'
 
 # Load global .env file if it exists
-[ -f ~/.env ] && source ~/.env
+#[ -f ~/.env ] && source ~/.env
 
 # Set languange environment
 export LANG=en_US.UTF-8
@@ -86,7 +88,7 @@ else
 fi
 
 # Load aliases
-source $DOTFILES_DIR/aliases.zsh
+[[ -f $DOTFILES_DIR/aliases.zsh ]] && source $DOTFILES_DIR/aliases.zsh
 
 # Set key bindings
 bindkey '^P' up-history
@@ -99,8 +101,8 @@ export KEYTIMEOUT=1
 
 # Fuzzy finder
 # https://github.com/junegunn/fzf#fuzzy-completion-for-bash-and-zsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
+whence fzf &>/dev/null && source <(fzf --zsh)
 
 [[ -e ${HOME}/.iterm2_shell_integration.zsh ]] && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -108,10 +110,10 @@ fpath[1,0]=~/.zsh/completion/
 
 # GPG
 export GPG_TTY=$(tty)
-gpgconf --launch gpg-agent
+whence gpgconf &>/dev/null && gpgconf --launch gpg-agent
 
 # Setup direnv
-eval "$(direnv hook zsh)"
+whence direnv &>/dev/null &&  eval "$(direnv hook zsh)"
 
 # Setup completion
 autoload -U +X bashcompinit && bashcompinit
@@ -138,7 +140,7 @@ whence terraform &>/dev/null && complete -o nospace -C $(whence terraform) terra
 #minio client autocompletion
 whence mc &>/dev/null && complete -o nospace -C $(whence mc) mc
 
-if whence brew; then
+if whence brew &>/dev/null; then
     local gcloud_path="$(brew --prefix)/share/google-cloud-sdk"
     [[ $gcloud_path/path.zsh.inc ]] && source $gcloud_path/path.zsh.inc
     [[ $gcloud_path/completion.zsh.inc ]] && source $gcloud_path/completion.zsh.inc

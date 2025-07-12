@@ -155,6 +155,7 @@ function M.setup()
         on_attach = on_attach,
         capabilities = capabilities
       })
+      vim.lsp.enable(name)
     end
   end
 

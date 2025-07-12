@@ -1,5 +1,4 @@
 return {
-  -- NOTE: First, some plugins that don't require any configuration
   'tpope/vim-sleuth',
   -- Add useful hotkey for operation with surroundings
   -- cs{what}{towhat} - inside '' or [] or something like this allow
@@ -58,6 +57,24 @@ return {
   },
   {
     'mfussenegger/nvim-dap',
+    config = function()
+      local dap = require('dap')
+      dap.listeners.before['event_initialized']['dazzler'] = function(_)
+        require("nvim-dap-virtual-text").setup({})
+        local dapui = require("dapui")
+        dapui.open()
+        vim.keymap.set('n', '<localleader>d', dapui.toggle, {
+          desc = "Open [d]ebug UI"
+        })
+      end
+      dap.listeners.before['vent_terminate']['dazzler'] = function(_)
+        local dapui = require("dapui")
+        dapui.close()
+      end
+    end,
+    dependencies = {
+      "theHamsta/nvim-dap-virtual-text",
+    }
   },
   {
     "folke/lazydev.nvim",
@@ -71,10 +88,11 @@ return {
   },
   {
     "rcarriga/nvim-dap-ui",
+    opts = {},
     dependencies = {
-      "mfussenegger/nvim-dap",
       "nvim-neotest/nvim-nio"
-    }
+    },
+    cmd = "DapContinue",
   },
   {
     -- Autocompletion
@@ -152,7 +170,7 @@ return {
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
     dependencies = {
-      'kyazdani42/nvim-web-devicons',
+      'nvim-tree/nvim-web-devicons',
       'nvim-lua/lsp-status.nvim'
     },
     opts = {
@@ -205,7 +223,7 @@ return {
       end
     },
     config = true,
-    dependencies = { 'kyazdani42/nvim-web-devicons' },
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
   },
   {
     'stevearc/oil.nvim',
@@ -270,8 +288,9 @@ return {
       -- Calling telescope's setup from multiple specs does not hurt, it will happily merge the
       -- configs for us. We won't use data, as everything is in it's own namespace (telescope
       -- defaults, as well as each extension).
-      require("telescope").setup(opts)
-      require("telescope").load_extension("undo")
+      local telescope = require("telescope")
+      telescope.setup(opts)
+      telescope.load_extension("undo")
     end,
   },
   {
@@ -305,17 +324,36 @@ return {
   {
     "FabijanZulj/blame.nvim",
     cmd = 'BlameToggle',
+    opts = {},
     keys = {
       { "<leader>b", "<cmd>BlameToggle virtual<cr>", "Git Blame" }
     },
-    init = function()
-      require('blame').setup()
+  },
+  {
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- or if using mini.icons/mini.nvim
+    -- dependencies = { "echasnovski/mini.icons" },
+    config = function()
+      local fzf_lua = require('fzf-lua')
+      fzf_lua.setup()
+      fzf_lua.register_ui_select()
     end,
   },
   {
     'iamcco/markdown-preview.nvim',
-    build = 'cd app && npm install',
-    ft = 'markdown'
+    build = function() vim.fn["mkdp#util#install"]() end,
+    ft = 'markdown',
+    init = function()
+      vim.g.mkdp_auto_close = 0
+    end,
+  },
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    -- For `nvim-treesitter` users.
+    priority = 49,
   },
   {
     import = 'custom.plugins.general'
