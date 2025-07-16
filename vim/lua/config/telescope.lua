@@ -36,8 +36,13 @@ function M.setup()
       fd_opts = "-t d -d 1",
       previewer = false,
       actions = {
-        enter = function(path)
-          telescope_builtin.live_grep({ cwd = require('fzf-lua.path').entry_to_file(path[1]).path })
+        enter = function(paths)
+          local search_dirs = {}
+          local pathlib = require('fzf-lua.path')
+          for _, p in pairs(paths) do
+            table.insert(search_dirs, pathlib.entry_to_file(p).path)
+          end
+          telescope_builtin.live_grep({ search_dirs = search_dirs })
         end
       }
     })
