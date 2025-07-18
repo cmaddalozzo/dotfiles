@@ -235,7 +235,7 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     init = function()
-      require('config.telescope').setup()
+      require('config.fuzzyfinder').setup()
     end,
     version = '*',
     dependencies = { 'nvim-lua/plenary.nvim' }
@@ -337,7 +337,20 @@ return {
     -- dependencies = { "echasnovski/mini.icons" },
     config = function()
       local fzf_lua = require('fzf-lua')
-      fzf_lua.setup()
+      local actions = fzf_lua.actions
+      fzf_lua.setup({
+        keymap = {
+          fzf = {
+            ["ctrl-a"] = "toggle-all",
+          }
+        },
+        actions = {
+          files = {
+            true,
+            ["ctrl-q"] = actions.file_sel_to_qf,
+          }
+        }
+      })
       fzf_lua.register_ui_select()
     end,
   },
