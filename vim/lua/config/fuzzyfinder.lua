@@ -11,8 +11,8 @@ function M.setup()
   vim.keymap.set('n', telescope_leader .. 'b', fzf.buffers,
     { desc = 'Search [b]uffers' })
   vim.keymap.set('n', telescope_leader .. 'r', function()
-    fzf.files({
-      cwd = vim.api.nvim_exec("echo expand('%:p:h')", true),
+    require('telescope').extensions.file_browser.file_browser({
+      path = vim.api.nvim_exec("echo expand('%:p:h')", true),
       hidden = true
     })
   end, { desc = 'Search [r]elative' })
@@ -20,6 +20,7 @@ function M.setup()
     require('fzf-lua').files({
       fd_opts = "-t d -d 1",
       previewer = false,
+      hidden = true,
       actions = {
         enter = function(paths)
           local search_dirs = {}
@@ -66,6 +67,7 @@ function M.setup()
     fzf.files({ cwd = vim.fn.stdpath('config'), follow = true })
   end, { desc = 'Search [c]onfig' })
   vim.keymap.set('n', telescope_leader .. 'q', fzf.quickfix, { desc = 'Search [q]uickfix' })
+  vim.keymap.set('n', telescope_leader .. 'Q', fzf.quickfix_stack, { desc = 'Search [Q]uickfix stack' })
 end
 
 return M

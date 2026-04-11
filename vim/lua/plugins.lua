@@ -33,6 +33,14 @@ return {
     end,
   },
   {
+    'nvim-mini/mini.align',
+    version = false,
+    config = true,
+    keys = {
+      { "ga", "gA", }
+    },
+  },
+  {
     'leoluz/nvim-dap-go',
     ft = "go",
   },
@@ -337,17 +345,16 @@ return {
     -- dependencies = { "echasnovski/mini.icons" },
     config = function()
       local fzf_lua = require('fzf-lua')
-      local actions = fzf_lua.actions
       fzf_lua.setup({
         keymap = {
           fzf = {
             ["ctrl-a"] = "toggle-all",
+            ["ctrl-q"] = "select-all+accept",
           }
         },
         actions = {
           files = {
             true,
-            ["ctrl-q"] = actions.file_sel_to_qf,
           }
         }
       })
@@ -361,12 +368,6 @@ return {
     init = function()
       vim.g.mkdp_auto_close = 0
     end,
-  },
-  {
-    "OXY2DEV/markview.nvim",
-    lazy = false,
-    -- For `nvim-treesitter` users.
-    priority = 49,
   },
   {
     import = 'custom.plugins.general'

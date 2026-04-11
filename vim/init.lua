@@ -62,6 +62,7 @@ vim.keymap.set('n', '<leader>vrc', '<cmd>e ' .. vim.env.MYVIMRC .. '<cr>')
 vim.keymap.set('n', '<leader>n', '<cmd>noh<cr>')
 
 vim.keymap.set('n', '<leader>u', require('functions').insert_uuid)
+vim.keymap.set('n', '<leader>px', require('functions').paste_xml_block, { desc = 'Paste clipboard in XML block' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', function()

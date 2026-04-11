@@ -21,4 +21,16 @@ fn.git_root = function()
   return string.gsub(git_root, "%s+", "")
 end
 
+fn.paste_xml_block = function()
+  local tag = vim.fn.input('XML tag: ')
+  if tag == '' then return end
+  local clipboard = vim.fn.getreg('+')
+  local lines = { '<' .. tag .. '>' }
+  for line in clipboard:gmatch('[^\n]+') do
+    table.insert(lines, line)
+  end
+  table.insert(lines, '</' .. tag .. '>')
+  vim.api.nvim_put(lines, 'l', false, false)
+end
+
 return fn
