@@ -7,23 +7,7 @@ vim.g.maplocalleader = '\\'
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- Install package manager
---    https://github.com/folke/lazy.nvim
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not vim.uv.fs_stat(lazypath) then
-  vim.fn.system {
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
-    lazypath,
-  }
-end
-vim.opt.rtp:prepend(lazypath)
-
-require('lazy').setup('plugins')
-
+require('config.plugins').setup()
 require('config.filetypes').setup()
 
 -- [[ Highlight on yank ]]
@@ -61,8 +45,7 @@ vim.keymap.set('n', '<leader>vrc', '<cmd>e ' .. vim.env.MYVIMRC .. '<cr>')
 --Remove highlighting
 vim.keymap.set('n', '<leader>n', '<cmd>noh<cr>')
 
-vim.keymap.set('n', '<leader>u', require('functions').insert_uuid)
-vim.keymap.set('n', '<leader>px', require('functions').paste_xml_block, { desc = 'Paste clipboard in XML block' })
+vim.keymap.set('n', '<leader>u', require('config.functions').insert_uuid)
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', function()

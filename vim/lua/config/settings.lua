@@ -101,6 +101,9 @@ function M.setup()
 
   vim.o.termguicolors = true
   vim.o.winborder = 'single'
+
+  vim.o.foldlevel = 99
+  vim.o.foldlevelstart = 99
 end
 
 return M

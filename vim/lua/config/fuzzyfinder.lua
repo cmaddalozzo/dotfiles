@@ -1,22 +1,35 @@
 local M = {}
 -- [[ Configure Telescope ]]
 function M.setup()
-  local telescope_leader = '<space>'
+  local fuzzy_leader = '<space>'
   local fzf = require("fzf-lua")
 
-  vim.keymap.set('n', telescope_leader .. '<space>', fzf.global,
+  fzf.setup({
+    keymap = {
+      fzf = {
+        ["ctrl-a"] = "toggle-all",
+        ["ctrl-q"] = "select-all+accept",
+      }
+    },
+    actions = {
+      files = {
+        true,
+      }
+    }
+  })
+
+  fzf.register_ui_select()
+
+  vim.keymap.set('n', fuzzy_leader .. '<space>', fzf.global,
     { desc = 'Find files' })
-  vim.keymap.set('n', telescope_leader .. 'm', function() fzf.oldfiles({ cwd = vim.fn.getcwd() }) end,
+  vim.keymap.set('n', fuzzy_leader .. 'm', function() fzf.oldfiles({ cwd = vim.fn.getcwd() }) end,
     { desc = 'Recent files' })
-  vim.keymap.set('n', telescope_leader .. 'b', fzf.buffers,
+  vim.keymap.set('n', fuzzy_leader .. 'b', fzf.buffers,
     { desc = 'Search [b]uffers' })
-  vim.keymap.set('n', telescope_leader .. 'r', function()
-    require('telescope').extensions.file_browser.file_browser({
-      path = vim.api.nvim_exec("echo expand('%:p:h')", true),
-      hidden = true
-    })
-  end, { desc = 'Search [r]elative' })
-  vim.keymap.set('n', telescope_leader .. 'p', function()
+  vim.keymap.set('n', fuzzy_leader .. 'r', function()
+    require('oil').open(vim.fn.expand('%:p:h'))
+  end, { desc = 'Find [r]elative' })
+  vim.keymap.set('n', fuzzy_leader .. 'p', function()
     require('fzf-lua').files({
       fd_opts = "-t d -d 1",
       previewer = false,
@@ -33,41 +46,41 @@ function M.setup()
       }
     })
   end, { desc = 'Search in [p]ath' })
-  vim.keymap.set('n', telescope_leader .. '/', fzf.live_grep,
+  vim.keymap.set('n', fuzzy_leader .. '/', fzf.live_grep,
     { desc = 'Live grep' }
   )
-  vim.keymap.set('n', telescope_leader .. '*', fzf.grep_cword,
+  vim.keymap.set('n', fuzzy_leader .. '*', fzf.grep_cword,
     { desc = 'Grep string' }
   )
-  vim.keymap.set('n', telescope_leader .. 'g', fzf.git_status,
+  vim.keymap.set('n', fuzzy_leader .. 'g', fzf.git_status,
     { desc = 'Browse [g]it status' }
   )
-  vim.keymap.set('n', telescope_leader .. 'k', fzf.keymaps,
+  vim.keymap.set('n', fuzzy_leader .. 'k', fzf.keymaps,
     { desc = 'Search [k]eymaps' }
   )
-  vim.keymap.set('n', telescope_leader .. 's', fzf.lsp_document_symbols,
+  vim.keymap.set('n', fuzzy_leader .. 's', fzf.lsp_document_symbols,
     { desc = 'Search document [s]ymbols' }
   )
-  vim.keymap.set('n', telescope_leader .. 'S', fzf.lsp_live_workspace_symbols,
+  vim.keymap.set('n', fuzzy_leader .. 'S', fzf.lsp_live_workspace_symbols,
     { desc = 'Search workspace [S]ymbols' }
   )
-  vim.keymap.set('n', telescope_leader .. 't', fzf.builtin,
+  vim.keymap.set('n', fuzzy_leader .. 't', fzf.builtin,
     { desc = 'Search [t]elescope builtins' }
   )
-  vim.keymap.set('n', telescope_leader .. ';', fzf.commands,
+  vim.keymap.set('n', fuzzy_leader .. ';', fzf.commands,
     { desc = 'Search commands[;]' }
   )
-  vim.keymap.set('n', telescope_leader .. 'h', fzf.helptags,
+  vim.keymap.set('n', fuzzy_leader .. '"', fzf.registers,
+    { desc = 'Search registers["]' }
+  )
+  vim.keymap.set('n', fuzzy_leader .. 'h', fzf.helptags,
     { desc = 'Get [h]elp' }
   )
-  vim.keymap.set('n', telescope_leader .. 'f', require('telescope').extensions.file_browser.file_browser,
-    { desc = 'Browse [f]iles' }
-  )
-  vim.keymap.set('n', telescope_leader .. 'c', function()
+  vim.keymap.set('n', fuzzy_leader .. 'c', function()
     fzf.files({ cwd = vim.fn.stdpath('config'), follow = true })
   end, { desc = 'Search [c]onfig' })
-  vim.keymap.set('n', telescope_leader .. 'q', fzf.quickfix, { desc = 'Search [q]uickfix' })
-  vim.keymap.set('n', telescope_leader .. 'Q', fzf.quickfix_stack, { desc = 'Search [Q]uickfix stack' })
+  vim.keymap.set('n', fuzzy_leader .. 'q', fzf.quickfix, { desc = 'Search [q]uickfix' })
+  vim.keymap.set('n', fuzzy_leader .. 'Q', fzf.quickfix_stack, { desc = 'Search [Q]uickfix stack' })
 end
 
 return M
