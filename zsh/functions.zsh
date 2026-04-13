@@ -30,7 +30,10 @@ function new_tmux_from_dir_name() {
   tmux has-session -t $sess 2>/dev/null
   if [ $? != 0 ]; then
     # Set up our session
-    tmux new-session -dAs $sess \; split-window -h \; split-window -v \; attach
+    window_width=$(tmux display -p '#{window_width}')
+    half_window=$((window_width / 2))
+    tmux new-session -dAs $sess \; split-window -h \; split-window -v \; split-window -v \; \
+      select-layout main-vertical \; resizep -t {left} -x $half_window \; attach
   else
     tmux attach -t $sess
   fi
@@ -109,4 +112,9 @@ function install-local {
     fi
     cp $1 $HOME/.local/bin/
     sudo xattr -r -d com.apple.quarantine ~/.local/bin/$(basename $1)
+}
+
+function scratch() {
+  local file="$CODE/scratch/$(date +%y-%m-%d).md"
+  nvim "$file"
 }

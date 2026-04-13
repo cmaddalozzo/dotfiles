@@ -161,3 +161,8 @@ export CODE=$HOME/Code
 for conf in $DOTFILES_DIR/work/*.zsh(N); do
     source $conf
 done
+
+source ~/.lcldevrc
+
+# opencode
+export PATH=/Users/cmaddalozzo/.opencode/bin:$PATH

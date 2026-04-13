@@ -32,10 +32,12 @@ alias pbc='pbcopy'
 
 alias pbj='pbpaste | jq'
 
-alias bsd='base64 -d'
+#alias bd='base64 -d'
+alias be='base64'
 
 alias vimm='mvim'
 alias vim='nvim'
+alias viml="vim -c 'set ft=yaml'"
 
 alias vimrc='vim ~/.config/nvim/init.vim'
 
