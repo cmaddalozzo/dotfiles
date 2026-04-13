@@ -37,6 +37,7 @@ local plugins = {
       })
     end
   },
+  -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
   -- Add useful hotkey for operation with surroundings
   -- cs{what}{towhat} - inside '' or [] or something like this allow
@@ -46,27 +47,33 @@ local plugins = {
   -- Smart matching of pairs e.g vv
   'gorkunov/smartpairs.vim',
   {
+    -- Auto-close brackets, quotes, and other pairs
     'windwp/nvim-autopairs',
     function()
       require("nvim-autopairs").setup({})
     end
   },
   {
+    -- Display indent guides
     'lukas-reineke/indent-blankline.nvim',
     function()
       require('ibl').setup()
     end
   },
+  -- Highlight other uses of the word under cursor
   'RRethy/vim-illuminate',
   {
+    -- File explorer as a buffer
     'stevearc/oil.nvim',
     { 'echasnovski/mini.icons' },
     function()
       require('oil').setup({})
     end
   },
+  -- Seamless navigation between vim and tmux panes
   'christoomey/vim-tmux-navigator',
   {
+    -- Lua LSP setup for Neovim config development
     'folke/lazydev.nvim',
     function()
       require('lazydev').setup({})
@@ -80,6 +87,7 @@ local plugins = {
     end,
   },
   {
+    -- LSP configuration and setup
     'neovim/nvim-lspconfig',
     function()
       require('config.lsp').setup()
@@ -96,6 +104,7 @@ local plugins = {
     }
   },
   {
+    -- Code formatting on demand
     'mhartington/formatter.nvim',
     function()
       require("formatter").setup({
@@ -111,6 +120,7 @@ local plugins = {
     end,
   },
   {
+    -- Debug Adapter Protocol client
     'mfussenegger/nvim-dap',
     {
       "theHamsta/nvim-dap-virtual-text",
@@ -132,6 +142,7 @@ local plugins = {
     end,
   },
   {
+    -- UI for nvim-dap with Go support
     "rcarriga/nvim-dap-ui",
     {
       "nvim-neotest/nvim-nio",
@@ -143,6 +154,7 @@ local plugins = {
     end
   },
   {
+    -- GitHub Copilot inline suggestions
     "github/copilot.vim",
     function()
       vim.keymap.set('i', '<C-j>', 'copilot#Accept("\\<CR>")', {
@@ -172,12 +184,14 @@ local plugins = {
     },
   },
   {
+    -- Async linting engine
     'mfussenegger/nvim-lint',
     function()
       require('config.lint').setup()
     end,
   },
   {
+    -- Inline git blame
     "FabijanZulj/blame.nvim",
     function()
       require('blame').setup {}
@@ -187,6 +201,7 @@ local plugins = {
     end,
   },
   {
+    -- Magit-style git interface
     "NeogitOrg/neogit",
     {
       "nvim-lua/plenary.nvim",
@@ -216,6 +231,7 @@ local plugins = {
     end,
   },
   {
+    -- Fuzzy finder powered by fzf
     "ibhagwan/fzf-lua",
     {
       "nvim-tree/nvim-web-devicons"
@@ -223,6 +239,7 @@ local plugins = {
     require('config.fuzzyfinder').setup
   },
   {
+    -- Display available keybindings in a popup
     'folke/which-key.nvim',
     function()
       require('which-key').setup({})
