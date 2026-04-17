@@ -26,9 +26,12 @@ function M.setup()
     { desc = 'Recent files' })
   vim.keymap.set('n', fuzzy_leader .. 'b', fzf.buffers,
     { desc = 'Search [b]uffers' })
+  vim.keymap.set('n', fuzzy_leader .. 'f', function()
+    require('oil').open_float()
+  end, { desc = 'Navigate [f]iles' })
   vim.keymap.set('n', fuzzy_leader .. 'r', function()
-    require('oil').open(vim.fn.expand('%:p:h'))
-  end, { desc = 'Find [r]elative' })
+    require('oil').open_float(vim.fn.expand('%:p:h'))
+  end, { desc = 'Navigate [r]elative' })
   vim.keymap.set('n', fuzzy_leader .. 'p', function()
     require('fzf-lua').files({
       fd_opts = "-t d -d 1",

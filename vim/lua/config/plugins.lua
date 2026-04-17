@@ -71,7 +71,11 @@ local plugins = {
     'stevearc/oil.nvim',
     { 'echasnovski/mini.icons' },
     function()
-      require('oil').setup({})
+      require('oil').setup({
+        keymaps = {
+          ["q"] = "actions.close",
+        }
+      })
     end
   },
   -- Seamless navigation between vim and tmux panes

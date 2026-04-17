@@ -109,6 +109,10 @@ function M.setup()
   mason_lspconfig.setup {
     ensure_installed = ensure_installed,
   }
+
+  vim.api.nvim_create_user_command('LspInfo', function()
+    vim.cmd('checkhealth vim.lsp')
+  end, { desc = 'Show LSP client status' })
 end
 
 return M
