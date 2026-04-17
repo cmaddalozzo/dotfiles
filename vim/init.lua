@@ -67,4 +67,4 @@ for type, icon in pairs(signs) do
 end
 
 -- Monkey patch deprecate
-vim.deprecate = function() end
+-- vim.deprecate = function() end

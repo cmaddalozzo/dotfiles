@@ -21,7 +21,6 @@ local plugins = {
     -- See `:help lualine.txt`
     {
       'nvim-tree/nvim-web-devicons',
-      'nvim-lua/lsp-status.nvim'
     },
     function()
       require('lualine').setup({
@@ -32,7 +31,12 @@ local plugins = {
           section_separators = '',
         },
         sections = {
-          lualine_x = { 'filetype', "require'lsp-status'.status()" },
+          lualine_c = { { 'filename', path = 3 } },
+          lualine_x = { 'filetype', {
+            'lsp_status',
+            ignore_lsp = { 'GitHub Copilot' },
+          }
+          },
         }
       })
     end
@@ -135,7 +139,7 @@ local plugins = {
           desc = "Open [d]ebug UI"
         })
       end
-      dap.listeners.before['vent_terminate']['dazzler'] = function(_)
+      dap.listeners.before['event_terminate']['dazzler'] = function(_)
         local dapui = require("dapui")
         dapui.close()
       end

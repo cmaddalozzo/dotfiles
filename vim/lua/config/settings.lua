@@ -15,10 +15,7 @@ function M.setup()
   vim.opt.iskeyword:append('-')
   -- Do not add eol at the end of file.
   vim.opt.endofline = false
-  -- Visual bell
-  vim.opt.visualbell = true
-  -- Allow switching buffers without saving.
-  vim.opt.hidden = true
+
   -- Grep command
   vim.opt.grepprg = 'rg --vimgrep'
   vim.opt.grepformat = '%f:%l:%c:%m'
@@ -31,9 +28,6 @@ function M.setup()
 
   -- Tar command
   vim.g.tar_cmd = '/usr/local/bin/gtar'
-
-  -- Set highlight on search
-  vim.o.hlsearch = true
 
   -- Make line numbers default
   vim.wo.number = true
@@ -49,14 +43,10 @@ function M.setup()
   vim.o.sidescrolloff = 10
 
   -- Indenting options
-  -- Copy indent from previous line
-  vim.o.autoindent = true
   -- Add additional indents when necessary
   vim.o.smartindent = true
   -- Replace tabs with spaces
   vim.o.expandtab = true
-  -- When you hit tab at start of line, indent added according to shiftwidth value
-  vim.o.smarttab = true
   -- Set tabsize
   vim.o.tabstop = 2
   vim.o.shiftwidth = 2
@@ -97,9 +87,8 @@ function M.setup()
   vim.o.timeoutlen = 300
 
   -- Set completeopt to have a better completion experience
-  vim.o.completeopt = 'menuone,noselect'
+  vim.o.completeopt = 'menuone,noselect,popup'
 
-  vim.o.termguicolors = true
   vim.o.winborder = 'single'
 
   vim.o.foldlevel = 99
