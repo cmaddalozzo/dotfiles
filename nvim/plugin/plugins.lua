@@ -108,15 +108,15 @@ local plugins = {
     -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     function()
-      require('config.treesitter').setup()
+      require('config.plugin.treesitter').setup()
     end,
   },
   {
     -- LSP configuration and setup
     'neovim/nvim-lspconfig',
     function()
-      require('config.lsp').setup()
-      require('config.autoformat').setup()
+      require('config.plugin.lsp').setup()
+      require('config.plugin.autoformat').setup()
     end,
     {
       'williamboman/mason.nvim',
@@ -197,29 +197,7 @@ local plugins = {
     -- 'hrsh7th/nvim-cmp',
     'saghen/blink.cmp',
     function()
-      require('blink.cmp').setup(
-        {
-          keymap = {
-            preset = 'enter',
-            ['<Tab>'] = { function(cmp)
-              if cmp.is_active() then
-                cmp.select_next()
-              elseif cmp.snippet_active() then
-                cmp.snippet_forward()
-              end
-            end },
-            ['<S-Tab>'] = { function(cmp)
-              if cmp.is_active() then
-                cmp.select_prev()
-              elseif cmp.snippet_active() then
-                cmp.snippet_backward()
-              end
-            end },
-          },
-          completion = { documentation = { auto_show = true } },
-          signature = { enabled = true },
-        })
-      -- require('config.completion').setup()
+      require('config.plugin.completion').setup()
     end,
     {
       -- 'hrsh7th/cmp-nvim-lsp',
@@ -235,7 +213,7 @@ local plugins = {
     -- Async linting engine
     'mfussenegger/nvim-lint',
     function()
-      require('config.lint').setup()
+      require('config.plugin.lint').setup()
     end,
   },
   {
@@ -284,7 +262,7 @@ local plugins = {
     {
       "nvim-tree/nvim-web-devicons"
     },
-    require('config.fuzzyfinder').setup
+    require('config.plugin.fuzzyfinder').setup
   },
   {
     -- Display available keybindings in a popup
