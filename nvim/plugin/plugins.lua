@@ -1,8 +1,25 @@
-local M = {}
-
 local gh = function(repo)
   return 'https://github.com/' .. repo
 end
+
+local function build_blink(path)
+  local obj = vim.system({ 'cargo', 'build', '--release' }, { cwd = path }):wait()
+  return obj == 0
+end
+
+local hooks = function(ev)
+  local name, kind = ev.data.spec.name, ev.data.kind
+
+  if name == 'blink.cmp' and (kind == 'install' or kind == 'update') then
+    if build_blink(ev.data.path) then
+      vim.notify('Building blink.cmp done', vim.log.levels.INFO)
+    else
+      vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
+    end
+  end
+end
+
+vim.api.nvim_create_autocmd('PackChanged', { callback = hooks })
 
 local plugins = {
   {
@@ -69,7 +86,7 @@ local plugins = {
   {
     -- File explorer as a buffer
     'stevearc/oil.nvim',
-    { 'echasnovski/mini.icons' },
+    { 'nvim-mini/mini.icons' },
     function()
       require('oil').setup({
         keymaps = {
@@ -177,16 +194,39 @@ local plugins = {
   },
   {
     -- Autocompletion
-    'hrsh7th/nvim-cmp',
+    -- 'hrsh7th/nvim-cmp',
+    'saghen/blink.cmp',
     function()
-      require('config.completion').setup()
+      require('blink.cmp').setup(
+        {
+          keymap = {
+            preset = 'enter',
+            ['<Tab>'] = { function(cmp)
+              if cmp.is_active() then
+                cmp.select_next()
+              elseif cmp.snippet_active() then
+                cmp.snippet_forward()
+              end
+            end },
+            ['<S-Tab>'] = { function(cmp)
+              if cmp.is_active() then
+                cmp.select_prev()
+              elseif cmp.snippet_active() then
+                cmp.snippet_backward()
+              end
+            end },
+          },
+          completion = { documentation = { auto_show = true } },
+          signature = { enabled = true },
+        })
+      -- require('config.completion').setup()
     end,
     {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-buffer',
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
+      -- 'hrsh7th/cmp-nvim-lsp',
+      -- 'hrsh7th/cmp-path',
+      -- 'hrsh7th/cmp-buffer',
+      -- 'L3MON4D3/LuaSnip',
+      -- 'saadparwaiz1/cmp_luasnip',
       'rafamadriz/friendly-snippets',
       'onsails/lspkind.nvim',
     },
@@ -255,19 +295,15 @@ local plugins = {
   },
 }
 
-function M.setup()
-  local inits_fns = {}
-  local pack_plugins = {}
+local inits_fns = {}
+local pack_plugins = {}
 
-  vim.iter(plugins):flatten(99):each(function(x)
-    if vim.is_callable(x) then
-      table.insert(inits_fns, x)
-    else
-      table.insert(pack_plugins, gh(x))
-    end
-  end)
-  vim.pack.add(pack_plugins)
-  vim.iter(inits_fns):each(function(f) f() end)
-end
-
-return M
+vim.iter(plugins):flatten(99):each(function(x)
+  if vim.is_callable(x) then
+    table.insert(inits_fns, x)
+  else
+    table.insert(pack_plugins, gh(x))
+  end
+end)
+vim.pack.add(pack_plugins)
+vim.iter(inits_fns):each(function(f) f() end)

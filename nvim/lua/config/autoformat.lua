@@ -1,7 +1,4 @@
--- autoformat.lua
---
--- Use language server to automatically format code on save.
--- Adds additional commands as well to manage the behavior
+-- Autoformat
 local M = {}
 
 function M.setup()

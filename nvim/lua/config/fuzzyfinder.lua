@@ -1,5 +1,5 @@
 local M = {}
--- [[ Configure Telescope ]]
+-- Configure fuzzy finder
 function M.setup()
   local fuzzy_leader = '<space>'
   local fzf = require("fzf-lua")

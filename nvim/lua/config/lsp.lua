@@ -1,7 +1,6 @@
 local M = {}
 
--- LSP settings.
---  This function gets run when an LSP connects to a particular buffer.
+-- LSP settings
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
@@ -38,9 +37,7 @@ local on_attach = function(_, bufnr)
   end, { desc = 'Format current buffer with LSP' })
 end
 
--- Enable the following language servers
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
+-- Language servers
 local servers = {
   jdtls = {
     disabled = false
@@ -86,7 +83,7 @@ function M.setup()
 
   -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+  -- capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
   -- Add fold support
   capabilities.textDocument.foldingRange = {
     dynamicRegistration = false,

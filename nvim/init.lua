@@ -1,16 +1,8 @@
--- set <comma> as the leader key
--- NOTE: Must happen before plugins are required (otherwise the wrong leader will be used)
-vim.g.mapleader = ','
-vim.g.maplocalleader = '\\'
-
--- disable netrw
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
-require('config.plugins').setup()
+-- Setting options
+require('config.settings').setup()
 require('config.filetypes').setup()
 
--- [[ Highlight on yank ]]
+-- Highlight on yank
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', {
   clear = true,
@@ -23,10 +15,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- [[ Setting options ]]
-require('config.settings').setup()
-
--- [[ Basic Keymaps ]]
+-- Basic Keymaps
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -37,12 +26,12 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 
---Go to previous file
+-- Go to previous file
 vim.keymap.set('n', '<leader>l', '<cmd>e#<cr>')
 -- Edit this file
 vim.keymap.set('n', '<leader>vrc', '<cmd>e ' .. vim.env.MYVIMRC .. '<cr>')
 
---Remove highlighting
+-- Remove highlighting
 vim.keymap.set('n', '<leader>n', '<cmd>noh<cr>')
 
 vim.keymap.set('n', '<leader>u', require('config.functions').insert_uuid)
@@ -59,12 +48,9 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagn
 vim.keymap.set('n', '<localleader>n', '<cmd>lne<cr>', { desc = "Next location list item" })
 vim.keymap.set('n', '<localleader>p', '<cmd>lp<cr>', { desc = "Previous location list item" })
 
--- [[ Diagnostics ]]
+-- Diagnostics
 local signs = { Error = "✘", Warn = " ", Hint = "💡", Info = "ℹ️" }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
-
--- Monkey patch deprecate
--- vim.deprecate = function() end

@@ -1,6 +1,15 @@
 local M = {}
 
 function M.setup()
+  -- set <comma> as the leader key
+  -- NOTE: Must happen before plugins are required (otherwise the wrong leader will be used)
+  vim.g.mapleader = ','
+  vim.g.maplocalleader = '\\'
+
+  -- disable netrw
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
+
   -- See `:help vim.o`
   vim.opt.shell = '/bin/zsh'
   vim.opt.exrc = true
