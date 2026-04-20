@@ -12,9 +12,6 @@ setopt hist_ignore_space hist_verify share_history
 fpath[1,0]=~/.zsh/completion/
 source $DOTFILES_DIR/completion.zsh
 
-# Prompt
-#source $DOTFILES_DIR/prompt.zsh
-
 # Load custom functions
 [[ -f $DOTFILES_DIR/functions.zsh ]] && source $DOTFILES_DIR/functions.zsh
 
