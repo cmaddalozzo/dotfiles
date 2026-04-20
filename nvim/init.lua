@@ -36,6 +36,8 @@ vim.keymap.set('n', '<leader>n', '<cmd>noh<cr>')
 
 vim.keymap.set('n', '<leader>u', require('config.functions').insert_uuid)
 
+vim.keymap.set('n', '<leader>px', require('config.functions').paste_xml_block)
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', function()
   vim.diagnostic.jump({ count = -1 })

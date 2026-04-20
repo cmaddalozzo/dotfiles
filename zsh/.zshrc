@@ -1,26 +1,19 @@
-export ZSH=$HOME/.oh-my-zsh
-
 # Path to my dotfiles dir
 export DOTFILES_DIR=$(dirname $(readlink -f $HOME/.zshrc))
 
-# zsh settings: https://github.com/ohmyzsh/ohmyzsh/wiki/Settings
+# History
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=10000
+setopt extended_history hist_expire_dups_first hist_ignore_dups
+setopt hist_ignore_space hist_verify share_history
 
-# See ~/.oh-my-zsh/themes/
-#ZSH_THEME="gozilla"
-ZSH_THEME="theunraveler"
+# Completion
+fpath[1,0]=~/.zsh/completion/
+source $DOTFILES_DIR/completion.zsh
 
-local OS=$(uname)
-local IS_MACOS=false
-plugins=(brew macos wd docker docker-compose aws history)
-if [[ "$OS" == "Darwin" ]]; then
-    IS_MACOS=true
-    plugins+="brew"
-    plugins+="macos"
-fi
-source $ZSH/oh-my-zsh.sh
-
-# Share history across all sessions
-setopt SHARE_HISTORY
+# Prompt
+#source $DOTFILES_DIR/prompt.zsh
 
 # Load custom functions
 [[ -f $DOTFILES_DIR/functions.zsh ]] && source $DOTFILES_DIR/functions.zsh
@@ -29,14 +22,14 @@ setopt SHARE_HISTORY
 export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
 
 # Homebrew
-[[ -e /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
-
-if type brew &>/dev/null
-then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
-  autoload -Uz compinit
-  compinit
+if [[ -e /opt/homebrew/bin/brew ]]; then
+  export HOMEBREW_PREFIX="/opt/homebrew"
+  export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+  export HOMEBREW_REPOSITORY="/opt/homebrew"
+  fpath+=("/opt/homebrew/share/zsh/site-functions")
+  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+  export MANPATH="/opt/homebrew/share/man:${MANPATH:-}"
+  export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 fi
 
 # Python path
@@ -72,9 +65,6 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 # Bat
 export MANPAGER='nvim +Man!'
 
-# Load global .env file if it exists
-#[ -f ~/.env ] && source ~/.env
-
 # Set languange environment
 export LANG=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
@@ -97,16 +87,15 @@ bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
 bindkey '^r' history-incremental-search-backward
+bindkey '^[[A' history-search-backward
+bindkey '^[[B' history-search-forward
 export KEYTIMEOUT=1
 
 # Fuzzy finder
-# https://github.com/junegunn/fzf#fuzzy-completion-for-bash-and-zsh
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 whence fzf &>/dev/null && source <(fzf --zsh)
 
 [[ -e ${HOME}/.iterm2_shell_integration.zsh ]] && source "${HOME}/.iterm2_shell_integration.zsh"
-
-fpath[1,0]=~/.zsh/completion/
 
 # GPG
 export GPG_TTY=$(tty)
@@ -115,45 +104,21 @@ whence gpgconf &>/dev/null && gpgconf --launch gpg-agent
 # Setup direnv
 whence direnv &>/dev/null &&  eval "$(direnv hook zsh)"
 
-# Setup completion
-autoload -U +X bashcompinit && bashcompinit
-
-# kubectl autocompletion
-whence kubectl &>/dev/null && source <(kubectl completion zsh)
 export KUBECTL_EXTERNAL_DIFF="colordiff"
-
-# stern autocompletion
-whence stern &>/dev/null && source <(stern --completion zsh)
-
-# stern autocompletion
-whence argo &>/dev/null && source <(argo completion zsh)
-
-#helm autocompletion
-whence helm &>/dev/null && source <(helm completion zsh)
-
-#istioctl autocompletion
-whence istioctl &>/dev/null && source <(istioctl completion zsh)
-
-#terraform autocompletion
-whence terraform &>/dev/null && complete -o nospace -C $(whence terraform) terraform
-
-#minio client autocompletion
-whence mc &>/dev/null && complete -o nospace -C $(whence mc) mc
-
-if whence brew &>/dev/null; then
-    local gcloud_path="$(brew --prefix)/share/google-cloud-sdk"
-    [[ $gcloud_path/path.zsh.inc ]] && source $gcloud_path/path.zsh.inc
-    [[ $gcloud_path/completion.zsh.inc ]] && source $gcloud_path/completion.zsh.inc
-fi
-
-autoload -U colors; colors
 
 function iterm2_print_user_vars() {
   iterm2_set_user_var kubecontext $(kubectl config current-context):$(kubectl config view --minify --output 'jsonpath={..namespace}')
 }
 
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+sdk() {
+  unfunction sdk java javac gradle mvn groovy kotlin
+  export SDKMAN_DIR="$HOME/.sdkman"
+  source "$SDKMAN_DIR/bin/sdkman-init.sh"
+  sdk "$@"
+}
+for cmd in java javac gradle mvn groovy kotlin; do
+  eval "$cmd() { sdk; $cmd \"\$@\" }"
+done
 
 export CODE=$HOME/Code
 
@@ -166,3 +131,7 @@ source ~/.lcldevrc
 
 # opencode
 export PATH=/Users/cmaddalozzo/.opencode/bin:$PATH
+
+# Starship
+export STARSHIP_CONFIG=$DOTFILES_DIR/starship.toml
+eval "$(starship init zsh)"
