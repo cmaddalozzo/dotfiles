@@ -125,7 +125,7 @@ show_always = false
 [directory]
 home_symbol = "⌂"
 truncation_length = 2
-truncation_symbol = "□ "
+truncation_symbol = ""
 read_only = " ◈"
 use_os_path_sep = true
 style = "fg:5"
@@ -226,3 +226,8 @@ disabled = true
 [memory_usage]
 symbol = "▪▫▪ "
 format = " mem [${ram}( ${swap})]($style)"
+
+
+[[claude_context.display]]
+threshold = 0
+hidden = false
