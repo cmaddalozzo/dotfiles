@@ -98,9 +98,9 @@ disabled = true
 
 [character]
 format = " $symbol "
-success_symbol = "[◎](bold fg:5)"
-error_symbol = "[○](purple)"
-vimcmd_symbol = "[■](dimmed green)"
+success_symbol = "[❯](bold fg:5)"
+error_symbol = "[❯](bold 209)"
+vimcmd_symbol = "[■](bold fg:5)"
 # not supported in zsh
 vimcmd_replace_one_symbol = "◌"
 vimcmd_replace_symbol = "□"
@@ -108,7 +108,11 @@ vimcmd_visual_symbol = "▼"
 
 [env_var.VIMSHELL]
 format = "[$env_value]($style)"
-style = 'green italic'
+style = 'green'
+
+[env_var.http_proxy]
+format = "[⇄]($style) "
+style = "italic green"
 
 [sudo]
 format = "[$symbol]($style)"

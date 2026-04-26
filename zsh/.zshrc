@@ -132,3 +132,5 @@ export PATH=/Users/cmaddalozzo/.opencode/bin:$PATH
 # Starship
 export STARSHIP_CONFIG=$DOTFILES_DIR/starship.toml
 eval "$(starship init zsh)"
+
+source $DOTFILES_DIR/zsh-vim-mode.plugin.zsh

@@ -112,6 +112,13 @@ local plugins = {
     end,
   },
   {
+    -- Highlight, edit, and navigate code
+    'windwp/nvim-ts-autotag',
+    function()
+      require('nvim-ts-autotag').setup()
+    end,
+  },
+  {
     -- LSP configuration and setup
     'neovim/nvim-lspconfig',
     function()

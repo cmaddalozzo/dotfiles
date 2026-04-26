@@ -35,14 +35,14 @@ function M.setup()
           elseif cmp.snippet_active() then
             cmp.snippet_forward()
           end
-        end },
+        end, 'fallback' },
         ['<S-Tab>'] = { function(cmp)
           if cmp.is_active() then
             cmp.select_prev()
           elseif cmp.snippet_active() then
             cmp.snippet_backward()
           end
-        end },
+        end, 'fallback' },
         ['<Esc>'] = { function(cmp)
           if cmp.is_active() then
             cmp.cancel()

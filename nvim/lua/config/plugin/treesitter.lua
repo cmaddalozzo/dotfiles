@@ -3,7 +3,7 @@ local M = {}
 local languages = {
   'c', 'cpp', 'go', 'lua', 'python', 'rust',
   'tsx', 'typescript', 'vim', 'java', 'terraform',
-  'vimdoc', 'luadoc', 'markdown',
+  'vimdoc', 'luadoc', 'markdown', 'html'
 }
 
 local no_indent = { python = true }
