@@ -196,6 +196,7 @@ if [[ -z $VIM_MODE_NO_DEFAULT_BINDINGS ]]; then
     autoload -U edit-command-line
     zle -N edit-command-line
     vim-mode-bindkey viins vicmd -- edit-command-line                  '^X^E'
+    vim-mode-bindkey viins vicmd -- edit-command-line                  '^G'
     vim-mode-bindkey       vicmd -- edit-command-line                  '^V'
 
     if [[ -n $HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND ]]; then

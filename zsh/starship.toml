@@ -9,6 +9,7 @@ $hostname\
 $localip\
 $shlvl\
 $shell\
+$custom\
 $env_var\
 $jobs\
 $sudo\
@@ -86,7 +87,6 @@ $gcloud\
 $openstack\
 $azure\
 $crystal\
-$custom\
 $status\
 $os\
 $battery\
@@ -110,9 +110,21 @@ vimcmd_visual_symbol = "▼"
 format = "[$env_value]($style)"
 style = 'green'
 
-[env_var.http_proxy]
+[env_var.https_proxy]
 format = "[⇄]($style) "
 style = "italic green"
+disabled = true
+
+[custom.proxy_dev]
+when = ''' [[ "$https_proxy" == *:81* ]] '''
+symbol = '⇄'
+format = "[$symbol]($style) "
+
+[custom.proxy_tdmz]
+when = ''' [[ "$https_proxy" == *tdmz* ]] '''
+style = "italic 209"
+symbol = '⇄'
+format = "[$symbol]($style) "
 
 [sudo]
 format = "[$symbol]($style)"

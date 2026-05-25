@@ -55,6 +55,8 @@ if [[ -d $FLINK_PATH ]]; then
   export PATH="${FLINK_PATH}/bin:$PATH"
 fi
 
+[[ -d $HOME/.cargo/bin ]] && export PATH="$HOME/.cargo/bin:$PATH"
+
 #Colors
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
@@ -77,13 +79,15 @@ fi
 # Load aliases
 [[ -f $DOTFILES_DIR/aliases.zsh ]] && source $DOTFILES_DIR/aliases.zsh
 
+# Subword navigation (treat . - / as boundaries)
+WORDCHARS=${WORDCHARS//[.\/=]}
+
 # Set key bindings
 bindkey '^P' up-history
 bindkey '^N' down-history
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
-bindkey '^r' history-incremental-search-backward
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 export KEYTIMEOUT=1
@@ -129,8 +133,9 @@ source ~/.lcldevrc
 # opencode
 export PATH=/Users/cmaddalozzo/.opencode/bin:$PATH
 
+source $DOTFILES_DIR/zsh-vim-mode.plugin.zsh
+
 # Starship
 export STARSHIP_CONFIG=$DOTFILES_DIR/starship.toml
 eval "$(starship init zsh)"
-
-source $DOTFILES_DIR/zsh-vim-mode.plugin.zsh
+bindkey '^r' fzf-history-widget
