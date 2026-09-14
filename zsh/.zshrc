@@ -44,7 +44,7 @@ fi
 [[ -n "$GOPATH" ]] && export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
 
 # nvim
-NVIM_VERSION="0.12.1"
+NVIM_VERSION="0.12.3"
 [[ -d /usr/local/nvim/$NVIM_VERSION/bin ]] && export PATH="/usr/local/nvim/$NVIM_VERSION/bin:$PATH"
 
 # flink
