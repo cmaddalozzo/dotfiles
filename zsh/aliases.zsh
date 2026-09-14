@@ -18,7 +18,6 @@ alias tnew='new_tmux_from_dir_name'
 alias tm='tnew'
 
 alias zshconfig="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
 
 alias mocha='$(npm bin)/mocha'
 alias tsc='$(npm bin)/tsc'
