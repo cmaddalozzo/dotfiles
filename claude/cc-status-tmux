@@ -1,0 +1,73 @@
+#!/bin/sh
+# Claude Code status hook for iTerm2, tmux-aware.
+#
+# iTerm2's own cc-status resolves the target session from the ancestor process
+# environment. Under tmux that chain ends at the tmux server, which froze
+# ITERM_SESSION_ID when it started, so the status goes to a session that is
+# usually long gone. Resolve the attached client's session by tty instead, and
+# cache the result per tmux session so re-attaching picks up the new tab.
+#
+# Outside tmux there is nothing to fix; defer to the stock shim.
+
+IT2=/Applications/iTerm.app/Contents/Resources/utilities/it2
+CC_STATUS="$HOME/.config/iterm2/cc-status"
+
+payload=$(cat)
+
+if [ -z "$TMUX" ]; then
+  [ -x "$CC_STATUS" ] || exit 0
+  printf '%s' "$payload" | "$CC_STATUS"
+  exit 0
+fi
+
+[ -x "$IT2" ] || exit 0
+
+event=$(printf '%s' "$payload" |
+  sed -n 's/.*"hook_event_name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+
+case "$event" in
+  UserPromptSubmit|PreToolUse|PostToolUse)
+    status=working; dot='#ff9500'; text='#ff9500' ;;
+  PermissionRequest|Notification)
+    status=waiting; dot='#5f87ff'; text='#5f87ff' ;;
+  SessionStart|SessionEnd|Stop|StopFailure)
+    status=idle; dot='#00d75f'; text='#888888' ;;
+  *)
+    exit 0 ;;
+esac
+
+client_tty=$(tmux display-message -p '#{client_tty}' 2>/dev/null)
+[ -n "$client_tty" ] || exit 0
+
+cached=$(tmux show-options -v @iterm_session_id 2>/dev/null)
+case "$cached" in
+  "$client_tty "*)
+    session_id=${cached#* }
+    ;;
+  *)
+    session_id=$("$IT2" ls 2>/dev/null |
+      sed 's/\\//g' |
+      awk -F'\t' -v t="$client_tty" '$NF == t { print $1; exit }')
+    [ -n "$session_id" ] &&
+      tmux set-option @iterm_session_id "$client_tty $session_id" 2>/dev/null
+    ;;
+esac
+
+[ -n "$session_id" ] || exit 0
+
+case "$event" in
+  PermissionRequest|Notification)
+    "$IT2" set-status --session "$session_id" --status "$status" \
+      --dot-color "$dot" --text-color "$text"
+    ;;
+  SessionStart|SessionEnd)
+    "$IT2" set-status --session "$session_id" --status "$status" \
+      --dot-color "$dot" --text-color "$text" --detail '' --background-tasks 0
+    ;;
+  *)
+    "$IT2" set-status --session "$session_id" --status "$status" \
+      --dot-color "$dot" --text-color "$text" --detail ''
+    ;;
+esac >/dev/null 2>&1
+
+exit 0
