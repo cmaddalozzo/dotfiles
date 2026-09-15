@@ -8,10 +8,6 @@ SAVEHIST=10000
 setopt extended_history hist_expire_dups_first hist_ignore_dups
 setopt hist_ignore_space hist_verify share_history
 
-# Completion
-fpath[1,0]=~/.zsh/completion/
-source $DOTFILES_DIR/completion.zsh
-
 # Load custom functions
 [[ -f $DOTFILES_DIR/functions.zsh ]] && source $DOTFILES_DIR/functions.zsh
 
@@ -56,6 +52,9 @@ if [[ -d $FLINK_PATH ]]; then
 fi
 
 [[ -d $HOME/.cargo/bin ]] && export PATH="$HOME/.cargo/bin:$PATH"
+
+# Completion (must come after PATH and fpath are fully configured)
+source $DOTFILES_DIR/completion.zsh
 
 #Colors
 export CLICOLOR=1
@@ -138,4 +137,13 @@ source $DOTFILES_DIR/zsh-vim-mode.plugin.zsh
 # Starship
 export STARSHIP_CONFIG=$DOTFILES_DIR/starship.toml
 eval "$(starship init zsh)"
-bindkey '^r' fzf-history-widget
+
+# Re-bind ^r after zsh-vim-mode resets the keymaps
+if whence -w fzf-history-widget &>/dev/null; then
+  bindkey '^r' fzf-history-widget
+else
+  bindkey '^r' history-incremental-search-backward
+fi
+
+# fzf-tab wraps whatever is bound to ^i, so it must load last
+source $DOTFILES_DIR/plugins/fzf-tab/fzf-tab.plugin.zsh
