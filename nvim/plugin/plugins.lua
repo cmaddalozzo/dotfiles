@@ -2,25 +2,6 @@ local gh = function(repo)
   return 'https://github.com/' .. repo
 end
 
-local function build_blink(path)
-  local obj = vim.system({ 'cargo', 'build', '--release' }, { cwd = path }):wait()
-  return obj == 0
-end
-
-local hooks = function(ev)
-  local name, kind = ev.data.spec.name, ev.data.kind
-
-  if name == 'blink.cmp' and (kind == 'install' or kind == 'update') then
-    if build_blink(ev.data.path) then
-      vim.notify('Building blink.cmp done', vim.log.levels.INFO)
-    else
-      vim.notify('Building blink.cmp failed', vim.log.levels.ERROR)
-    end
-  end
-end
-
-vim.api.nvim_create_autocmd('PackChanged', { callback = hooks })
-
 local plugins = {
   {
     -- Theme inspired by Atom
@@ -202,7 +183,11 @@ local plugins = {
   {
     -- Autocompletion
     -- 'hrsh7th/nvim-cmp',
-    'saghen/blink.cmp',
+    -- Tagged release so the prebuilt fuzzy matcher binary can be downloaded
+    {
+      src = 'saghen/blink.cmp',
+      version = vim.version.range('1.*'),
+    },
     function()
       require('config.plugin.completion').setup()
     end,
@@ -299,12 +284,20 @@ local plugins = {
 local inits_fns = {}
 local pack_plugins = {}
 
-vim.iter(plugins):flatten(99):each(function(x)
-  if vim.is_callable(x) then
-    table.insert(inits_fns, x)
-  else
-    table.insert(pack_plugins, gh(x))
-  end
-end)
+local function collect(items)
+  vim.iter(items):each(function(x)
+    if vim.is_callable(x) then
+      table.insert(inits_fns, x)
+    elseif type(x) == 'string' then
+      table.insert(pack_plugins, { src = gh(x) })
+    elseif vim.isarray(x) then
+      collect(x)
+    else
+      table.insert(pack_plugins, vim.tbl_extend('force', x, { src = gh(x.src) }))
+    end
+  end)
+end
+
+collect(plugins)
 vim.pack.add(pack_plugins)
 vim.iter(inits_fns):each(function(f) f() end)
